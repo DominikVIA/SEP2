@@ -8,4 +8,8 @@ public class Teacher {
     this.initials = initials;
     this.name = name;
   }
+
+  public String toString(){
+    return initials + " - " + name;
+  }
 }

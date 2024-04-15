@@ -21,7 +21,16 @@ public class Class {
     students.add(student);
   }
 
-  public void createExam(){
+  public void createExam(Exam exam){
+    exams.add(exam);
+  }
 
+  public String toString(){
+    return "Class title: " + title + "\n"
+        + "Class description: " + description + "\n"
+        + "Class teacher: " + teacher + "\n"
+        + "~~~~~~~~~~ Students ~~~~~~~~~~\n"
+        + students.toString() + "\n"
+        + exams.get(0);
   }
 }

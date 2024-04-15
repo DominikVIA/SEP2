@@ -12,4 +12,21 @@ public class StudentList {
   public void add(Student student){
     students.add(student);
   }
+
+  public int size(){
+    return students.size();
+  }
+
+  public Student get(int index){
+    return students.get(index);
+  }
+
+  public String toString(){
+    String answer = "";
+    for(int i = 0; i < students.size(); i++){
+      answer += (i + 1) + ". student: " + students.get(i) + "\n";
+    }
+    answer = answer.substring(0, answer.length() - 1);
+    return answer;
+  }
 }

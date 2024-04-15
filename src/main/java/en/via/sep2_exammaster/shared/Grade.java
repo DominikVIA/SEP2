@@ -1,12 +1,11 @@
 package en.via.sep2_exammaster.shared;
 
 public enum Grade {
-  A ((short) 12), B((short) 10) , C((short) 7), D((short) 4),
-  E((short) 2), Fx((short) 0), F((short) -3);
+  A (12), B(10) , C(7), D(4), E(2), Fx(0), F(-3);
 
-  private final short grade;
+  private final int grade;
 
-  Grade(short grade){
+  Grade(int grade){
     this.grade = grade;
   }
 }
