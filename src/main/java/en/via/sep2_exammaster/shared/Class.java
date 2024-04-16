@@ -1,5 +1,7 @@
 package en.via.sep2_exammaster.shared;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Class {
@@ -21,8 +23,12 @@ public class Class {
     students.add(student);
   }
 
+  public String getTitle(){
+    return title;
+  }
+
   public void createExam(Exam exam){
-    exams.add(exam);
+    exams.add(new Exam(exam, this));
   }
 
   public String toString(){

@@ -7,6 +7,7 @@ import java.time.LocalTime;
 public class Exam {
   private LocalDate date;
   private LocalTime time;
+  private Class aClass;
   private boolean completed;
 
   public Exam(LocalDate date, LocalTime time){
@@ -15,11 +16,34 @@ public class Exam {
     this.completed = false;
   }
 
+  public Exam(Exam exam, Class aClass){
+    this.date = exam.getDate();
+    this.time = exam.getTime();
+    this.completed = exam.isCompleted();
+    this.aClass = aClass;
+  }
+
+  public void setClass(Class aClass){
+    this.aClass = aClass;
+  }
+
+  public LocalDate getDate(){
+    return date;
+  }
+
+  public LocalTime getTime(){
+    return time;
+  }
+
+  public boolean isCompleted() {
+    return completed;
+  }
+
   public void complete(){
     completed = true;
   }
 
   public String toString(){
-    return completed ? "An exam happened on " + date + " | " + time : "An exam will happen on " + date + " | " + time;
+    return completed ? "A(n) " + aClass.getTitle() + " exam happened on " + date + " | " + time : "A(n) " + aClass.getTitle() + " exam will happen on " + date + " | " + time;
   }
 }
