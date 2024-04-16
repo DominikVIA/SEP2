@@ -18,11 +18,12 @@ public class Student {
   }
 
   public String toString(){
-    String answer = "";
-    for(Result temp : examResults){
-      answer += temp;
-    }
-    return id + " - " + name + "\n"+
-        "student's exams\n" + answer;
+//    String answer = "";
+//    for(Result temp : examResults){
+//      answer += temp;
+//    }
+//    return id + " - " + name + "\n"+
+//        "student's exams\n" + answer;
+    return id + " - " + name;
   }
 }

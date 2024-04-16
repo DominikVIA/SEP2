@@ -1,30 +1,37 @@
 package en.via.sep2_exammaster.shared;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Exam {
   private LocalDate date;
   private LocalTime time;
-  private Class aClass;
+  private Course course;
+  private ArrayList<Student> students;
   private boolean completed;
 
-  public Exam(LocalDate date, LocalTime time){
+  public Exam(LocalDate date, LocalTime time, Student...students){
     this.date = date;
     this.time = time;
     this.completed = false;
+    if(students == null){
+      this.students = course.getStudents();
+    }
+    else this.students = new ArrayList<>(Arrays.asList(students));
   }
 
-  public Exam(Exam exam, Class aClass){
+  public Exam(Exam exam, Course course){
     this.date = exam.getDate();
     this.time = exam.getTime();
     this.completed = exam.isCompleted();
-    this.aClass = aClass;
+    this.course = course;
+    this.students = course.getStudents();
   }
 
-  public void setClass(Class aClass){
-    this.aClass = aClass;
+  public void setClass(Course course){
+    this.course = course;
   }
 
   public LocalDate getDate(){
@@ -33,6 +40,14 @@ public class Exam {
 
   public LocalTime getTime(){
     return time;
+  }
+
+  public ArrayList<Student> getStudents(){
+    return students;
+  }
+
+  public void setCompleted(boolean completed) {
+    this.completed = completed;
   }
 
   public boolean isCompleted() {
@@ -44,6 +59,6 @@ public class Exam {
   }
 
   public String toString(){
-    return completed ? "A(n) " + aClass.getTitle() + " exam happened on " + date + " | " + time : "A(n) " + aClass.getTitle() + " exam will happen on " + date + " | " + time;
+    return completed ? "A(n) " + course.getTitle() + " exam happened on " + date + " | " + time : "A(n) " + course.getTitle() + " exam will happen on " + date + " | " + time;
   }
 }
