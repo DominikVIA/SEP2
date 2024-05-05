@@ -2,28 +2,25 @@ package en.via.sep2_exammaster.shared;
 
 import java.util.ArrayList;
 
-public class Student {
-  private int id;
-  private String name;
-  private ArrayList<Result> examResults;
+public class Student extends User {
+  private int studentNo;
+  private ArrayList<Result> results;
 
-  public Student(int id, String name){
-    this.id = id;
-    this.name = name;
-    this.examResults = new ArrayList<>();
+  public Student(int studentNo, String name, String password){
+    super(name, password);
+    this.studentNo = studentNo;
+    this.results = new ArrayList<>();
+  }
+
+  public int getStudentNo(){
+    return studentNo;
   }
 
   public void newResult(Result result){
-    examResults.add(result);
+    results.add(result);
   }
 
   public String toString(){
-//    String answer = "";
-//    for(Result temp : examResults){
-//      answer += temp;
-//    }
-//    return id + " - " + name + "\n"+
-//        "student's exams\n" + answer;
-    return id + " - " + name;
+    return studentNo + " " + super.toString();
   }
 }

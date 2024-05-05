@@ -1,15 +1,22 @@
 package en.via.sep2_exammaster.shared;
 
-public class Teacher {
-  private String initials;
-  private String name;
+import java.util.ArrayList;
 
-  public Teacher(String initials, String name){
+public class Teacher extends User {
+  private String initials;
+  private ArrayList<Course> courses;
+
+  public Teacher(String initials, String name, String password){
+    super(name, password);
     this.initials = initials;
-    this.name = name;
+    this.courses = new ArrayList<>();
+  }
+
+  public String getInitials(){
+    return initials;
   }
 
   public String toString(){
-    return initials + " - " + name;
+    return initials + " " + super.toString();
   }
 }
