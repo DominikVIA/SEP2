@@ -14,14 +14,14 @@ public class Exam {
   private ArrayList<Announcement> announcements;
   private boolean completed;
 
-  public Exam(String title, String content, String room, Course course, LocalDate date, LocalTime time){
+  public Exam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean completed){
     this.title = title;
     this.content = content;
     this.room = room;
     this.course = course;
     this.date = date;
     this.time = time;
-    this.completed = false;
+    this.completed = completed;
     this.students = new ArrayList<>();
     this.announcements = new ArrayList<>();
   }

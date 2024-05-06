@@ -37,6 +37,7 @@ public class Test {
 //    System.out.println(databaseManagerImplementation.readExamByCourseCode("SDJ2"));
     System.out.println(databaseManagerImplementation.readStudentsEnrolledInExam(
         databaseManagerImplementation.readCourseByCode("SDJ2").getExams().get(0)));
+    System.out.println(databaseManagerImplementation.readCourseByCode("SDJ2").getExams().get(1));
     System.out.println(databaseManagerImplementation.readStudentsEnrolledInExam(
         databaseManagerImplementation.readCourseByCode("SDJ2").getExams().get(1)));
     System.out.println(databaseManagerImplementation.readResultsByStudentNo(234567));

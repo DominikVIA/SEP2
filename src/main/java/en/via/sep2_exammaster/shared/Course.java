@@ -35,6 +35,10 @@ public class Course
     exams.add(new Exam(exam, this));
   }
 
+  public void addExam(Exam exam){
+    exams.add(exam);
+  }
+
   public String getCode(){
     return code;
   }

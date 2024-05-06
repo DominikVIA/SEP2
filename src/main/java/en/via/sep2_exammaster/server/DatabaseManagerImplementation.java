@@ -67,7 +67,7 @@ public class DatabaseManagerImplementation
       ResultSet result = statement.executeQuery();
       ArrayList<Student> answer = new ArrayList<>();
       while (result.next()){
-        answer.add(readStudentByStudentNo(result.getInt(1)));
+        answer.add(readStudentByStudentNoWithResults(result.getInt(1)));
       }
       return answer;
     }
@@ -83,12 +83,12 @@ public class DatabaseManagerImplementation
       ResultSet result = statement.executeQuery();
       ArrayList<Teacher> answer = new ArrayList<>();
       while (result.next()){
-        answer.addAll(List.of(new Teacher(
+        answer.add(new Teacher(
                 result.getString(1),
                 result.getString(2),
                 result.getString(3)
             )
-        ));
+        );
       }
       return answer;
     }
@@ -105,7 +105,24 @@ public class DatabaseManagerImplementation
     return answer;
   }
 
-  public Student readStudentByStudentNo(int studentNo){
+  public Student readStudentByStudentNoWithoutResults(int studentNo){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM students WHERE student_id = ?");
+      statement.setInt(1, studentNo);
+      ResultSet result = statement.executeQuery();
+      Student answer = null;
+      if(result.next()){
+        answer = new Student(result.getInt("student_id"), result.getString("name"), result.getString("password"));
+      }
+      return answer;
+    }
+    catch (SQLException e) {
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public Student readStudentByStudentNoWithResults(int studentNo){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM students WHERE student_id = ?");
       statement.setInt(1, studentNo);
@@ -132,7 +149,7 @@ public class DatabaseManagerImplementation
       ResultSet result = statement.executeQuery();
       ArrayList<Student> answer = new ArrayList<>();
       while(result.next()){
-        answer.add(readStudentByStudentNo(result.getInt("student")));
+        answer.add(readStudentByStudentNoWithoutResults(result.getInt("student")));
       }
       return answer;
     }
@@ -155,7 +172,7 @@ public class DatabaseManagerImplementation
       ResultSet result = statement.executeQuery();
       ArrayList<Student> answer = new ArrayList<>();
       while(result.next()){
-        answer.add(readStudentByStudentNo(result.getInt("student_id")));
+        answer.add(readStudentByStudentNoWithoutResults(result.getInt("student_id")));
       }
       return answer;
     }
@@ -190,9 +207,6 @@ public class DatabaseManagerImplementation
       e.printStackTrace();
       return null;
     }
-
-
-
   }
 
   public Teacher readTeacherByInitials(String initials){
@@ -212,14 +226,22 @@ public class DatabaseManagerImplementation
     }
   }
 
-  public ArrayList<Exam> readExamByCourseCode(String courseCode){
+  public ArrayList<Exam> readExamByCourse(Course course){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM exams WHERE course_code = ?;");
-      statement.setString(1, courseCode);
+      statement.setString(1, course.getCode());
       ResultSet result = statement.executeQuery();
       ArrayList<Exam> answer = new ArrayList<>();
       while(result.next()){
-        answer.add(readExamBySerialId(result.getInt("id")));
+        answer.add(new Exam(
+            result.getString("title"),
+            result.getString("content"),
+            result.getString("room"),
+            course,
+            result.getDate("date").toLocalDate(),
+            result.getTime("time").toLocalTime(),
+            result.getBoolean("completed")
+        ));
       }
 
       return answer;
@@ -241,11 +263,11 @@ public class DatabaseManagerImplementation
             result.getString("title"),
             result.getString("content"),
             result.getString("room"),
+            readCourseByCode(result.getString("course_code")),
             result.getDate("date").toLocalDate(),
             result.getTime("time").toLocalTime(),
             result.getBoolean("completed")
         );
-//        answer.setCourse(readCourseByCode(result.getString("course_code")));
       }
       return answer;
     }
@@ -272,8 +294,8 @@ public class DatabaseManagerImplementation
 
         answer.addStudents(readStudentsFromCourse(code).toArray(new Student[0]));
 
-        if(!readExamByCourseCode(code).isEmpty())
-          for(Exam temp : readExamByCourseCode(code)) answer.createExam(temp);
+        if(!readExamByCourse(answer).isEmpty())
+          for(Exam temp : readExamByCourse(answer)) answer.addExam(temp);
       }
       return answer;
     }
