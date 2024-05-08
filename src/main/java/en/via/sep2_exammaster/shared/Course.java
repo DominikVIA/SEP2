@@ -1,20 +1,21 @@
 package en.via.sep2_exammaster.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Course
+public class Course implements Serializable
 {
-  private String code;
-  private String title;
-  private String description;
+  private String code, title, description;
+  private int semester;
   private Teacher[] teachers;
   private ArrayList<Student> students;
   private ArrayList<Exam> exams;
 
-  public Course(String code, String title, String description, Teacher teacherCreating){
+  public Course(String code, int semester, String title, String description, Teacher teacherCreating){
     this.code = code;
+    this.semester = semester;
     this.title = title;
     this.description = description;
     this.teachers = new Teacher[2];
@@ -31,12 +32,20 @@ public class Course
     this.students.addAll(List.of(students));
   }
 
+  public void addStudent(Student student){
+    students.add(student);
+  }
+
   public void createExam(Exam exam){
     exams.add(new Exam(exam, this));
   }
 
   public void addExam(Exam exam){
     exams.add(exam);
+  }
+
+  public void addExams(Exam...exams){
+    this.exams.addAll(List.of(exams));
   }
 
   public String getCode(){
@@ -50,10 +59,6 @@ public class Course
   public Teacher getTeacher(int index){
     if(index < 0 || index > 1) throw new IndexOutOfBoundsException("A course can only have 2 teachers so you must use index 0 or 1.");
     return teachers[index];
-  }
-
-  public void addStudent(Student student){
-    students.add(student);
   }
 
   public String getTitle(){
@@ -76,9 +81,10 @@ public class Course
     return "Class title: " + title + "\n"
         + "Class description: " + description + "\n"
         + "Class teacher: " + teachers[0] + "\n"
+        + (teachers[1] != null ? "Additional teacher: " + teachers[1] + "\n" : "")
         + "~~~~~~~~~~ Students ~~~~~~~~~~\n"
         + students.toString() + "\n"
         + "~~~~~~~~~~ Exams ~~~~~~~~~~\n"
-        + answer;
+        + answer + "\n";
   }
 }

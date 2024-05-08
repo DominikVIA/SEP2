@@ -1,6 +1,9 @@
 package en.via.sep2_exammaster.shared;
 
-public class Result {
+import java.io.Serializable;
+
+public class Result implements Serializable
+{
   private Grade grade;
   private String feedback;
   private Exam exam;

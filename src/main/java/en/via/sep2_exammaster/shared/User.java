@@ -1,6 +1,9 @@
 package en.via.sep2_exammaster.shared;
 
-public abstract class User {
+import java.io.Serializable;
+
+public abstract class User implements Serializable
+{
   private String name, password;
 
   public User(String name, String password){

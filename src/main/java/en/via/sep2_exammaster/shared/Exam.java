@@ -1,11 +1,13 @@
 package en.via.sep2_exammaster.shared;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Exam {
+public class Exam implements Serializable
+{
   private String title, content, room;
   private LocalDate date;
   private LocalTime time;
@@ -14,26 +16,26 @@ public class Exam {
   private ArrayList<Announcement> announcements;
   private boolean completed;
 
-  public Exam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean completed){
+  public Exam(String title, String content, String room, Course course, LocalDate date, LocalTime time){
     this.title = title;
     this.content = content;
     this.room = room;
     this.course = course;
     this.date = date;
     this.time = time;
-    this.completed = completed;
+    this.completed = false;
     this.students = new ArrayList<>();
     this.announcements = new ArrayList<>();
   }
 
-  public Exam(String title, String content, String room, LocalDate date, LocalTime time, boolean completed){
+  public Exam(String title, String content, String room, LocalDate date, LocalTime time){
     this.title = title;
     this.content = content;
     this.room = room;
     this.date = date;
     this.time = time;
     this.course = null;
-    this.completed = completed;
+    this.completed = false;
     this.students = new ArrayList<>();
     this.announcements = new ArrayList<>();
   }

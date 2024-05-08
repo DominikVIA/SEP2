@@ -1,19 +1,21 @@
 package en.via.sep2_exammaster.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Student extends User {
-  private int studentNo;
+public class Student extends User
+{
+  private int studentID;
   private ArrayList<Result> results;
 
-  public Student(int studentNo, String name, String password){
+  public Student(int studentID, String name, String password){
     super(name, password);
-    this.studentNo = studentNo;
+    this.studentID = studentID;
     this.results = new ArrayList<>();
   }
 
   public int getStudentNo(){
-    return studentNo;
+    return studentID;
   }
 
   public void newResult(Result result){
@@ -21,6 +23,6 @@ public class Student extends User {
   }
 
   public String toString(){
-    return studentNo + " " + super.toString();
+    return studentID + " " + super.toString();
   }
 }

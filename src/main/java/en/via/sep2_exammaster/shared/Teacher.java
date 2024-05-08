@@ -1,8 +1,10 @@
 package en.via.sep2_exammaster.shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Teacher extends User {
+public class Teacher extends User
+{
   private String initials;
   private ArrayList<Course> courses;
 
