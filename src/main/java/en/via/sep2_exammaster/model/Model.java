@@ -12,6 +12,7 @@ import java.util.List;
 public interface Model extends Closeable{
   void login(String username, String password) throws IOException;
   List<Course> getCourses() throws IOException;
+  void viewCourse(Course course);
   User getLoggedIn();
   void addListener(PropertyChangeListener listener);
   void removeListener(PropertyChangeListener listener);

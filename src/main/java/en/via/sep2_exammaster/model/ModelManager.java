@@ -4,6 +4,7 @@ import dk.via.remote.observer.RemotePropertyChangeEvent;
 import dk.via.remote.observer.RemotePropertyChangeListener;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.ServerConnector;
+import en.via.sep2_exammaster.shared.Teacher;
 import en.via.sep2_exammaster.shared.User;
 
 import java.beans.PropertyChangeEvent;
@@ -35,7 +36,12 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
 
   @Override
   public List<Course> getCourses() throws IOException {
-    return server.getCourses();
+    return server.getCourses((Teacher)loggedIn);
+  }
+
+  @Override
+  public void viewCourse(Course course){
+    support.firePropertyChange("view course", null, course);
   }
 
   @Override public User getLoggedIn() {
@@ -51,7 +57,9 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override public void propertyChange(RemotePropertyChangeEvent<Serializable> evt) {
-    if(evt.getPropertyName().equals("login success")) loggedIn = (User) evt.getNewValue();
+    if(evt.getPropertyName().equals("login success")) {
+      loggedIn = (User) evt.getNewValue();
+    }
     support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
   }
 

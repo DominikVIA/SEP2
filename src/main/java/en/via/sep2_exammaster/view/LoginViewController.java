@@ -53,7 +53,7 @@ public class LoginViewController implements PropertyChangeListener {
     switch (evt.getPropertyName()){
       case "login success" -> {
         Platform.runLater(() -> {
-//          System.out.println("got");
+          viewModel.removeListener(this);
           viewHandler.openView(ViewFactory.MY_COURSES);
         });
 

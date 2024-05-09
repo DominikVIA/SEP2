@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -58,10 +59,16 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     }
   }
 
-  @Override public List<Course> getCourses() throws RemoteException {
-    try
-    {
-      return CourseDAOImpl.getInstance().getCourses();
+  @Override public List<Course> getCourses(Teacher teacher) throws RemoteException {
+    try {
+      List<Course> courses = CourseDAOImpl.getInstance().getCourses();
+      List<Course> answer = new ArrayList<>();
+      for(Course temp : courses){
+        if(temp.getTeacher(0).equals(teacher) ||
+            (temp.getTeacher(1) != null && temp.getTeacher(1).equals(teacher)))
+          answer.add(temp);
+      }
+      return answer;
     }
     catch (SQLException e)
     {

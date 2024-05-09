@@ -21,9 +21,12 @@ public class MyCoursesViewController {
 //    viewModel.login();
   }
 
-  @FXML void onView() throws IOException
-  {
-    //    viewModel.login();
+  @FXML void onView() {
+      if(coursesList.getSelectionModel().getSelectedItem() != null)
+      {
+        viewModel.viewCourse(coursesList.getSelectionModel().getSelectedItem());
+        viewHandler.openView(ViewFactory.COURSE_INFO);
+      }
   }
 
   public void init(ViewHandler viewHandler, MyCoursesViewModel myCoursesViewModel, Region root) {

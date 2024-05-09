@@ -7,10 +7,12 @@ import java.rmi.RemoteException;
 public class ViewModelFactory {
   private final LoginViewModel loginViewModel;
   private final MyCoursesViewModel myCoursesViewModel;
+  private final CourseInfoViewModel courseInfoViewModel;
 
   public ViewModelFactory(Model model) {
     this.loginViewModel = new LoginViewModel(model);
     this.myCoursesViewModel = new MyCoursesViewModel(model);
+    this.courseInfoViewModel = new CourseInfoViewModel(model);
   }
 
   public LoginViewModel getLoginViewModel() {
@@ -19,5 +21,9 @@ public class ViewModelFactory {
 
   public MyCoursesViewModel getMyCoursesViewModel(){
     return myCoursesViewModel;
+  }
+
+  public CourseInfoViewModel getCourseInfoViewModel() {
+    return courseInfoViewModel;
   }
 }

@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 
-public class MyCoursesViewModel implements PropertyChangeListener {
+public class MyCoursesViewModel {
   private final Model model;
   private final ObjectProperty<ObservableList<Course>> courses;
   private final PropertyChangeSupport support;
@@ -23,7 +23,10 @@ public class MyCoursesViewModel implements PropertyChangeListener {
     this.model = model;
     this.courses = new SimpleObjectProperty<>(FXCollections.observableArrayList());
     this.support = new PropertyChangeSupport(this);
-    this.model.addListener(this);
+  }
+
+  public void viewCourse(Course course){
+    model.viewCourse(course);
   }
 
   public void reset() throws IOException {
@@ -32,10 +35,5 @@ public class MyCoursesViewModel implements PropertyChangeListener {
 
   public void bindCourses(ObjectProperty<ObservableList<Course>> property){
     property.bind(courses);
-  }
-
-  @Override public void propertyChange(PropertyChangeEvent evt)
-  {
-
   }
 }

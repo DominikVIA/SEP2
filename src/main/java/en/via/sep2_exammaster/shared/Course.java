@@ -52,6 +52,10 @@ public class Course implements Serializable
     return code;
   }
 
+  public int getSemester(){
+    return semester;
+  }
+
   public String getDescription(){
     return description;
   }

@@ -14,7 +14,7 @@ public interface ServerConnector extends Remote {
       String title, String description,
       Teacher primaryTeacher, Teacher additionalTeacher,
       List<Student> students) throws RemoteException;
-  List<Course> getCourses() throws RemoteException;
+  List<Course> getCourses(Teacher teacher) throws RemoteException;
   void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException;
   void removeListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException;
 
