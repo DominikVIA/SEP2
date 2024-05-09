@@ -9,15 +9,18 @@ import java.io.IOException;
 
 public class ViewFactory {
   public static final String LOGIN = "login";
+  public static final String MY_COURSES = "my courses";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
   private LoginViewController loginViewController;
+  private MyCoursesViewController myCoursesViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
     this.viewModelFactory = viewModelFactory;
     this.loginViewController = null;
+    this.myCoursesViewController = null;
   }
 
   public Region loadLoginView() {
@@ -37,9 +40,26 @@ public class ViewFactory {
     return loginViewController.getRoot();
   }
 
+  public Region loadMyCoursesView() {
+    if (myCoursesViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("MyCoursesView.fxml"));
+      try {
+        Region root = loader.load();
+        myCoursesViewController = loader.getController();
+        myCoursesViewController.init(viewHandler, viewModelFactory.getMyCoursesViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    myCoursesViewController.reset();
+    return myCoursesViewController.getRoot();
+  }
+
   public Region load(String id) {
     Region root = switch(id) {
       case LOGIN -> loadLoginView();
+      case MY_COURSES -> loadMyCoursesView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

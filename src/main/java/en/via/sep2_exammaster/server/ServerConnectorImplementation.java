@@ -69,11 +69,11 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     }
   }
 
-  @Override public void addListener(RemotePropertyChangeListener listener) throws RemoteException {
+  @Override public void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException {
     support.addPropertyChangeListener(listener);
   }
 
-  @Override public void removeListener(RemotePropertyChangeListener listener) throws RemoteException {
+  @Override public void removeListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException {
     support.removePropertyChangeListener(listener);
   }
 }

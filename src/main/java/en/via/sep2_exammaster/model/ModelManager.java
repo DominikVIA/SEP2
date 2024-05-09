@@ -2,6 +2,7 @@ package en.via.sep2_exammaster.model;
 
 import dk.via.remote.observer.RemotePropertyChangeEvent;
 import dk.via.remote.observer.RemotePropertyChangeListener;
+import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.ServerConnector;
 import en.via.sep2_exammaster.shared.User;
 
@@ -10,10 +11,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
-public class ModelManager implements Model, RemotePropertyChangeListener, Serializable {
+public class ModelManager extends UnicastRemoteObject implements Model, RemotePropertyChangeListener<Serializable> {
 
   private User loggedIn;
   private final ServerConnector server;
@@ -26,8 +29,13 @@ public class ModelManager implements Model, RemotePropertyChangeListener, Serial
   }
 
   @Override
-  public void login(String username, String password) throws IOException{
+  public void login(String username, String password) throws IOException {
     server.login(username, password);
+  }
+
+  @Override
+  public List<Course> getCourses() throws IOException {
+    return server.getCourses();
   }
 
   @Override public User getLoggedIn() {
@@ -42,23 +50,13 @@ public class ModelManager implements Model, RemotePropertyChangeListener, Serial
     support.removePropertyChangeListener(listener);
   }
 
-  @Override public void propertyChange(RemotePropertyChangeEvent evt) {
-    System.out.println("got event");
-    switch (evt.getPropertyName()){
-      case "login success" -> {
-        System.out.println("model is sending event");
-        loggedIn = (User) evt.getNewValue();
-        System.out.println(loggedIn);
-        support.firePropertyChange("login success", null, loggedIn);
-        System.out.println("model send event");
-      }
-      case "login fail credentials" -> support.firePropertyChange("login fail credentials", null, loggedIn);
-    }
-
+  @Override public void propertyChange(RemotePropertyChangeEvent<Serializable> evt) {
+    if(evt.getPropertyName().equals("login success")) loggedIn = (User) evt.getNewValue();
+    support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
   }
 
-  @Override public void close() {
-
+  @Override public void close() throws NoSuchObjectException {
+    UnicastRemoteObject.unexportObject(this, true);
   }
 
 }

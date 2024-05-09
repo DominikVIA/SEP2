@@ -30,8 +30,8 @@ public class LoginViewController implements PropertyChangeListener {
     this.viewModel = loginViewModel;
     this.root = root;
 
-    loginViewModel.bindUsername(usernameField.textProperty());
-    loginViewModel.bindPassword(passwordField.textProperty());
+    viewModel.bindUsername(usernameField.textProperty());
+    viewModel.bindPassword(passwordField.textProperty());
   }
 
   public Region getRoot() {
@@ -53,19 +53,28 @@ public class LoginViewController implements PropertyChangeListener {
     switch (evt.getPropertyName()){
       case "login success" -> {
         Platform.runLater(() -> {
-          showError("Logged in successfully");
+//          System.out.println("got");
+          viewHandler.openView(ViewFactory.MY_COURSES);
         });
 
       }
       case "login fail credentials" -> {
-        showError("The username and/or password is incorrect.");
-        reset();
+        Platform.runLater(() -> {
+          showError("The username and/or password is incorrect.");
+          reset();
+        });
       }
       case "login failed - user already online" -> {
-        showError("This user is already chatting.");
-        reset();
+        Platform.runLater(() -> {
+          showError("This user is already logged in.");
+          reset();
+        });
       }
-      default -> showError("The username and/or password are empty.");
+      default -> {
+        Platform.runLater(() -> {
+          showError("The username and/or password are empty.");
+        });
+      }
     }
   }
 }
