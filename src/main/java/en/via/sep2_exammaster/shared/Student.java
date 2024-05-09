@@ -25,4 +25,8 @@ public class Student extends User
   public String toString(){
     return studentID + " " + super.toString();
   }
+
+  @Override public boolean equals(Object obj) {
+    return super.equals(obj) && ((Student) obj).studentID == studentID;
+  }
 }

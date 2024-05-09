@@ -30,4 +30,10 @@ public abstract class User implements Serializable
   public String toString(){
     return password + " (" + name + ")";
   }
+
+  public boolean equals(Object obj){
+    if(obj == null || obj.getClass() != getClass()) return false;
+    User temp = (User) obj;
+    return temp.getPassword().equals(getPassword());
+  }
 }

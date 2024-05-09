@@ -1,13 +1,8 @@
-package en.via.sep2_exammaster.server;
-
-import en.via.sep2_exammaster.shared.Exam;
-import en.via.sep2_exammaster.shared.Result;
+package en.via.sep2_exammaster.server.database;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public class ResultDAOImpl {
+public class ResultDAOImpl implements ResultDAO {
   private static ResultDAOImpl instance;
 
   private ResultDAOImpl() throws SQLException {

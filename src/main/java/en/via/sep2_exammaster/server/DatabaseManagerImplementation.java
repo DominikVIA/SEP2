@@ -35,71 +35,11 @@ public class DatabaseManagerImplementation
 //    }
 //  }
 //
-//  public ArrayList<Student> readAllStudents(){
-//    try(Connection connection = getConnection()){
-//      PreparedStatement statement = connection.prepareStatement("SELECT * FROM students;");
-//      ResultSet result = statement.executeQuery();
-//      ArrayList<Student> answer = new ArrayList<>();
-//      while (result.next()){
-//        answer.add(readStudentByStudentNoWithResults(result.getInt(1)));
-//      }
-//      return answer;
-//    }
-//    catch (SQLException e) {
-//      e.printStackTrace();
-//      return null;
-//    }
-//  }
 //
-//  public ArrayList<Teacher> readAllTeachers(){
-//    try(Connection connection = getConnection()){
-//      PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers;");
-//      ResultSet result = statement.executeQuery();
-//      ArrayList<Teacher> answer = new ArrayList<>();
-//      while (result.next()){
-//        answer.add(new Teacher(
-//                result.getString(1),
-//                result.getString(2),
-//                result.getString(3)
-//            )
-//        );
-//      }
-//      return answer;
-//    }
-//    catch (SQLException e) {
-//      e.printStackTrace();
-//      return null;
-//    }
-//  }
 //
-//  public ArrayList<User> readAllUsers() {
-//    ArrayList<User> answer = new ArrayList<>();
-//    answer.addAll(readAllStudents());
-//    answer.addAll(readAllTeachers());
-//    return answer;
-//  }
 //
 
 //
-//  public Student readStudentByStudentNoWithResults(int studentNo){
-//    try(Connection connection = getConnection()){
-//      PreparedStatement statement = connection.prepareStatement("SELECT * FROM students WHERE student_id = ?");
-//      statement.setInt(1, studentNo);
-//      ResultSet result = statement.executeQuery();
-//      Student answer = null;
-//      if(result.next()){
-//        answer = new Student(result.getInt("student_id"), result.getString("name"), result.getString("password"));
-//        do{
-//          readResultsByStudentNo(studentNo);
-//        } while (result.next());
-//      }
-//      return answer;
-//    }
-//    catch (SQLException e) {
-//      e.printStackTrace();
-//      return null;
-//    }
-//  }
 //
 //  public ArrayList<Student> readStudentsEnrolledInExam(Exam exam){
 //    try(Connection connection = getConnection()){
@@ -151,22 +91,6 @@ public class DatabaseManagerImplementation
 //    }
 //  }
 //
-//  public Teacher readTeacherByInitials(String initials){
-//    try(Connection connection = getConnection()){
-//      PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers WHERE teacher_id = ?");
-//      statement.setString(1, initials);
-//      ResultSet result = statement.executeQuery();
-//      Teacher answer = null;
-//      if(result.next()){
-//        answer = new Teacher(result.getString("teacher_id"), result.getString("name"), result.getString("password"));
-//      }
-//      return answer;
-//    }
-//    catch (SQLException e) {
-//      e.printStackTrace();
-//      return null;
-//    }
-//  }
 //
 //  public Exam readExamBySerialId(int id){
 //    try(Connection connection = getConnection()){

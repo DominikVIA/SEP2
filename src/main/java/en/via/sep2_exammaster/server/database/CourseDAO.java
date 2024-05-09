@@ -1,4 +1,4 @@
-package en.via.sep2_exammaster.server;
+package en.via.sep2_exammaster.server.database;
 
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Student;

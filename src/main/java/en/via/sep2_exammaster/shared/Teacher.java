@@ -21,4 +21,8 @@ public class Teacher extends User
   public String toString(){
     return initials + " " + super.toString();
   }
+
+  @Override public boolean equals(Object obj) {
+    return super.equals(obj) && ((Teacher) obj).initials.equals(initials);
+  }
 }

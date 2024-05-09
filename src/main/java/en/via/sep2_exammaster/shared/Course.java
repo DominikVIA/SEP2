@@ -85,6 +85,6 @@ public class Course implements Serializable
         + "~~~~~~~~~~ Students ~~~~~~~~~~\n"
         + students.toString() + "\n"
         + "~~~~~~~~~~ Exams ~~~~~~~~~~\n"
-        + answer + "\n";
+        + answer;
   }
 }

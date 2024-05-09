@@ -1,4 +1,4 @@
-package en.via.sep2_exammaster.server;
+package en.via.sep2_exammaster.server.database;
 
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Student;
@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDAOImpl {
+public class StudentDAOImpl implements StudentDAO {
   private static StudentDAOImpl instance;
 
   private StudentDAOImpl() throws SQLException {
@@ -37,6 +37,27 @@ public class StudentDAOImpl {
     }
     catch (SQLException e) {
       e.printStackTrace();
+    }
+  }
+
+  @Override
+  public List<Student> readAllStudents(){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM students;");
+      ResultSet result = statement.executeQuery();
+      ArrayList<Student> answer = new ArrayList<>();
+      while (result.next()){
+        answer.add(new Student(
+            result.getInt(1),
+            result.getString(2),
+            result.getString(3)
+        ));
+      }
+      return answer;
+    }
+    catch (SQLException e) {
+      e.printStackTrace();
+      return null;
     }
   }
 
