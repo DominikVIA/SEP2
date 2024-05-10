@@ -1,0 +1,129 @@
+.root
+{
+    -fx-background-color: #E7DFFE
+}
+
+.title
+{
+    -fx-fill: #7B81D2;
+}
+
+.separator *.line
+{
+    -fx-border-style:solid;
+    -fx-border-color:#7B81D2;
+    -fx-border-width: 1px;
+
+}
+
+.normalButton
+{
+    -fx-padding:5px;
+    -fx-text-align: left;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+    -fx-background-color: #7B81D2;
+    -fx-border: none;
+    -fx-text-fill: #E7DFFE;
+    -fx-transition: 0.4s;
+}
+
+.normalButton:hover
+{
+    -fx-padding:0;
+    -fx-text-align: left;
+    -fx-border-radius: 2px;
+    -fx-border-width: 2px;
+    -fx-background-color:#E7DFFE;
+    -fx-border-color: #7B81D2;
+    -fx-text-fill: #7B81D2;
+}
+
+.normalLabel
+{
+    -fx-text-fill:#7B81D2;
+}
+
+/*-------------------- Text Field -------------------------*/
+
+.text-field
+{
+    -fx-border-color:#7B81D2;
+    -fx-border-radius: 2px;
+    -fx-background-color:#E7DFFE;
+    -fx-text-fill: #7B81D2;
+    -fx-prompt-text-fill:#96A3E8;
+    -fx-highlight-fill:#96A3E8;
+}
+
+.text-field:focused, .text-field:focused :hover  {
+    -fx-background-color: #96A3E8, #E7DFFE;
+}
+
+
+/*-------------------- Text Area -------------------------*/
+
+.text-area
+{
+    -fx-border-color:#7B81D2;
+    -fx-border-radius:2px;
+    -fx-text-fill:#7B81D2;
+    -fx-prompt-text-fill:#96A3E8;
+    -fx-highlight-fill:#96A3E8;
+    -fx-focus-color: #96A3E8;
+}
+
+.text-area .content
+{
+    -fx-background-color:#E7DFFE;
+}
+
+.text-area:focused, .text-area:focused :hover  {
+    -fx-background-color: #96A3E8, #E7DFFE;
+}
+
+/*-------------------- Date Picker -------------------------*/
+
+.date-picker 
+{
+    -fx-border-color:#7B81D2;
+    -fx-background-color:#E7DFFE;
+    -fx-border-radius:2px;
+}
+
+.date-picker .text-field{
+    -fx-background-color:#E7DFFE;
+}
+
+.date-picker .arrow-button {
+	-fx-background-color: #7B81D2;
+    -fx-background-radius: 2px;
+}
+
+.date-picker .arrow-button .arrow {
+	-fx-background-color: #E7DFFE;
+}
+
+.date-picker .cell {
+	-fx-background-color: #E7DFFE;
+}
+
+.choice-box
+{
+    -fx-border-color: #7B81D2;
+    -fx-background-color:#E7DFFE;
+    -fx-border-radius: 2px;
+}
+
+.choice-box .open-button .arrow
+{
+    -fx-background-color: #7B81D2;
+}
+
+.list-view
+{
+    -fx-border-color:#7B81D2;
+    -fx-border-radius:2px;
+    -fx-background-color:#E7DFFE;
+}
+

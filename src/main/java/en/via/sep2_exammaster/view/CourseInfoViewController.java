@@ -7,6 +7,7 @@ import en.via.sep2_exammaster.viewmodel.LoginViewModel;
 import en.via.sep2_exammaster.viewmodel.MyCoursesViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -16,17 +17,18 @@ import java.io.IOException;
 
 public class CourseInfoViewController
 {
-  @FXML private TextField codeField;
+  @FXML public TextField codeField;
 
-  @FXML private TextArea descriptionArea;
+  @FXML public TextArea descriptionArea;
 
-  @FXML private ListView<Exam> examsList;
+  @FXML public ListView<Exam> examsList;
 
-  @FXML private TextField semesterField;
+  @FXML public TextField semesterField;
 
-  @FXML private ListView<Student> studentsList;
+  @FXML public ListView<Student> studentsList;
 
-  @FXML private TextField titleField;
+  @FXML public TextField titleField;
+  @FXML public Button viewButton;
 
   private ViewHandler viewHandler;
   private CourseInfoViewModel viewModel;
@@ -48,6 +50,17 @@ public class CourseInfoViewController
 
   }
 
+  @FXML void onClick(){
+    viewButton.setDisable(true);
+
+    if(examsList.getSelectionModel().getSelectedItem() != null)
+      viewButton.setDisable(false);
+  }
+
+  @FXML void onBack(){
+    viewHandler.openView(ViewFactory.MY_COURSES);
+  }
+
   public void init(ViewHandler viewHandler, CourseInfoViewModel courseInfoViewModel, Region root) {
     this.viewHandler = viewHandler;
     this.viewModel = courseInfoViewModel;
@@ -59,6 +72,8 @@ public class CourseInfoViewController
     viewModel.bindDescription(descriptionArea.textProperty());
     viewModel.bindStudents(studentsList.itemsProperty());
     viewModel.bindExams(examsList.itemsProperty());
+
+    viewButton.setDisable(true);
   }
 
   public Region getRoot() {
@@ -66,6 +81,7 @@ public class CourseInfoViewController
   }
 
   public void reset() {
+    viewButton.setDisable(true);
     viewModel.reset();
   }
 }

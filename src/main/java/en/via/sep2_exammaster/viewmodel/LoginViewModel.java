@@ -53,7 +53,6 @@ public class LoginViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println("view model got event");
     support.firePropertyChange(evt);
   }
 }
