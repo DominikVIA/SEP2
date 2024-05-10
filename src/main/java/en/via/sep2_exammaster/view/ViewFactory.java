@@ -1,5 +1,6 @@
 package en.via.sep2_exammaster.view;
 
+import en.via.sep2_exammaster.viewmodel.CreateCourseViewModel;
 import en.via.sep2_exammaster.viewmodel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Region;
@@ -11,12 +12,14 @@ public class ViewFactory {
   public static final String LOGIN = "login";
   public static final String MY_COURSES = "my courses";
   public static final String COURSE_INFO = "course information";
+  public static final String CREATE_COURSE = "create course";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
   private LoginViewController loginViewController;
   private MyCoursesViewController myCoursesViewController;
   private CourseInfoViewController courseInfoViewController;
+  private CreateCourseViewController createCourseViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -24,6 +27,7 @@ public class ViewFactory {
     this.loginViewController = null;
     this.myCoursesViewController = null;
     this.courseInfoViewController = null;
+    this.createCourseViewController = null;
   }
 
   public Region loadLoginView() {
@@ -75,11 +79,28 @@ public class ViewFactory {
     return courseInfoViewController.getRoot();
   }
 
+  public Region loadCreateCourseView() {
+    if (createCourseViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("CreateCourseView.fxml"));
+      try {
+        Region root = loader.load();
+        createCourseViewController = loader.getController();
+        createCourseViewController.init(viewHandler, viewModelFactory.getCreateCourseViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    createCourseViewController.reset();
+    return createCourseViewController.getRoot();
+  }
+
   public Region load(String id) {
     Region root = switch(id) {
       case LOGIN -> loadLoginView();
       case MY_COURSES -> loadMyCoursesView();
       case COURSE_INFO -> loadCourseInfoView();
+      case CREATE_COURSE -> loadCreateCourseView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

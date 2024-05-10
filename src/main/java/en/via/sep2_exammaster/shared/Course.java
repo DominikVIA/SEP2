@@ -78,17 +78,6 @@ public class Course implements Serializable
   }
 
   public String toString(){
-    String answer = "";
-    for(Exam temp : exams){
-      answer += temp + "\n";
-    }
-    return "Class title: " + title + "\n"
-        + "Class description: " + description + "\n"
-        + "Class teacher: " + teachers[0] + "\n"
-        + (teachers[1] != null ? "Additional teacher: " + teachers[1] + "\n" : "")
-        + "~~~~~~~~~~ Students ~~~~~~~~~~\n"
-        + students.toString() + "\n"
-        + "~~~~~~~~~~ Exams ~~~~~~~~~~\n"
-        + answer;
+    return code + " - " + title;
   }
 }

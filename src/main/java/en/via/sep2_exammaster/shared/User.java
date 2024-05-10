@@ -28,7 +28,7 @@ public abstract class User implements Serializable
   }
 
   public String toString(){
-    return password + " (" + name + ")";
+    return "(" + name + ")";
   }
 
   public boolean equals(Object obj){

@@ -27,8 +27,10 @@ public class LoginViewModel implements PropertyChangeListener {
   }
 
   public void login() throws IOException {
-    model.login(username.get(), password.get());
-    System.out.println(model.getLoggedIn());
+    if(!username.get().isBlank() && !password.get().isBlank())
+      model.login(username.get(), password.get());
+    else
+      support.firePropertyChange("login fail empty", null, false);
   }
 
   public void reset(){
@@ -53,6 +55,7 @@ public class LoginViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    support.firePropertyChange(evt);
+    if(evt.getPropertyName().contains("login"))
+      support.firePropertyChange(evt);
   }
 }

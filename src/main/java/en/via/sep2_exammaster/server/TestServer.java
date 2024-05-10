@@ -10,7 +10,6 @@ public class TestServer {
   public static void main(String[] args) throws Exception {
     Registry registry = LocateRegistry.createRegistry(1099);
     ServerConnectorImplementation server = new ServerConnectorImplementation();
-//    Remote remote = UnicastRemoteObject.exportObject(server, 0);
     registry.bind("server", server);
     System.out.println("server ready");
   }

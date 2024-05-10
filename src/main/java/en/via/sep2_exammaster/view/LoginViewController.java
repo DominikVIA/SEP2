@@ -64,7 +64,7 @@ public class LoginViewController implements PropertyChangeListener {
           reset();
         });
       }
-      case "login failed - user already online" -> {
+      case "login fail online" -> {
         Platform.runLater(() -> {
           showError("This user is already logged in.");
           reset();

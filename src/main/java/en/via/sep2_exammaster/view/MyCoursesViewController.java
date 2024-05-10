@@ -6,6 +6,7 @@ import en.via.sep2_exammaster.viewmodel.MyCoursesViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.Region;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class MyCoursesViewController {
 
   @FXML void onAdd() throws IOException
   {
-//    viewModel.login();
+    viewHandler.openView(ViewFactory.CREATE_COURSE);
   }
 
   @FXML void onView() {

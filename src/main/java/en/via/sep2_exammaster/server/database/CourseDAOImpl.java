@@ -29,11 +29,27 @@ public class CourseDAOImpl implements CourseDAO {
     );
   }
 
+  public int checkCodeAvailability(String course){
+    try(Connection connection = getConnection()) {
+      PreparedStatement statement = connection.prepareStatement("SELECT count(*) FROM courses WHERE code = ?;");
+      statement.setString(1, course);
+      ResultSet result = statement.executeQuery();
+      result.next();
+      return result.getInt(1);
+    }
+    catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   @Override
   public Course createCourse(String code, int semester, String title, String description, Teacher primaryTeacher, Teacher additionalTeacher, List<Student> students) throws SQLException {
     Connection connection = getConnection();
     try{
       connection.setAutoCommit(false);
+      if (checkCodeAvailability(code) != 0) {
+        throw new IllegalArgumentException("A course with this course code already exists.");
+      }
       PreparedStatement statement = connection.prepareStatement("INSERT INTO courses VALUES (?, ?, ?, ?);");
       statement.setString(1, code);
       statement.setInt(2, semester);

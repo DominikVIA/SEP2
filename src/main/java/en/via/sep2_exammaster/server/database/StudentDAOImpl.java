@@ -61,7 +61,8 @@ public class StudentDAOImpl implements StudentDAO {
     }
   }
 
-  public Student readStudentByStudentNo(int studentNo, boolean withResults){
+  @Override
+  public Student readStudentByStudentNo(int studentNo){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM students WHERE student_id = ?");
       statement.setInt(1, studentNo);

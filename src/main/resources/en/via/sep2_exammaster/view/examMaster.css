@@ -18,24 +18,18 @@
 
 .normalButton
 {
-    -fx-padding:5px;
-    -fx-text-align: left;
-    -fx-border-radius: 2px;
-    -fx-border-width: 2px;
-    -fx-background-color: #7B81D2;
-    -fx-border: none;
+    -fx-background-color:#7B81D2;
+    -fx-border-color:#E7DFFE;
+    -fx-border-radius:2px;
+    -fx-background-insets: 1px;
     -fx-text-fill: #E7DFFE;
-    -fx-transition: 0.4s;
 }
 
 .normalButton:hover
 {
-    -fx-padding:0;
-    -fx-text-align: left;
-    -fx-border-radius: 2px;
-    -fx-border-width: 2px;
-    -fx-background-color:#E7DFFE;
-    -fx-border-color: #7B81D2;
+    -fx-background-color: #E7DFFE;
+    -fx-border-color:#7B81D2;
+    -fx-border-radius:2px;
     -fx-text-fill: #7B81D2;
 }
 
@@ -108,6 +102,8 @@
 	-fx-background-color: #E7DFFE;
 }
 
+/*-------------------- Select -------------------------*/
+
 .choice-box
 {
     -fx-border-color: #7B81D2;
@@ -120,10 +116,125 @@
     -fx-background-color: #7B81D2;
 }
 
-.list-view
+/*-------------------- Big list View -------------------------*/
+
+.bigListView
 {
-    -fx-border-color:#7B81D2;
-    -fx-border-radius:2px;
     -fx-background-color:#E7DFFE;
 }
 
+.bigListView .scroll-bar .track-background
+{
+    -fx-background-color:#7B81D2;
+    -fx-background-radius:3px;
+}
+
+.bigListView .scroll-bar .increment-button .increment-arrow
+{
+    -fx-background-color:#96A3E8;
+
+}
+
+.bigListView .scroll-bar .decrement-button .decrement-arrow
+{
+    -fx-background-color:#96A3E8;
+}
+
+.bigListView .scroll-bar .increment-button:hover
+{
+    -fx-background-color:#7B81D2;
+
+}
+
+.bigListView .scroll-bar .decrement-button:hover
+{
+    -fx-background-color:#7B81D2;
+}
+
+.bigListView .scroll-bar .increment-button:hover .increment-arrow
+{
+    -fx-background-color:#E7DFFE;
+
+}
+
+.bigListView .scroll-bar .decrement-button:hover .decrement-arrow
+{
+    -fx-background-color:#E7DFFE;
+}
+
+.bigListView .scroll-bar .thumb
+{
+    -fx-background-color:#96A3E8;
+}
+
+.bigListView .scroll-bar .thumb:hover
+{
+    -fx-background-color:#E7DFFE;
+
+}
+
+.bigListView .scroll-bar .thumb:pressed
+{
+    -fx-background-color:#E7DFFE;
+
+}
+
+.bigListView .list-cell
+{
+    -fx-background-color:#7B81D2;
+    -fx-background-radius: 3px;
+    -fx-background-insets: 3px;
+
+    -fx-border-color:#7B81D2;
+    -fx-border-radius: 3px;
+    -fx-border-insets: 3px;
+}
+
+.bigListView .list-cell .text
+{
+    -fx-fill:#E7DFFE;
+    -fx-font-size: 22px;
+}
+
+
+.bigListView .list-cell:hover
+{
+    -fx-background-color:#E7DFFE;
+    -fx-background-radius: 3px;
+    -fx-background-insets: 3px;
+
+    -fx-border-color:#7B81D2;
+    -fx-border-radius: 3px;
+    -fx-border-insets: 3px;
+}
+
+.bigListView .list-cell:hover .text
+{
+    -fx-fill:#7B81D2;
+    -fx-font-size: 22px;
+}
+
+.bigListView .list-cell:focused{
+    -fx-background-color:#96A3E8;
+    -fx-background-radius: 3px;
+    -fx-background-insets: 3px;
+
+    -fx-border-color:#96A3E8;
+    -fx-border-radius: 3px;
+    -fx-border-insets: 3px;
+}
+
+.bigListView .list-cell:focused .text
+{
+    -fx-fill:#7B81D2;
+    -fx-font-size: 22px;
+}
+
+.bigListView .list-cell:empty{
+    -fx-background-color:#E7DFFE;
+    -fx-background-radius: 3px;
+    -fx-background-insets: 3px;
+    -fx-border-color:#96A3E8;
+    -fx-border-radius: 3px;
+    -fx-border-insets: 3px;
+}

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface StudentDAO {
   List<Student> readAllStudents();
+  Student readStudentByStudentNo(int studentNo);
 }

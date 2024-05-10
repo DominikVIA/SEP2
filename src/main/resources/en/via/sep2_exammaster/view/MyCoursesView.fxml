@@ -48,7 +48,7 @@
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
             </Text>
-            <ListView fx:id="coursesList" layoutX="91.0" layoutY="85.0" onMouseClicked="#onClick" prefHeight="246.0" prefWidth="458.0" />
+            <ListView fx:id="coursesList" layoutX="91.0" layoutY="85.0" onMouseClicked="#onClick" prefHeight="246.0" prefWidth="458.0" styleClass="bigListView" />
             <Button layoutX="220.0" layoutY="343.0" mnemonicParsing="false" onAction="#onAdd" styleClass="normalButton" text="Add course">
                <font>
                   <Font name="Avenir Roman" size="13.0" />

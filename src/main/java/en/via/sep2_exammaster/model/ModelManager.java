@@ -2,10 +2,7 @@ package en.via.sep2_exammaster.model;
 
 import dk.via.remote.observer.RemotePropertyChangeEvent;
 import dk.via.remote.observer.RemotePropertyChangeListener;
-import en.via.sep2_exammaster.shared.Course;
-import en.via.sep2_exammaster.shared.ServerConnector;
-import en.via.sep2_exammaster.shared.Teacher;
-import en.via.sep2_exammaster.shared.User;
+import en.via.sep2_exammaster.shared.*;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -26,17 +23,39 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   public ModelManager(ServerConnector server) throws IOException {
     this.server = server;
     this.support = new PropertyChangeSupport(this);
-    this.server.addListener(this);
   }
 
   @Override
   public void login(String username, String password) throws IOException {
+    this.server.addListener(this);
     server.login(username, password);
+  }
+
+  @Override public void logout() throws IOException {
+    server.logout(loggedIn);
+  }
+
+  @Override
+  public void createCourse(String code, int semester,
+      String title, String description,
+      Teacher primaryTeacher, Teacher additionalTeacher,
+      List<Student> students) throws IOException{
+    server.createCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
   }
 
   @Override
   public List<Course> getCourses() throws IOException {
     return server.getCourses((Teacher)loggedIn);
+  }
+
+  @Override
+  public Student getStudent(int studentID) throws IOException{
+    return server.getStudent(studentID);
+  }
+
+  @Override
+  public Teacher getTeacher(String initials) throws IOException{
+    return server.getTeacher(initials);
   }
 
   @Override
@@ -63,8 +82,9 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
     support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
   }
 
-  @Override public void close() throws NoSuchObjectException {
+  @Override public void close() throws IOException {
     UnicastRemoteObject.unexportObject(this, true);
+    logout();
   }
 
 }

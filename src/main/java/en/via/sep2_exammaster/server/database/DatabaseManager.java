@@ -1,5 +1,6 @@
 package en.via.sep2_exammaster.server.database;
 
+import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Student;
 import en.via.sep2_exammaster.shared.Teacher;
 import en.via.sep2_exammaster.shared.User;
@@ -29,6 +30,12 @@ public class DatabaseManager implements Database {
     return instance;
   }
 
+  public Course createCourse(String code, int semester, String title, String description, Teacher primaryTeacher, Teacher additionalTeacher, List<Student> students)
+      throws SQLException
+  {
+    return courses.createCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
+  }
+
   @Override
   public List<User> readAllUsers() {
     ArrayList<User> answer = new ArrayList<>();
@@ -43,7 +50,17 @@ public class DatabaseManager implements Database {
   }
 
   @Override
+  public Student readStudent(int studentID){
+    return students.readStudentByStudentNo(studentID);
+  }
+
+  @Override
   public List<Teacher> readAllTeachers(){
     return teachers.readAllTeachers();
+  }
+
+  @Override
+  public Teacher readTeacher(String initials){
+    return teachers.readTeacherByInitials(initials);
   }
 }
