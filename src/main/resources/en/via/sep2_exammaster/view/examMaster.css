@@ -85,22 +85,27 @@
     -fx-border-radius:2px;
 }
 
-.date-picker .text-field{
-    -fx-background-color:#E7DFFE;
+.date-picker-display-node
+{
+    -fx-border-color:none;
 }
 
-.date-picker .arrow-button {
+.date-picker .arrow-button{
 	-fx-background-color: #7B81D2;
     -fx-background-radius: 2px;
 }
 
 .date-picker .arrow-button .arrow {
 	-fx-background-color: #E7DFFE;
+
 }
 
-.date-picker .cell {
-	-fx-background-color: #E7DFFE;
+.date-picker .arrow-button:hover
+{
+    -fx-background-color: #96A3E8;
 }
+
+
 
 /*-------------------- Select -------------------------*/
 
@@ -109,6 +114,11 @@
     -fx-border-color: #7B81D2;
     -fx-background-color:#E7DFFE;
     -fx-border-radius: 2px;
+}
+
+.choice-box .text
+{
+    -fx-fill: #7B81D2;
 }
 
 .choice-box .open-button .arrow
@@ -123,57 +133,23 @@
     -fx-background-color:#E7DFFE;
 }
 
-.bigListView .scroll-bar .track-background
+.bigListView
+{
+    -fx-background-color:#E7DFFE;
+}
+
+.bigListView .scroll-bar .track-background, .bigListView .scroll-bar .increment-button:hover, .bigListView .scroll-bar .decrement-button:hover
 {
     -fx-background-color:#7B81D2;
     -fx-background-radius:3px;
 }
 
-.bigListView .scroll-bar .increment-button .increment-arrow
-{
-    -fx-background-color:#96A3E8;
-
-}
-
-.bigListView .scroll-bar .decrement-button .decrement-arrow
+.bigListView .scroll-bar .thumb, .bigListView .scroll-bar .decrement-button .decrement-arrow, .bigListView .scroll-bar .increment-button .increment-arrow
 {
     -fx-background-color:#96A3E8;
 }
 
-.bigListView .scroll-bar .increment-button:hover
-{
-    -fx-background-color:#7B81D2;
-
-}
-
-.bigListView .scroll-bar .decrement-button:hover
-{
-    -fx-background-color:#7B81D2;
-}
-
-.bigListView .scroll-bar .increment-button:hover .increment-arrow
-{
-    -fx-background-color:#E7DFFE;
-
-}
-
-.bigListView .scroll-bar .decrement-button:hover .decrement-arrow
-{
-    -fx-background-color:#E7DFFE;
-}
-
-.bigListView .scroll-bar .thumb
-{
-    -fx-background-color:#96A3E8;
-}
-
-.bigListView .scroll-bar .thumb:hover
-{
-    -fx-background-color:#E7DFFE;
-
-}
-
-.bigListView .scroll-bar .thumb:pressed
+.bigListView .scroll-bar .thumb:hover, .bigListView .scroll-bar .thumb:pressed, .bigListView .scroll-bar .decrement-button:hover .decrement-arrow, .bigListView .scroll-bar .increment-button:hover .increment-arrow
 {
     -fx-background-color:#E7DFFE;
 
@@ -214,7 +190,7 @@
     -fx-font-size: 22px;
 }
 
-.bigListView .list-cell:focused{
+.bigListView .list-cell:selected{
     -fx-background-color:#96A3E8;
     -fx-background-radius: 3px;
     -fx-background-insets: 3px;
@@ -224,7 +200,7 @@
     -fx-border-insets: 3px;
 }
 
-.bigListView .list-cell:focused .text
+.bigListView .list-cell:selected .text
 {
     -fx-fill:#7B81D2;
     -fx-font-size: 22px;
@@ -234,7 +210,70 @@
     -fx-background-color:#E7DFFE;
     -fx-background-radius: 3px;
     -fx-background-insets: 3px;
-    -fx-border-color:#96A3E8;
+
+    -fx-border-color:#E7DFFE;
     -fx-border-radius: 3px;
     -fx-border-insets: 3px;
+}
+
+
+/*-------------------- Small list View -------------------------*/
+
+
+.smallListView
+{
+    -fx-background-color:#E7DFFE;
+    -fx-background-radius:2px;
+}
+
+.smallListView .scroll-bar .track-background, .smallListView .scroll-bar .increment-button:hover, .smallListView .scroll-bar .decrement-button:hover
+{
+    -fx-background-color:#7B81D2;
+    -fx-background-radius: 3px;
+}
+
+.smallListView .scroll-bar .thumb, .smallListView .scroll-bar .decrement-button .decrement-arrow, .smallListView .scroll-bar .increment-button .increment-arrow
+{
+    -fx-background-color:#96A3E8;
+}
+
+.smallListView .scroll-bar .thumb:hover, .smallListView .scroll-bar .thumb:pressed, .smallListView .scroll-bar .decrement-button:hover .decrement-arrow, .smallListView .scroll-bar .increment-button:hover .increment-arrow
+{
+    -fx-background-color:#E7DFFE;
+
+}
+
+.smallListView .list-cell .text
+{
+    -fx-fill:#7B81D2;
+    -fx-font-size: 13px;
+}
+
+.smallListView .list-cell:even
+{
+    -fx-background-color:#FEF2F2;
+}
+
+.smallListView .list-cell:odd
+{
+    -fx-background-color:#F3E9F8;
+}
+
+.smallListView .list-cell:hover
+{
+    -fx-background-color: #96A3E8;
+}
+
+.smallListView .list-cell:hover .text
+{
+    -fx-fill: #5D609E;
+}
+
+.smallListView .list-cell:selected .text
+{
+    -fx-fill:#E7DFFE;
+}
+
+.smallListView .list-cell:selected{
+    -fx-background-color:#7B81D2;
 }

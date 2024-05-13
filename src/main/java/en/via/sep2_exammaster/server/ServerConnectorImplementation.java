@@ -2,12 +2,14 @@ package en.via.sep2_exammaster.server;
 
 import dk.via.remote.observer.RemotePropertyChangeListener;
 import dk.via.remote.observer.RemotePropertyChangeSupport;
+import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.server.database.CourseDAOImpl;
 import en.via.sep2_exammaster.server.database.Database;
 import en.via.sep2_exammaster.server.database.DatabaseManager;
 import en.via.sep2_exammaster.shared.*;
 
 import java.io.Serializable;
+import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
@@ -27,8 +29,7 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     onlineUsers = new ArrayList<>();
   }
 
-  @Override public void login(String username, String password) throws RemoteException
-  {
+  @Override public User login(String username, String password) throws RemoteException {
     List<User> allUsers = database.readAllUsers();
     User user = null;
 
@@ -43,20 +44,18 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
         int index = allUsers.indexOf(user);
         user = allUsers.get(index);
         onlineUsers.add(user);
-        support.firePropertyChange("login success", null, user);
         System.out.println("logged in: " + user);
       }
-      else support.firePropertyChange("login fail online", null, user);
+      else throw new IllegalArgumentException("login fail online");
     }
-    else
-    {
-      support.firePropertyChange("login fail credentials", null, user);
-      System.out.println("failed login: " + user);
-    }
+    else throw new IllegalArgumentException("login fail credentials");
+
+    return user;
   }
 
   @Override public void logout(User user) throws RemoteException{
     onlineUsers.remove(user);
+    System.out.println("logged out: " + user);
   }
 
   @Override public void createCourse(String code, int semester, String title,
@@ -68,8 +67,8 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     }
     catch (IllegalArgumentException e){
       switch (e.getMessage()){
-        case "code exists" -> support.firePropertyChange("course create fail", null, false);
-        case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", null, false);
+        case "code exists" -> support.firePropertyChange("course create fail", null, primaryTeacher);
+        case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", null, primaryTeacher);
       }
 
     }
@@ -78,20 +77,20 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     }
   }
 
-  @Override public Student getStudent(int studentID) throws RemoteException {
+  @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {
     Student temp = database.readStudent(studentID);
     if(temp != null) return temp;
-    else support.firePropertyChange("student not found", null, false);
+    else support.firePropertyChange("student not found", null, loggedIn);
     return null;
   }
 
-  @Override public Teacher getTeacher(String initials) throws RemoteException {
+  @Override public Teacher getTeacher(User loggedIn, String initials) throws RemoteException {
     Teacher temp = null;
     try{
        temp = database.readTeacher(initials);
     }
     catch (IllegalArgumentException e){
-      support.firePropertyChange("teacher not found", null, false);
+      support.firePropertyChange("teacher not found", null, loggedIn);
     }
     return temp;
   }
@@ -119,9 +118,6 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   }
 
   @Override public void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException {
-    for(RemotePropertyChangeListener temp : support.getPropertyChangeListeners()){
-      if(temp.equals(listener)) return;
-    }
     support.addPropertyChangeListener(listener);
   }
 

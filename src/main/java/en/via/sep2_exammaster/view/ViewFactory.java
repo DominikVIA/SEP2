@@ -13,6 +13,7 @@ public class ViewFactory {
   public static final String MY_COURSES = "my courses";
   public static final String COURSE_INFO = "course information";
   public static final String CREATE_COURSE = "create course";
+  public static final String EDIT_COURSE = "edit course";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -121,6 +122,7 @@ public class ViewFactory {
       case MY_COURSES -> loadMyCoursesView();
       case COURSE_INFO -> loadCourseInfoView();
       case CREATE_COURSE -> loadCreateCourseView();
+      case EDIT_COURSE -> loadEditCourseView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

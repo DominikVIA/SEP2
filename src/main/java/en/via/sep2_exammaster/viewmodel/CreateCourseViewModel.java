@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreateCourseViewModel implements PropertyChangeListener {
-  private final ArrayList<Student> studentArrayList;
   private final Model model;
   private final StringProperty code, semester, title, description, additionalTeacher, student;
   private final ObjectProperty<ObservableList<Student>> studentsList;
+  private final ArrayList<Student> studentArrayList;
   private final PropertyChangeSupport support;
 
   public CreateCourseViewModel(Model model){

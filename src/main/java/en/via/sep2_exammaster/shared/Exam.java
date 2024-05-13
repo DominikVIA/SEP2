@@ -105,7 +105,6 @@ public class Exam implements Serializable
   }
 
   public String toString(){
-//    return completed ? "A(n) " + course.getTitle() + " exam happened on " + date + " | " + time : "A(n) " + course.getTitle() + " exam will happen on " + date + " | " + time;
-      return title + " (" + date + ", " + time + ") " + (completed ? "COMPLETED" : "NOT COMPLETED");
+      return title + " (" + date + ", " + time + ")";
   }
 }

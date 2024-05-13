@@ -51,6 +51,10 @@ public class CourseInfoViewModel implements PropertyChangeListener {
     model.deleteCourse(code);
   }
 
+  public void onEdit() throws IOException {
+    model.editCourse(course);
+  }
+
   public void bindCode(StringProperty property){
     property.bind(code);
   }

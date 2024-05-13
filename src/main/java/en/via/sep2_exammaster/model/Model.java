@@ -19,6 +19,7 @@ public interface Model extends Closeable{
       List<Student> students) throws IOException;
   List<Course> getCourses() throws IOException;
   void viewCourse(Course course);
+  void editCourse(Course course);
   void deleteCourse(String code) throws IOException;
   Student getStudent(int studentID) throws IOException;
   Teacher getTeacher(String initials) throws IOException;

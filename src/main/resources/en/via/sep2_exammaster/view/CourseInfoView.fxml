@@ -46,7 +46,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ListView fx:id="studentsList" layoutX="43.0" layoutY="256.0" prefHeight="116.0" prefWidth="289.0" />
+            <ListView fx:id="studentsList" layoutX="43.0" layoutY="256.0" prefHeight="116.0" prefWidth="289.0" styleClass="smallListView" />
             <TextField fx:id="titleField" editable="false" layoutX="43.0" layoutY="94.0" prefHeight="31.0" prefWidth="289.0" text="Title">
                <font>
                   <Font name="Avenir Roman" size="16.0" />
@@ -80,7 +80,7 @@
                   <Font name="Avenir Heavy" size="14.0" />
                </font>
             </Label>
-            <ListView fx:id="examsList" layoutX="376.0" layoutY="94.0" onMouseClicked="#onClick" prefHeight="170.0" prefWidth="225.0" />
+            <ListView fx:id="examsList" layoutX="376.0" layoutY="94.0" onMouseClicked="#onClick" prefHeight="170.0" prefWidth="225.0" styleClass="smallListView" />
             <Label layoutX="376.0" layoutY="62.0" prefHeight="35.0" prefWidth="181.0" styleClass="normalLabel" text="Exams in course:">
                <font>
                   <Font name="Avenir Heavy" size="20.0" />

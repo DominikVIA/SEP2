@@ -28,16 +28,29 @@ public class EditCourseViewController implements PropertyChangeListener {
   private EditCourseViewModel viewModel;
   private Region root;
 
-  @FXML void onClick(MouseEvent event) {
-
+  @FXML void onClick() {
+    removeButton.setDisable(true);
+    if(studentsList.getSelectionModel().getSelectedItem() != null)
+      removeButton.setDisable(false);
   }
 
-  @FXML void onRemove(ActionEvent event) {
+  @FXML void onRemove() {
+    viewModel.remove(studentsList.getSelectionModel().getSelectedItem());
+    removeButton.setDisable(true);
+  }
 
+  @FXML void onAdd() {
+    viewModel.addStudent();
   }
 
   @FXML void onSave(ActionEvent event) {
 
+  }
+
+  @FXML void onCancel() {
+    reset();
+    viewModel.removeListener(this);
+    viewHandler.openView(ViewFactory.MY_COURSES);
   }
 
   public void init(ViewHandler viewHandler, EditCourseViewModel editCourseViewModel, Region root) {
@@ -54,6 +67,7 @@ public class EditCourseViewController implements PropertyChangeListener {
     viewModel.bindStudents(studentsList.itemsProperty());
 
     removeButton.setDisable(true);
+    viewModel.addListener(this);
   }
 
   public Region getRoot() {
@@ -72,6 +86,7 @@ public class EditCourseViewController implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
+    System.out.println("got event view");
     switch (evt.getPropertyName()){
       case "course create success" ->
           Platform.runLater(() -> {

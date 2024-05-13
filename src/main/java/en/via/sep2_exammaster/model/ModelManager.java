@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.Serializable;
+import java.rmi.AccessException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -23,15 +24,25 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   public ModelManager(ServerConnector server) throws IOException {
     this.server = server;
     this.support = new PropertyChangeSupport(this);
+    this.server.addListener(this);
   }
 
   @Override
   public void login(String username, String password) throws IOException {
-    this.server.addListener(this);
-    server.login(username, password);
+    try{
+      User temp = server.login(username, password);
+      if(temp != null){
+        loggedIn = temp;
+        support.firePropertyChange("login success", null, loggedIn);
+      }
+    }
+    catch (IllegalArgumentException e){
+      support.firePropertyChange(e.getMessage(), null, false);
+    }
   }
 
   @Override public void logout() throws IOException {
+    server.removeListener(this);
     server.logout(loggedIn);
   }
 
@@ -49,17 +60,29 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
 
   @Override
   public Student getStudent(int studentID) throws IOException{
-    return server.getStudent(studentID);
+    try
+    {
+      return server.getStudent(loggedIn, studentID);
+    }
+    catch (IllegalArgumentException e){
+      e.printStackTrace();
+      return null;
+    }
   }
 
   @Override
   public Teacher getTeacher(String initials) throws IOException{
-    return server.getTeacher(initials);
+    return server.getTeacher(loggedIn, initials);
   }
 
   @Override
   public void viewCourse(Course course){
     support.firePropertyChange("view course", null, course);
+  }
+
+  @Override
+  public void editCourse(Course course){
+    support.firePropertyChange("edit course", null, course);
   }
 
   @Override
@@ -80,15 +103,20 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override public void propertyChange(RemotePropertyChangeEvent<Serializable> evt) {
-    if(evt.getPropertyName().equals("login success")) {
-      loggedIn = (User) evt.getNewValue();
+    if(evt.getNewValue().equals(loggedIn)
+        || (evt.getNewValue() instanceof Course
+        && (((Course) evt.getNewValue()).getTeacher(0).equals(loggedIn)
+        || ((Course) evt.getNewValue()).getTeacher(1).equals(loggedIn))
+      )
+    ) {
+      support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
+      System.out.println("sending event");
     }
-    support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
   }
 
   @Override public void close() throws IOException {
-    UnicastRemoteObject.unexportObject(this, true);
     logout();
+    UnicastRemoteObject.unexportObject(this, true);
   }
 
 }

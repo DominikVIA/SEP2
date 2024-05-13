@@ -42,14 +42,14 @@ public class CourseInfoViewController
         ButtonType.OK, ButtonType.CANCEL);
     Optional<ButtonType> result = alert.showAndWait();
     if(result.isPresent() && result.get() == ButtonType.OK){
-      System.out.println(codeField.getText());
       viewModel.onDelete(codeField.getText());
       viewHandler.openView(ViewFactory.MY_COURSES);
     }
   }
 
-  @FXML void onEditCourse(ActionEvent event) {
-
+  @FXML void onEditCourse() throws IOException {
+    viewHandler.openView(ViewFactory.EDIT_COURSE);
+    viewModel.onEdit();
   }
 
   @FXML void onViewExam(ActionEvent event) {

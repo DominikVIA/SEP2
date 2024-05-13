@@ -11,21 +11,20 @@ import javafx.collections.ObservableList;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class EditCourseViewModel implements PropertyChangeListener {
   private Course course;
   private final Model model;
-  private final StringProperty code;
-  private final StringProperty semester;
-  private final StringProperty title;
-  private final StringProperty description;
-  private final StringProperty additionalTeacher;
-  private final StringProperty student;
+  private final StringProperty code, semester, title, description, additionalTeacher, student;
   private final ObjectProperty<ObservableList<Student>> studentsList;
   private final PropertyChangeSupport support;
+  private ArrayList<Student> studentArrayList;
 
   public EditCourseViewModel(Model model){
     this.model = model;
+    this.model.addListener(this);
     this.code = new SimpleStringProperty("");
     this.title = new SimpleStringProperty("");
     this.semester = new SimpleStringProperty("");
@@ -33,11 +32,40 @@ public class EditCourseViewModel implements PropertyChangeListener {
     this.additionalTeacher = new SimpleStringProperty("");
     this.student = new SimpleStringProperty("");
     this.studentsList = new SimpleObjectProperty<>(FXCollections.observableArrayList());
+    this.studentArrayList = new ArrayList<>();
     this.support = new PropertyChangeSupport(this);
+  }
+
+  public void addStudent(){
+    try {
+      Student temp = model.getStudent(Integer.parseInt(student.getValue()));
+      System.out.println(temp);
+      if(temp != null) {
+        if(studentArrayList.contains(temp)){
+          support.firePropertyChange("student adding error", null, student);
+          return;
+        }
+        studentArrayList.add(temp);
+        studentsList.getValue().add(temp);
+        student.set("");
+      }
+    }
+    catch (NumberFormatException e){
+      support.firePropertyChange("student parsing error", null, student);
+    }
+    catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void remove(Student student){
+    studentArrayList.remove(student);
+    studentsList.getValue().remove(student);
   }
 
   public void reset() {
     if(course != null){
+      studentArrayList = course.getStudents();
       code.set(course.getCode());
       semester.set(course.getSemester() + "");
       title.set(course.getTitle());
@@ -85,7 +113,13 @@ public class EditCourseViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if(!evt.getPropertyName().contains("login"))
+    if(!evt.getPropertyName().contains("login")) {
+      if(evt.getPropertyName().equals("edit course")){
+        course = (Course) evt.getNewValue();
+        reset();
+      }
+      System.out.println("sending event viewmodel");
       support.firePropertyChange(evt);
+    }
   }
 }

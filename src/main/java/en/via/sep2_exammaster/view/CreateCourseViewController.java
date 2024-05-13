@@ -54,8 +54,7 @@ public class CreateCourseViewController implements PropertyChangeListener {
     }
   }
 
-  @FXML
-  void onRemove() {
+  @FXML void onRemove() {
     viewModel.remove(studentsList.getSelectionModel().getSelectedItem());
     removeButton.setDisable(true);
   }
