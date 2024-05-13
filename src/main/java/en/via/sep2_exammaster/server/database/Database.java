@@ -9,12 +9,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface Database {
-  Course createCourse(String code, int semester, String title, String description, Teacher primaryTeacher, Teacher additionalTeacher, List<Student> students)
+  Course createCourse(String code, int semester, String title, String description, Teacher primaryTeacher, String additionalTeacher, List<Student> students)
       throws SQLException;
   List<User> readAllUsers();
-  List<Student> readAllStudents();
+  void deleteCourse(String code);
   Student readStudent(int studentID);
-  List<Teacher> readAllTeachers();
   Teacher readTeacher(String initials);
 
 }

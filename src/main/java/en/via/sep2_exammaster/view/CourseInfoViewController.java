@@ -7,13 +7,11 @@ import en.via.sep2_exammaster.viewmodel.LoginViewModel;
 import en.via.sep2_exammaster.viewmodel.MyCoursesViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class CourseInfoViewController
 {
@@ -38,8 +36,16 @@ public class CourseInfoViewController
 
   }
 
-  @FXML void onDeleteCourse(ActionEvent event) {
-
+  @FXML void onDeleteCourse() throws IOException {
+    Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to delete this course?\n"+
+        "It will cause all associated information to be deleted, such as exams, the corresponding results, etc.",
+        ButtonType.OK, ButtonType.CANCEL);
+    Optional<ButtonType> result = alert.showAndWait();
+    if(result.isPresent() && result.get() == ButtonType.OK){
+      System.out.println(codeField.getText());
+      viewModel.onDelete(codeField.getText());
+      viewHandler.openView(ViewFactory.MY_COURSES);
+    }
   }
 
   @FXML void onEditCourse(ActionEvent event) {

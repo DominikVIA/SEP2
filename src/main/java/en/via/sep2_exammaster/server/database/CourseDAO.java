@@ -17,4 +17,5 @@ public interface CourseDAO {
       throws SQLException;
   Course getCourseByCode(String courseCode);
   List<Course> getCourses();
+  void deleteCourse(String code);
 }

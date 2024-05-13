@@ -20,6 +20,7 @@ public class ViewFactory {
   private MyCoursesViewController myCoursesViewController;
   private CourseInfoViewController courseInfoViewController;
   private CreateCourseViewController createCourseViewController;
+  private EditCourseViewController editCourseViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -28,6 +29,7 @@ public class ViewFactory {
     this.myCoursesViewController = null;
     this.courseInfoViewController = null;
     this.createCourseViewController = null;
+    this.editCourseViewController = null;
   }
 
   public Region loadLoginView() {
@@ -92,7 +94,25 @@ public class ViewFactory {
       }
     }
     createCourseViewController.reset();
+    viewModelFactory.getCreateCourseViewModel().addListener(createCourseViewController);
     return createCourseViewController.getRoot();
+  }
+
+  public Region loadEditCourseView() {
+    if (editCourseViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("EditCourseView.fxml"));
+      try {
+        Region root = loader.load();
+        editCourseViewController = loader.getController();
+        editCourseViewController.init(viewHandler, viewModelFactory.getEditCourseViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    editCourseViewController.reset();
+    viewModelFactory.getCreateCourseViewModel().addListener(editCourseViewController);
+    return editCourseViewController.getRoot();
   }
 
   public Region load(String id) {

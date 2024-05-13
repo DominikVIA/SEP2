@@ -57,12 +57,8 @@ public class CreateCourseViewModel implements PropertyChangeListener {
       int semester = Integer.parseInt(this.semester.get());
       String title = this.title.get();
       String description = this.description.get();
-      Teacher creatingTeacher = (Teacher) model.getLoggedIn();
-      Teacher additionalTeacher = null;
-      if (this.additionalTeacher.get() != null)
-        additionalTeacher = model.getTeacher(this.additionalTeacher.get());
-      model.createCourse(code, semester, title, description, creatingTeacher,
-          additionalTeacher, studentArrayList);
+      String additionalTeacherInitials = this.additionalTeacher.getValue();
+      model.createCourse(code, semester, title, description, additionalTeacherInitials, studentArrayList);
     }
     catch(NumberFormatException e){
       support.firePropertyChange("semester error", null, semester);

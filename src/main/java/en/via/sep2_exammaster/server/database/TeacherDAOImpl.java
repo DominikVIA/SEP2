@@ -68,6 +68,7 @@ public class TeacherDAOImpl implements TeacherDAO {
             result.getString("name"),
             result.getString("password")
         );
+        System.out.println(answer);
       }
       return answer;
     }

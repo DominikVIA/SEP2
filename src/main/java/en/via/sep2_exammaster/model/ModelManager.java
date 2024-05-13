@@ -37,10 +37,9 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
 
   @Override
   public void createCourse(String code, int semester,
-      String title, String description,
-      Teacher primaryTeacher, Teacher additionalTeacher,
+      String title, String description, String additionalTeacherInitials,
       List<Student> students) throws IOException{
-    server.createCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
+    server.createCourse(code, semester, title, description, (Teacher) loggedIn, additionalTeacherInitials, students);
   }
 
   @Override
@@ -61,6 +60,11 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   @Override
   public void viewCourse(Course course){
     support.firePropertyChange("view course", null, course);
+  }
+
+  @Override
+  public void deleteCourse(String code) throws IOException{
+    server.deleteCourse(code);
   }
 
   @Override public User getLoggedIn() {

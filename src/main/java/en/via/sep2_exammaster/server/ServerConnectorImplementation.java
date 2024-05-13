@@ -60,14 +60,18 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   }
 
   @Override public void createCourse(String code, int semester, String title,
-      String description, Teacher primaryTeacher, Teacher additionalTeacher,
+      String description, Teacher primaryTeacher, String additionalTeacher,
       List<Student> students) throws RemoteException {
     try {
       Course temp = database.createCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
       support.firePropertyChange("course create success", null, temp);
     }
     catch (IllegalArgumentException e){
-      support.firePropertyChange("course create fail", null, false);
+      switch (e.getMessage()){
+        case "code exists" -> support.firePropertyChange("course create fail", null, false);
+        case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", null, false);
+      }
+
     }
     catch (SQLException e) {
       throw new RuntimeException(e);
@@ -82,10 +86,14 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   }
 
   @Override public Teacher getTeacher(String initials) throws RemoteException {
-    Teacher temp =  database.readTeacher(initials);
-    if(temp != null) return temp;
-    else support.firePropertyChange("teacher not found", null, false);
-    return null;
+    Teacher temp = null;
+    try{
+       temp = database.readTeacher(initials);
+    }
+    catch (IllegalArgumentException e){
+      support.firePropertyChange("teacher not found", null, false);
+    }
+    return temp;
   }
 
   @Override public List<Course> getCourses(Teacher teacher) throws RemoteException {
@@ -103,6 +111,11 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public void deleteCourse(String code) throws RemoteException{
+    database.deleteCourse(code);
   }
 
   @Override public void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException {

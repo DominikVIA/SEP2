@@ -48,7 +48,7 @@ public class CourseDAOImpl implements CourseDAO {
     try{
       connection.setAutoCommit(false);
       if (checkCodeAvailability(code) != 0) {
-        throw new IllegalArgumentException("A course with this course code already exists.");
+        throw new IllegalArgumentException("code exists");
       }
       PreparedStatement statement = connection.prepareStatement("INSERT INTO courses VALUES (?, ?, ?, ?);");
       statement.setString(1, code);
@@ -132,15 +132,25 @@ public class CourseDAOImpl implements CourseDAO {
   @Override
   public List<Course> getCourses(){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          SELECT * FROM courses;
-          """);
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM courses;");
       ResultSet result = statement.executeQuery();
       ArrayList<Course> list = new ArrayList<>();
       while (result.next()){
         list.add(getCourseByCode(result.getString(1)));
       }
       return list;
+    }
+    catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public void deleteCourse(String code){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("DELETE FROM courses WHERE code = ?;");
+      statement.setString(1, code);
+      statement.execute();
     }
     catch (SQLException e) {
       throw new RuntimeException(e);

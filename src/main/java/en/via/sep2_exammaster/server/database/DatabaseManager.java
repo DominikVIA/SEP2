@@ -30,10 +30,22 @@ public class DatabaseManager implements Database {
     return instance;
   }
 
-  public Course createCourse(String code, int semester, String title, String description, Teacher primaryTeacher, Teacher additionalTeacher, List<Student> students)
+  @Override
+  public Course createCourse(String code, int semester, String title, String description, Teacher primaryTeacher, String additionalTeacherInitials, List<Student> students)
       throws SQLException
   {
+    Teacher additionalTeacher = null;
+    if(additionalTeacherInitials != null && !additionalTeacherInitials.isBlank()) {
+      additionalTeacher = teachers.readTeacherByInitials(
+          additionalTeacherInitials);
+      if(additionalTeacher == null) throw new IllegalArgumentException("teacher initials incorrect");
+    }
     return courses.createCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
+  }
+
+  @Override
+  public void deleteCourse(String code){
+    courses.deleteCourse(code);
   }
 
   @Override
@@ -45,18 +57,8 @@ public class DatabaseManager implements Database {
   }
 
   @Override
-  public List<Student> readAllStudents(){
-    return students.readAllStudents();
-  }
-
-  @Override
   public Student readStudent(int studentID){
     return students.readStudentByStudentNo(studentID);
-  }
-
-  @Override
-  public List<Teacher> readAllTeachers(){
-    return teachers.readAllTeachers();
   }
 
   @Override

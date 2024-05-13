@@ -4,85 +4,88 @@ import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.IOException;
+import java.beans.PropertyChangeSupport;
 
-public class CourseInfoViewModel implements PropertyChangeListener {
+public class EditCourseViewModel implements PropertyChangeListener {
   private Course course;
   private final Model model;
   private final StringProperty code;
-  private final IntegerProperty semester;
+  private final StringProperty semester;
   private final StringProperty title;
   private final StringProperty description;
-  private final ObjectProperty<ObservableList<Exam>> examsList;
+  private final StringProperty additionalTeacher;
+  private final StringProperty student;
   private final ObjectProperty<ObservableList<Student>> studentsList;
+  private final PropertyChangeSupport support;
 
-  public CourseInfoViewModel(Model model){
+  public EditCourseViewModel(Model model){
     this.model = model;
     this.code = new SimpleStringProperty("");
-    this.semester = new SimpleIntegerProperty();
     this.title = new SimpleStringProperty("");
+    this.semester = new SimpleStringProperty("");
     this.description = new SimpleStringProperty("");
-    this.examsList = new SimpleObjectProperty<>(FXCollections.observableArrayList());
+    this.additionalTeacher = new SimpleStringProperty("");
+    this.student = new SimpleStringProperty("");
     this.studentsList = new SimpleObjectProperty<>(FXCollections.observableArrayList());
-    this.model.addListener(this);
+    this.support = new PropertyChangeSupport(this);
   }
 
   public void reset() {
     if(course != null){
       code.set(course.getCode());
-      semester.set(course.getSemester());
+      semester.set(course.getSemester() + "");
       title.set(course.getTitle());
       description.set(course.getDescription());
+      additionalTeacher.set(course.getTeacher(1) != null ? course.getTeacher(1).toString() : "");
+      student.set("");
       studentsList.getValue().setAll(course.getStudents());
-      examsList.getValue().setAll(course.getExams());
     }
-  }
-
-  public void onDelete(String code) throws IOException {
-    model.deleteCourse(code);
   }
 
   public void bindCode(StringProperty property){
-    property.bind(code);
+    property.bindBidirectional(code);
   }
 
   public void bindSemester(StringProperty property){
-    StringConverter<Number> converter = new NumberStringConverter();
-    IntegerProperty ip = new SimpleIntegerProperty();
-    Bindings.bindBidirectional(property, ip, converter);
-    property.set(property.getValue());
-    ip.bindBidirectional(semester);
+    property.bindBidirectional(semester);
   }
 
   public void bindTitle(StringProperty property){
-    property.bind(title);
+    property.bindBidirectional(title);
   }
 
   public void bindDescription(StringProperty property){
-    property.bind(description);
+    property.bindBidirectional(description);
+  }
+
+  public void bindAdditionalTeacher(StringProperty property){
+    property.bindBidirectional(additionalTeacher);
+  }
+
+  public void bindStudent(StringProperty property){
+    property.bindBidirectional(student);
   }
 
   public void bindStudents(ObjectProperty<ObservableList<Student>> property){
-    property.bind(studentsList);
+    property.bindBidirectional(studentsList);
   }
 
-  public void bindExams(ObjectProperty<ObservableList<Exam>> property){
-    property.bind(examsList);
+  public void addListener(PropertyChangeListener listener){
+    support.addPropertyChangeListener(listener);
+  }
+
+  public void removeListener(PropertyChangeListener listener){
+    support.removePropertyChangeListener(listener);
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if(evt.getPropertyName().equals("view course")){
-      course = (Course) evt.getNewValue();
-      reset();
-    }
+    if(!evt.getPropertyName().contains("login"))
+      support.firePropertyChange(evt);
   }
 }
