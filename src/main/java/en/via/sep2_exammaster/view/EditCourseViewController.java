@@ -12,6 +12,7 @@ import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 
 public class EditCourseViewController implements PropertyChangeListener {
 
@@ -43,8 +44,8 @@ public class EditCourseViewController implements PropertyChangeListener {
     viewModel.addStudent();
   }
 
-  @FXML void onSave(ActionEvent event) {
-
+  @FXML void onSave() throws IOException {
+    viewModel.onSave();
   }
 
   @FXML void onCancel() {
@@ -67,7 +68,6 @@ public class EditCourseViewController implements PropertyChangeListener {
     viewModel.bindStudents(studentsList.itemsProperty());
 
     removeButton.setDisable(true);
-    viewModel.addListener(this);
   }
 
   public Region getRoot() {
@@ -86,16 +86,12 @@ public class EditCourseViewController implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println("got event view");
     switch (evt.getPropertyName()){
-      case "course create success" ->
+      case "edit success" ->
           Platform.runLater(() -> {
             viewModel.removeListener(this);
-            viewHandler.openView(ViewFactory.MY_COURSES);
-          });
-      case "course create fail" ->
-          Platform.runLater(() -> {
-            showError("A course with this course code already exists. A different code must be used.");
+            viewModel.viewCourse();
+            viewHandler.openView(ViewFactory.COURSE_INFO);
           });
       case "semester error" ->
           Platform.runLater(() -> {

@@ -4,6 +4,7 @@ import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -36,10 +37,24 @@ public class EditCourseViewModel implements PropertyChangeListener {
     this.support = new PropertyChangeSupport(this);
   }
 
+  public void onSave() throws IOException {
+    try{
+      String code = this.code.getValue();
+      int semester = Integer.parseInt(this.semester.getValue());
+      String title = this.title.getValue();
+      String description = this.description.getValue();
+      String additionalTeacherInitials = this.additionalTeacher.getValue();
+      model.editCourse(code, semester, title, description, additionalTeacherInitials, studentArrayList);
+    }
+    catch (NumberFormatException e){
+      support.firePropertyChange("semester error", null, semester);
+    }
+
+  }
+
   public void addStudent(){
     try {
       Student temp = model.getStudent(Integer.parseInt(student.getValue()));
-      System.out.println(temp);
       if(temp != null) {
         if(studentArrayList.contains(temp)){
           support.firePropertyChange("student adding error", null, student);
@@ -63,16 +78,22 @@ public class EditCourseViewModel implements PropertyChangeListener {
     studentsList.getValue().remove(student);
   }
 
+  public void viewCourse(){
+    model.viewCourse(course);
+  }
+
   public void reset() {
     if(course != null){
-      studentArrayList = course.getStudents();
-      code.set(course.getCode());
-      semester.set(course.getSemester() + "");
-      title.set(course.getTitle());
-      description.set(course.getDescription());
-      additionalTeacher.set(course.getTeacher(1) != null ? course.getTeacher(1).toString() : "");
-      student.set("");
-      studentsList.getValue().setAll(course.getStudents());
+      Platform.runLater(() -> {
+        studentArrayList = course.getStudents();
+        code.set(course.getCode());
+        semester.set(course.getSemester() + "");
+        title.set(course.getTitle());
+        description.set(course.getDescription());
+        additionalTeacher.set(course.getTeacher(1) != null ? course.getTeacher(1).toString() : "");
+        student.set("");
+        studentsList.getValue().setAll(course.getStudents());
+      });
     }
   }
 
@@ -114,11 +135,10 @@ public class EditCourseViewModel implements PropertyChangeListener {
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     if(!evt.getPropertyName().contains("login")) {
-      if(evt.getPropertyName().equals("edit course")){
+      if(evt.getPropertyName().equals("edit course") || evt.getPropertyName().equals("edit success")){
         course = (Course) evt.getNewValue();
         reset();
       }
-      System.out.println("sending event viewmodel");
       support.firePropertyChange(evt);
     }
   }

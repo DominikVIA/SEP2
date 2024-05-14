@@ -8,6 +8,7 @@ import en.via.sep2_exammaster.server.database.Database;
 import en.via.sep2_exammaster.server.database.DatabaseManager;
 import en.via.sep2_exammaster.shared.*;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.AccessException;
 import java.rmi.RemoteException;
@@ -70,29 +71,26 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
         case "code exists" -> support.firePropertyChange("course create fail", null, primaryTeacher);
         case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", null, primaryTeacher);
       }
-
     }
     catch (SQLException e) {
       throw new RuntimeException(e);
     }
   }
 
-  @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {
-    Student temp = database.readStudent(studentID);
-    if(temp != null) return temp;
-    else support.firePropertyChange("student not found", null, loggedIn);
-    return null;
-  }
-
-  @Override public Teacher getTeacher(User loggedIn, String initials) throws RemoteException {
-    Teacher temp = null;
-    try{
-       temp = database.readTeacher(initials);
+  @Override
+  public void editCourse(String code, int semester, String title,
+      String description, Teacher primaryTeacher, String additionalTeacher,
+      List<Student> students) throws RemoteException {
+    try {
+      Course temp = database.editCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
+      support.firePropertyChange("edit success", null, temp);
     }
     catch (IllegalArgumentException e){
-      support.firePropertyChange("teacher not found", null, loggedIn);
+      support.firePropertyChange("teacher not found", null, primaryTeacher);
     }
-    return temp;
+    catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override public List<Course> getCourses(Teacher teacher) throws RemoteException {
@@ -116,6 +114,26 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   public void deleteCourse(String code) throws RemoteException{
     database.deleteCourse(code);
   }
+
+  @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {
+    Student temp = database.readStudent(studentID);
+    if(temp != null) return temp;
+    support.firePropertyChange("student not found", null, loggedIn);
+    return null;
+  }
+
+  @Override public Teacher getTeacher(User loggedIn, String initials) throws RemoteException {
+    Teacher temp = null;
+    try{
+       temp = database.readTeacher(initials);
+    }
+    catch (IllegalArgumentException e){
+      support.firePropertyChange("teacher not found", null, loggedIn);
+    }
+    return temp;
+  }
+
+
 
   @Override public void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException {
     support.addPropertyChangeListener(listener);

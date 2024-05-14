@@ -130,6 +130,65 @@ public class CourseDAOImpl implements CourseDAO {
   }
 
   @Override
+  public Course editCourse(String code, int semester, String title,
+      String description, Teacher primaryTeacher,
+      Teacher additionalTeacher, List<Student> students)
+      throws SQLException
+  {
+    Connection connection = getConnection();
+    try {
+      connection.setAutoCommit(false);
+      PreparedStatement statement = connection.prepareStatement("""
+          UPDATE courses
+          SET title = ?, semester = ?, description = ?
+          WHERE code = ?;
+          """);
+      statement.setString(1, title);
+      statement.setInt(2, semester);
+      statement.setString(3, description);
+      statement.setString(4,code);
+      statement.executeUpdate();
+
+      statement = connection.prepareStatement("DELETE FROM course_students WHERE course_code = ?;");
+      statement.setString(1, code);
+      statement.executeUpdate();
+      statement = connection.prepareStatement("DELETE FROM course_teachers WHERE course_code = ?;");
+      statement.setString(1, code);
+      statement.executeUpdate();
+
+      statement = connection.prepareStatement("INSERT INTO course_teachers VALUES (?, ?);");
+      statement.setString(1, code);
+      statement.setString(2, primaryTeacher.getInitials());
+      statement.execute();
+
+      if(additionalTeacher != null){
+        statement.setString(1, code);
+        statement.setString(2, additionalTeacher.getInitials());
+        statement.execute();
+      }
+
+      for(Student student : students) {
+        statement = connection.prepareStatement(
+            "INSERT INTO course_students VALUES (?, ?);");
+        statement.setString(1, code);
+        statement.setInt(2, student.getStudentNo());
+        statement.execute();
+      }
+
+      connection.commit();
+      return getCourseByCode(code);
+    }
+    catch (SQLException e){
+      connection.rollback();
+      e.printStackTrace();
+      return null;
+    }
+    finally {
+      connection.close();
+    }
+  }
+
+  @Override
   public List<Course> getCourses(){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM courses;");

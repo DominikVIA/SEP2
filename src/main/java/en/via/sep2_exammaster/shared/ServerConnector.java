@@ -16,6 +16,9 @@ public interface ServerConnector extends Remote {
       String title, String description,
       Teacher primaryTeacher, String additionalTeacher,
       List<Student> students) throws RemoteException;
+  void editCourse(String code, int semester, String title,
+      String description, Teacher primaryTeacher, String additionalTeacher,
+      List<Student> students) throws RemoteException;
   void deleteCourse(String code) throws RemoteException;
   List<Course> getCourses(Teacher teacher) throws RemoteException;
   Student getStudent(User loggedIn, int studentID) throws RemoteException;

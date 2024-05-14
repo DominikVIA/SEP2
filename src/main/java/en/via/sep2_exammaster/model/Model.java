@@ -17,6 +17,9 @@ public interface Model extends Closeable{
   void createCourse(String code, int semester,
       String title, String description, String additionalTeacherInitials,
       List<Student> students) throws IOException;
+  void editCourse(String code, int semester,
+      String title, String description, String additionalTeacherInitials,
+      List<Student> students) throws IOException;
   List<Course> getCourses() throws IOException;
   void viewCourse(Course course);
   void editCourse(Course course);

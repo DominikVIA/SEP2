@@ -15,6 +15,10 @@ public interface CourseDAO {
       List<Student> students
   )
       throws SQLException;
+  Course editCourse(String code, int semester, String title,
+      String description, Teacher primaryTeacher,
+      Teacher additionalTeacher, List<Student> students)
+      throws SQLException;
   Course getCourseByCode(String courseCode);
   List<Course> getCourses();
   void deleteCourse(String code);

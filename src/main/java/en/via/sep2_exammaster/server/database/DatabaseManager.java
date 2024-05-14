@@ -44,6 +44,20 @@ public class DatabaseManager implements Database {
   }
 
   @Override
+  public Course editCourse(String code, int semester, String title,
+      String description, Teacher primaryTeacher,
+      String additionalTeacherInitials, List<Student> students) throws SQLException
+  {
+    Teacher additionalTeacher = null;
+    if(additionalTeacherInitials != null && !additionalTeacherInitials.isBlank()) {
+      additionalTeacher = teachers.readTeacherByInitials(
+          additionalTeacherInitials);
+      if(additionalTeacher == null) throw new IllegalArgumentException("teacher initials incorrect");
+    }
+    return courses.editCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
+  }
+
+  @Override
   public void deleteCourse(String code){
     courses.deleteCourse(code);
   }

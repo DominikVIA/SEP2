@@ -54,6 +54,13 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override
+  public void editCourse(String code, int semester,
+      String title, String description, String additionalTeacherInitials,
+      List<Student> students) throws IOException{
+    server.editCourse(code, semester, title, description, (Teacher) loggedIn, additionalTeacherInitials, students);
+  }
+
+  @Override
   public List<Course> getCourses() throws IOException {
     return server.getCourses((Teacher)loggedIn);
   }
@@ -110,7 +117,6 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
       )
     ) {
       support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
-      System.out.println("sending event");
     }
   }
 

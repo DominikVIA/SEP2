@@ -73,7 +73,6 @@ public class CreateCourseViewController implements PropertyChangeListener {
     viewModel.bindStudents(studentsList.itemsProperty());
 
     removeButton.setDisable(true);
-    viewModel.addListener(this);
   }
 
   public Region getRoot() {

@@ -49,7 +49,6 @@ public class LoginViewController implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    System.out.println("view controller got event");
     switch (evt.getPropertyName()){
       case "login success" -> {
         Platform.runLater(() -> {

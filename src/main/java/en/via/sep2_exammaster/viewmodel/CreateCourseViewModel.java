@@ -68,7 +68,6 @@ public class CreateCourseViewModel implements PropertyChangeListener {
   public void addStudent(){
     try {
       Student temp = model.getStudent(Integer.parseInt(student.getValue()));
-      System.out.println(student.getValue());
       if(temp != null) {
         if(studentArrayList.contains(temp)){
           support.firePropertyChange("student adding error", null, student);

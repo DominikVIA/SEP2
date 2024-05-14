@@ -16,7 +16,7 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
             <Separator layoutX="45.0" layoutY="53.0" prefHeight="31.0" prefWidth="263.0" />
-            <ListView fx:id="studentsList" layoutX="340.0" layoutY="161.0" onMouseClicked="#onClick" prefHeight="150.0" prefWidth="237.0" />
+            <ListView fx:id="studentsList" layoutX="340.0" layoutY="161.0" onMouseClicked="#onClick" prefHeight="150.0" prefWidth="237.0" styleClass="smallListView" />
             <TextField fx:id="codeField" layoutX="58.0" layoutY="101.0" prefHeight="28.0" prefWidth="105.0" styleClass="normalTextField" />
             <Label layoutX="58.0" layoutY="77.0" prefHeight="20.0" prefWidth="61.0" styleClass="normalLabel" text="Code:">
                <font>
@@ -75,7 +75,7 @@
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
             </Text>
-            <Button layoutX="340.0" layoutY="359.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="29.0" prefWidth="54.0" styleClass="normalButton" text="Cancel">
+            <Button layoutX="340.0" layoutY="359.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="30.0" prefWidth="61.0" styleClass="normalButton" text="Cancel">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>

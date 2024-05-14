@@ -112,7 +112,7 @@ public class ViewFactory {
       }
     }
     editCourseViewController.reset();
-    viewModelFactory.getCreateCourseViewModel().addListener(editCourseViewController);
+    viewModelFactory.getEditCourseViewModel().addListener(editCourseViewController);
     return editCourseViewController.getRoot();
   }
 
