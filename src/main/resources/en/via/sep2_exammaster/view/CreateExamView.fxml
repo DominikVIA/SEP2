@@ -47,7 +47,7 @@
                   <Font name="Avenir Roman" size="16.0" />
                </font>
             </Label>
-            <Button layoutX="539.0" layoutY="101.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="25.0" prefWidth="52.0" styleClass="normalButton" text="Add">
+            <Button layoutX="539.0" layoutY="101.0" mnemonicParsing="false" onAction="#onAdd" prefHeight="28.0" prefWidth="52.0" styleClass="normalButton" text="Add">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
@@ -97,7 +97,7 @@
             </Label>
             <TextField fx:id="roomField" layoutX="190.0" layoutY="102.0" prefHeight="28.0" prefWidth="90.0" styleClass="normalTextField" />
             <TextArea fx:id="contentArea" layoutX="58.0" layoutY="165.0" prefHeight="61.0" prefWidth="223.0" />
-            <Label layoutX="340.0" layoutY="137.0" prefHeight="17.0" prefWidth="117.0" styleClass="normalLabel" text="Students:">
+            <Label layoutX="340.0" layoutY="137.0" prefHeight="24.0" prefWidth="208.0" styleClass="normalLabel" text="Participating students:">
                <font>
                   <Font name="Avenir Roman" size="16.0" />
                </font>
