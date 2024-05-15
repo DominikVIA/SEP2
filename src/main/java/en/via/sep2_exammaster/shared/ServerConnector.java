@@ -6,6 +6,8 @@ import en.via.sep2_exammaster.model.Model;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface ServerConnector extends Remote {
@@ -21,6 +23,7 @@ public interface ServerConnector extends Remote {
       List<Student> students) throws RemoteException;
   void deleteCourse(String code) throws RemoteException;
   List<Course> getCourses(Teacher teacher) throws RemoteException;
+  void createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examiners) throws RemoteException;
   Student getStudent(User loggedIn, int studentID) throws RemoteException;
   Teacher getTeacher(User loggedIn, String initials) throws RemoteException;
   void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException;

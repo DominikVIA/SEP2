@@ -2,6 +2,7 @@ package en.via.sep2_exammaster.server.database;
 
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
+import en.via.sep2_exammaster.shared.Examinators;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -22,18 +23,20 @@ public class ExamDAOImpl implements ExamDAO {
   }
 
   @Override
-  public Exam createExam(String title, String content, String room, LocalDate date, LocalTime time, Course course) {
+  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examiners) {
     try(Connection connection = getConnection()) {
       PreparedStatement statement = connection.prepareStatement(
-          "INSERT INTO exams(title, content, room, date, time, course_code, completed) VALUES (?, ?, ?, ?, ?, ?, false);\n");
+          "INSERT INTO exams(title, content, room, examiners, date, time, course_code, written, completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, false);");
       statement.setString(1, title);
       statement.setString(2, content);
       statement.setString(3, room);
-      statement.setString(4, date.toString());
-      statement.setString(5, time.toString());
-      statement.setString(6, course.getCode());
+      statement.setString(4, examiners.name());
+      statement.setObject(5, date);
+      statement.setObject(6, time);
+      statement.setString(7, course.getCode());
+      statement.setBoolean(8, written);
       statement.execute();
-      return new Exam(title, content, room, course, date, time);
+      return new Exam(title, content, room, course, date, time, written, examiners);
     }
     catch (SQLException e){
       e.printStackTrace();
@@ -67,7 +70,9 @@ public class ExamDAOImpl implements ExamDAO {
             result.getString("room"),
             course,
             result.getDate("date").toLocalDate(),
-            result.getTime("time").toLocalTime()
+            result.getTime("time").toLocalTime(),
+            result.getBoolean("written"),
+            Examinators.valueOf(result.getString("examiners"))
             );
         temp.setCompleted(result.getBoolean("completed"));
         answer.add(temp);

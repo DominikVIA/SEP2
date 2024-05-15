@@ -10,21 +10,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.Optional;
 
-public class CourseInfoViewController
-{
+public class CourseInfoViewController implements PropertyChangeListener {
   @FXML public TextField codeField;
-
   @FXML public TextArea descriptionArea;
-
   @FXML public ListView<Exam> examsList;
-
   @FXML public TextField semesterField;
-
   @FXML public ListView<Student> studentsList;
-
   @FXML public TextField titleField;
   @FXML public Button viewButton;
 
@@ -32,8 +28,8 @@ public class CourseInfoViewController
   private CourseInfoViewModel viewModel;
   private Region root;
 
-  @FXML void onCreateExam(ActionEvent event) {
-
+  @FXML void onCreateExam() {
+    viewModel.onCreateExam();
   }
 
   @FXML void onDeleteCourse() throws IOException {
@@ -44,15 +40,17 @@ public class CourseInfoViewController
     if(result.isPresent() && result.get() == ButtonType.OK){
       viewModel.onDelete(codeField.getText());
       viewHandler.openView(ViewFactory.MY_COURSES);
+      viewModel.removeListener(this);
     }
   }
 
   @FXML void onEditCourse() throws IOException {
     viewHandler.openView(ViewFactory.EDIT_COURSE);
     viewModel.onEdit();
+    viewModel.removeListener(this);
   }
 
-  @FXML void onViewExam(ActionEvent event) {
+  @FXML void onViewExam() {
 
   }
 
@@ -65,6 +63,7 @@ public class CourseInfoViewController
 
   @FXML void onBack(){
     viewHandler.openView(ViewFactory.MY_COURSES);
+    viewModel.removeListener(this);
   }
 
   public void init(ViewHandler viewHandler, CourseInfoViewModel courseInfoViewModel, Region root) {
@@ -89,5 +88,10 @@ public class CourseInfoViewController
   public void reset() {
     viewButton.setDisable(true);
     viewModel.reset();
+  }
+
+  @Override public void propertyChange(PropertyChangeEvent evt) {
+    viewHandler.openView(ViewFactory.CREATE_EXAM);
+    viewModel.removeListener(this);
   }
 }

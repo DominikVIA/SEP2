@@ -13,6 +13,8 @@ import java.rmi.AccessException;
 import java.rmi.NoSuchObjectException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class ModelManager extends UnicastRemoteObject implements Model, RemotePropertyChangeListener<Serializable> {
@@ -88,6 +90,11 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override
+  public void viewCreateExam(Course course){
+    support.firePropertyChange("create exam", null, course);
+  }
+
+  @Override
   public void editCourse(Course course){
     support.firePropertyChange("edit course", null, course);
   }
@@ -95,6 +102,14 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   @Override
   public void deleteCourse(String code) throws IOException{
     server.deleteCourse(code);
+  }
+
+  @Override
+  public void createExam(String title, String content,
+      String room, Course course, LocalDate date,
+      LocalTime time, boolean written, Examinators examiners)
+      throws IOException{
+    server.createExam(title, content, room, course, date, time, written, examiners);
   }
 
   @Override public User getLoggedIn() {

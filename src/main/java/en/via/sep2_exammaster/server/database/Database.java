@@ -1,11 +1,10 @@
 package en.via.sep2_exammaster.server.database;
 
-import en.via.sep2_exammaster.shared.Course;
-import en.via.sep2_exammaster.shared.Student;
-import en.via.sep2_exammaster.shared.Teacher;
-import en.via.sep2_exammaster.shared.User;
+import en.via.sep2_exammaster.shared.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface Database {
@@ -14,9 +13,9 @@ public interface Database {
   Course editCourse(String code, int semester, String title,
       String description, Teacher primaryTeacher,
       String additionalTeacherInitials, List<Student> students) throws SQLException;
-  List<User> readAllUsers();
-
   void deleteCourse(String code);
+  Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examiners);
+  List<User> readAllUsers();
   Student readStudent(int studentID);
   Teacher readTeacher(String initials);
 

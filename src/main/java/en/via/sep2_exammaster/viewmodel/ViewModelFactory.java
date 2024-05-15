@@ -1,6 +1,7 @@
 package en.via.sep2_exammaster.viewmodel;
 
 import en.via.sep2_exammaster.model.Model;
+import en.via.sep2_exammaster.view.CreateExamViewController;
 
 import java.rmi.RemoteException;
 
@@ -10,6 +11,7 @@ public class ViewModelFactory {
   private final CourseInfoViewModel courseInfoViewModel;
   private final CreateCourseViewModel createCourseViewModel;
   private final EditCourseViewModel editCourseViewModel;
+  private final CreateExamViewModel createExamViewModel;
 
   public ViewModelFactory(Model model) {
     this.loginViewModel = new LoginViewModel(model);
@@ -17,6 +19,7 @@ public class ViewModelFactory {
     this.courseInfoViewModel = new CourseInfoViewModel(model);
     this.createCourseViewModel = new CreateCourseViewModel(model);
     this.editCourseViewModel = new EditCourseViewModel(model);
+    this.createExamViewModel = new CreateExamViewModel(model);
   }
 
   public LoginViewModel getLoginViewModel() {
@@ -37,5 +40,9 @@ public class ViewModelFactory {
 
   public EditCourseViewModel getEditCourseViewModel(){
     return editCourseViewModel;
+  }
+
+  public CreateExamViewModel getCreateExamViewModel(){
+    return createExamViewModel;
   }
 }

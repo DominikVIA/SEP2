@@ -13,6 +13,7 @@ import javafx.util.converter.NumberStringConverter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 
 public class CourseInfoViewModel implements PropertyChangeListener {
@@ -24,6 +25,7 @@ public class CourseInfoViewModel implements PropertyChangeListener {
   private final StringProperty description;
   private final ObjectProperty<ObservableList<Exam>> examsList;
   private final ObjectProperty<ObservableList<Student>> studentsList;
+  private final PropertyChangeSupport support;
 
   public CourseInfoViewModel(Model model){
     this.model = model;
@@ -33,6 +35,7 @@ public class CourseInfoViewModel implements PropertyChangeListener {
     this.description = new SimpleStringProperty("");
     this.examsList = new SimpleObjectProperty<>(FXCollections.observableArrayList());
     this.studentsList = new SimpleObjectProperty<>(FXCollections.observableArrayList());
+    this.support = new PropertyChangeSupport(this);
     this.model.addListener(this);
   }
 
@@ -45,6 +48,10 @@ public class CourseInfoViewModel implements PropertyChangeListener {
       studentsList.getValue().setAll(course.getStudents());
       examsList.getValue().setAll(course.getExams());
     }
+  }
+
+  public void onCreateExam(){
+    model.viewCreateExam(course);
   }
 
   public void onDelete(String code) throws IOException {
@@ -83,10 +90,23 @@ public class CourseInfoViewModel implements PropertyChangeListener {
     property.bind(examsList);
   }
 
+  public void addListener(PropertyChangeListener listener){
+    support.addPropertyChangeListener(listener);
+  }
+
+  public void removeListener(PropertyChangeListener listener){
+    support.removePropertyChangeListener(listener);
+  }
+
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if(evt.getPropertyName().equals("view course")){
-      course = (Course) evt.getNewValue();
-      reset();
+    switch (evt.getPropertyName()){
+      case "view course" -> {
+        course = (Course) evt.getNewValue();
+        reset();
+      }
+      case "create exam" -> {
+        support.firePropertyChange(evt);
+      }
     }
   }
 }

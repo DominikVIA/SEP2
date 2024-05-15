@@ -14,9 +14,10 @@ public class Exam implements Serializable
   private Course course;
   private ArrayList<Student> students;
   private ArrayList<Announcement> announcements;
-  private boolean completed;
+  private boolean written, completed;
+  private Examinators examinators;
 
-  public Exam(String title, String content, String room, Course course, LocalDate date, LocalTime time){
+  public Exam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examinators){
     this.title = title;
     this.content = content;
     this.room = room;
@@ -24,6 +25,8 @@ public class Exam implements Serializable
     this.date = date;
     this.time = time;
     this.completed = false;
+    this.written = written;
+    this.examinators = examinators;
     this.students = new ArrayList<>();
     this.announcements = new ArrayList<>();
   }

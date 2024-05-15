@@ -1,11 +1,10 @@
 package en.via.sep2_exammaster.server.database;
 
-import en.via.sep2_exammaster.shared.Course;
-import en.via.sep2_exammaster.shared.Student;
-import en.via.sep2_exammaster.shared.Teacher;
-import en.via.sep2_exammaster.shared.User;
+import en.via.sep2_exammaster.shared.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +59,11 @@ public class DatabaseManager implements Database {
   @Override
   public void deleteCourse(String code){
     courses.deleteCourse(code);
+  }
+
+  @Override
+  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examiners){
+    return exams.createExam(title, content, room, course, date, time, written, examiners);
   }
 
   @Override

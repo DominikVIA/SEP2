@@ -58,6 +58,16 @@ public class CreateCourseViewModel implements PropertyChangeListener {
       String title = this.title.get();
       String description = this.description.get();
       String additionalTeacherInitials = this.additionalTeacher.getValue();
+
+      if(code.isBlank() || title.isBlank() || description.isBlank()){
+        support.firePropertyChange("information blank", null, "error");
+        return;
+      }
+      if(semester < 1 || semester > 9){
+        support.firePropertyChange("semester number error", null, semester);
+        return;
+      }
+
       model.createCourse(code, semester, title, description, additionalTeacherInitials, studentArrayList);
     }
     catch(NumberFormatException e){

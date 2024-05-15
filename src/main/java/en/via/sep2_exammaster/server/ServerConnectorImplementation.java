@@ -14,6 +14,8 @@ import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -115,6 +117,15 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     database.deleteCourse(code);
   }
 
+  @Override
+  public void createExam(String title, String content,
+      String room, Course course, LocalDate date,
+      LocalTime time, boolean written, Examinators examiners)
+      throws RemoteException {
+    Exam temp = database.createExam(title, content, room, course, date, time, written, examiners);
+    support.firePropertyChange("exam create success", null, temp);
+  }
+
   @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {
     Student temp = database.readStudent(studentID);
     if(temp != null) return temp;
@@ -132,8 +143,6 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     }
     return temp;
   }
-
-
 
   @Override public void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException {
     support.addPropertyChangeListener(listener);

@@ -105,13 +105,17 @@ public class CreateCourseViewController implements PropertyChangeListener {
           Platform.runLater(() -> {
             showError("The \"Semester\" field only accepts numbers.");
           });
+      case "semester number error" ->
+          Platform.runLater(() -> {
+            showError("The Semester can only be between 1 and 9 (inclusive).");
+          });
       case "student parsing error" ->
           Platform.runLater(() -> {
             showError("The \"Student\" field only accepts numbers.");
           });
       case "student adding error" ->
           Platform.runLater(() -> {
-            showError("The provided Student ID belongs to a student already enrolled in semester.");
+            showError("The provided Student ID belongs to a student already enrolled in course.");
           });
       case "student not found" ->
           Platform.runLater(() -> {
@@ -120,6 +124,10 @@ public class CreateCourseViewController implements PropertyChangeListener {
       case "teacher not found" ->
           Platform.runLater(() -> {
             showError("Teacher initials are incorrect.");
+          });
+      case "information blank" ->
+          Platform.runLater(() -> {
+            showError("Code, title and description cannot be left empty.");
           });
     }
 

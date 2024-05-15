@@ -14,6 +14,7 @@ public class ViewFactory {
   public static final String COURSE_INFO = "course information";
   public static final String CREATE_COURSE = "create course";
   public static final String EDIT_COURSE = "edit course";
+  public static final String CREATE_EXAM = "create exam";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -22,6 +23,7 @@ public class ViewFactory {
   private CourseInfoViewController courseInfoViewController;
   private CreateCourseViewController createCourseViewController;
   private EditCourseViewController editCourseViewController;
+  private CreateExamViewController createExamViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -31,6 +33,7 @@ public class ViewFactory {
     this.courseInfoViewController = null;
     this.createCourseViewController = null;
     this.editCourseViewController = null;
+    this.createExamViewController = null;
   }
 
   public Region loadLoginView() {
@@ -79,6 +82,7 @@ public class ViewFactory {
       }
     }
     courseInfoViewController.reset();
+    viewModelFactory.getCourseInfoViewModel().addListener(courseInfoViewController);
     return courseInfoViewController.getRoot();
   }
 
@@ -97,6 +101,23 @@ public class ViewFactory {
     createCourseViewController.reset();
     viewModelFactory.getCreateCourseViewModel().addListener(createCourseViewController);
     return createCourseViewController.getRoot();
+  }
+
+  public Region loadCreateExamView() {
+    if (createExamViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("CreateExamView.fxml"));
+      try {
+        Region root = loader.load();
+        createExamViewController = loader.getController();
+        createExamViewController.init(viewHandler, viewModelFactory.getCreateExamViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    createExamViewController.reset();
+    viewModelFactory.getCreateExamViewModel().addListener(createExamViewController);
+    return createExamViewController.getRoot();
   }
 
   public Region loadEditCourseView() {
@@ -123,6 +144,7 @@ public class ViewFactory {
       case COURSE_INFO -> loadCourseInfoView();
       case CREATE_COURSE -> loadCreateCourseView();
       case EDIT_COURSE -> loadEditCourseView();
+      case CREATE_EXAM -> loadCreateExamView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;
