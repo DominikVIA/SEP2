@@ -59,6 +59,14 @@ public class EditCourseViewController implements PropertyChangeListener {
     this.viewModel = editCourseViewModel;
     this.root = root;
 
+    TextFormatter<String> formatterStudent = new TextFormatter<>(change -> {
+      if (change.isAdded() && studentField.getText().length() >= 6) {
+        return null;
+      }
+      return change;
+    });
+    studentField.setTextFormatter(formatterStudent);
+
     viewModel.bindCode(codeField.textProperty());
     viewModel.bindSemester(semesterField.textProperty());
     viewModel.bindTitle(titleField.textProperty());

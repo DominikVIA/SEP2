@@ -118,12 +118,12 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   }
 
   @Override
-  public void createExam(String title, String content,
+  public void createExam(User loggedIn, String title, String content,
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examinators examiners)
       throws RemoteException {
     Exam temp = database.createExam(title, content, room, course, date, time, written, examiners);
-    support.firePropertyChange("exam create success", null, temp);
+    support.firePropertyChange("exam create success", loggedIn, temp);
   }
 
   @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {

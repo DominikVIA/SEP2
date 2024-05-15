@@ -64,6 +64,22 @@ public class CreateCourseViewController implements PropertyChangeListener {
     this.viewModel = createCourseViewModel;
     this.root = root;
 
+    TextFormatter<String> formatterCode = new TextFormatter<>(change -> {
+      if (change.isAdded() && codeField.getText().length() >= 4) {
+        return null;
+      }
+      return change;
+    });
+    codeField.setTextFormatter(formatterCode);
+
+    TextFormatter<String> formatterStudent = new TextFormatter<>(change -> {
+      if (change.isAdded() && studentField.getText().length() >= 6) {
+        return null;
+      }
+      return change;
+    });
+    studentField.setTextFormatter(formatterStudent);
+
     viewModel.bindCode(codeField.textProperty());
     viewModel.bindSemester(semesterField.textProperty());
     viewModel.bindTitle(titleField.textProperty());

@@ -109,7 +109,7 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examinators examiners)
       throws IOException{
-    server.createExam(title, content, room, course, date, time, written, examiners);
+    server.createExam(loggedIn, title, content, room, course, date, time, written, examiners);
   }
 
   @Override public User getLoggedIn() {
@@ -126,6 +126,8 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
 
   @Override public void propertyChange(RemotePropertyChangeEvent<Serializable> evt) {
     if(evt.getNewValue().equals(loggedIn)
+        || ( evt.getOldValue() != null
+        && evt.getOldValue().equals(loggedIn))
         || (evt.getNewValue() instanceof Course
         && (((Course) evt.getNewValue()).getTeacher(0).equals(loggedIn)
         || ((Course) evt.getNewValue()).getTeacher(1).equals(loggedIn))

@@ -46,8 +46,9 @@ public class CreateExamViewController implements PropertyChangeListener {
   }
 
   @FXML
-  void onCancel(ActionEvent event) {
-
+  void onCancel() {
+    viewModel.removeListener(this);
+    viewHandler.openView(ViewFactory.COURSE_INFO);
   }
 
   @FXML void onClick() {
@@ -61,6 +62,7 @@ public class CreateExamViewController implements PropertyChangeListener {
     viewModel.remove(studentsList.getSelectionModel().getSelectedItem());
     removeButton.setDisable(true);
     if(addButton.isDisabled()) addButton.setDisable(false);
+    if(studentsList.getItems().isEmpty()) addAllButton.setDisable(true);
   }
 
   @FXML
@@ -75,12 +77,12 @@ public class CreateExamViewController implements PropertyChangeListener {
 
     typeBox.getItems().add("Written");
     typeBox.getItems().add("Oral");
-    typeBox.getSelectionModel().select(1);
+    typeBox.getSelectionModel().selectFirst();
 
     examinerBox.getItems().add("Internal");
     examinerBox.getItems().add("External");
     examinerBox.getItems().add("Both");
-    examinerBox.getSelectionModel().select(1);
+    examinerBox.getSelectionModel().selectFirst();
 
     datePicker.setDayCellFactory(picker -> new DateCell() {
       public void updateItem(LocalDate date, boolean empty) {
@@ -168,6 +170,10 @@ public class CreateExamViewController implements PropertyChangeListener {
       case "time parsing error" ->
           Platform.runLater(() -> {
             showError("The time has to be input in a HH:MM pattern.");
+          });
+      case "no students" ->
+          Platform.runLater(() -> {
+            showError("An exam cannot be created without any students.");
           });
     }
   }

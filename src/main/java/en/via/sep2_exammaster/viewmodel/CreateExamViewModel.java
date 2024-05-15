@@ -64,6 +64,10 @@ public class CreateExamViewModel implements PropertyChangeListener {
         support.firePropertyChange("information blank", null, "error");
         return;
       }
+      if(studentArrayList.isEmpty()){
+        support.firePropertyChange("no students", null, "error");
+        return;
+      }
 
       model.createExam(title, content, room, course, date, time, type,
           examinators);
