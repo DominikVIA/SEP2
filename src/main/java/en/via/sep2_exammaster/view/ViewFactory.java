@@ -15,6 +15,7 @@ public class ViewFactory {
   public static final String CREATE_COURSE = "create course";
   public static final String EDIT_COURSE = "edit course";
   public static final String CREATE_EXAM = "create exam";
+  public static final String EXAM_INFO = "exam info";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -24,6 +25,7 @@ public class ViewFactory {
   private CreateCourseViewController createCourseViewController;
   private EditCourseViewController editCourseViewController;
   private CreateExamViewController createExamViewController;
+  private ExamInfoViewController examInfoViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -34,6 +36,7 @@ public class ViewFactory {
     this.createCourseViewController = null;
     this.editCourseViewController = null;
     this.createExamViewController = null;
+    this.examInfoViewController = null;
   }
 
   public Region loadLoginView() {
@@ -137,6 +140,23 @@ public class ViewFactory {
     return editCourseViewController.getRoot();
   }
 
+  public Region loadExamInfoView() {
+    if (examInfoViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("ExamInfoView.fxml"));
+      try {
+        Region root = loader.load();
+        examInfoViewController = loader.getController();
+        examInfoViewController.init(viewHandler, viewModelFactory.getExamInfoViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    examInfoViewController.reset();
+    viewModelFactory.getExamInfoViewModel().addListener(examInfoViewController);
+    return examInfoViewController.getRoot();
+  }
+
   public Region load(String id) {
     Region root = switch(id) {
       case LOGIN -> loadLoginView();
@@ -145,6 +165,7 @@ public class ViewFactory {
       case CREATE_COURSE -> loadCreateCourseView();
       case EDIT_COURSE -> loadEditCourseView();
       case CREATE_EXAM -> loadCreateExamView();
+      case EXAM_INFO -> loadExamInfoView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

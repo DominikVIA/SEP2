@@ -62,7 +62,7 @@ public class DatabaseManager implements Database {
   }
 
   @Override
-  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examiners){
+  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners){
     return exams.createExam(title, content, room, course, date, time, written, examiners);
   }
 

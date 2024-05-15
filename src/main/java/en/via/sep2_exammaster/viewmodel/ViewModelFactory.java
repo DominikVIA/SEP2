@@ -12,6 +12,7 @@ public class ViewModelFactory {
   private final CreateCourseViewModel createCourseViewModel;
   private final EditCourseViewModel editCourseViewModel;
   private final CreateExamViewModel createExamViewModel;
+  private final ExamInfoViewModel examInfoViewModel;
 
   public ViewModelFactory(Model model) {
     this.loginViewModel = new LoginViewModel(model);
@@ -20,6 +21,7 @@ public class ViewModelFactory {
     this.createCourseViewModel = new CreateCourseViewModel(model);
     this.editCourseViewModel = new EditCourseViewModel(model);
     this.createExamViewModel = new CreateExamViewModel(model);
+    this.examInfoViewModel = new ExamInfoViewModel(model);
   }
 
   public LoginViewModel getLoginViewModel() {
@@ -44,5 +46,9 @@ public class ViewModelFactory {
 
   public CreateExamViewModel getCreateExamViewModel(){
     return createExamViewModel;
+  }
+
+  public ExamInfoViewModel getExamInfoViewModel(){
+    return examInfoViewModel;
   }
 }

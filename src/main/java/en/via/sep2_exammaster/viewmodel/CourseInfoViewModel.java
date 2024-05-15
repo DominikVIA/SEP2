@@ -19,10 +19,7 @@ import java.io.IOException;
 public class CourseInfoViewModel implements PropertyChangeListener {
   private Course course;
   private final Model model;
-  private final StringProperty code;
-  private final IntegerProperty semester;
-  private final StringProperty title;
-  private final StringProperty description;
+  private final StringProperty code, semester, title, description;
   private final ObjectProperty<ObservableList<Exam>> examsList;
   private final ObjectProperty<ObservableList<Student>> studentsList;
   private final PropertyChangeSupport support;
@@ -30,7 +27,7 @@ public class CourseInfoViewModel implements PropertyChangeListener {
   public CourseInfoViewModel(Model model){
     this.model = model;
     this.code = new SimpleStringProperty("");
-    this.semester = new SimpleIntegerProperty();
+    this.semester = new SimpleStringProperty("");
     this.title = new SimpleStringProperty("");
     this.description = new SimpleStringProperty("");
     this.examsList = new SimpleObjectProperty<>(FXCollections.observableArrayList());
@@ -42,7 +39,7 @@ public class CourseInfoViewModel implements PropertyChangeListener {
   public void reset() {
     if(course != null){
       code.set(course.getCode());
-      semester.set(course.getSemester());
+      semester.set(course.getSemester() + "");
       title.set(course.getTitle());
       description.set(course.getDescription());
       studentsList.getValue().setAll(course.getStudents());
@@ -62,16 +59,16 @@ public class CourseInfoViewModel implements PropertyChangeListener {
     model.editCourse(course);
   }
 
+  public void onViewExam(Exam exam){
+    model.viewExamInfo(exam);
+  }
+
   public void bindCode(StringProperty property){
     property.bind(code);
   }
 
   public void bindSemester(StringProperty property){
-    StringConverter<Number> converter = new NumberStringConverter();
-    IntegerProperty ip = new SimpleIntegerProperty();
-    Bindings.bindBidirectional(property, ip, converter);
-    property.set(property.getValue());
-    ip.bindBidirectional(semester);
+    property.bind(semester);
   }
 
   public void bindTitle(StringProperty property){
@@ -104,7 +101,7 @@ public class CourseInfoViewModel implements PropertyChangeListener {
         course = (Course) evt.getNewValue();
         reset();
       }
-      case "create exam" -> {
+      case "view exam", "create exam" -> {
         support.firePropertyChange(evt);
       }
     }

@@ -51,7 +51,7 @@ public class CourseInfoViewController implements PropertyChangeListener {
   }
 
   @FXML void onViewExam() {
-
+    viewModel.onViewExam(examsList.getSelectionModel().getSelectedItem());
   }
 
   @FXML void onClick(){
@@ -91,7 +91,15 @@ public class CourseInfoViewController implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    viewHandler.openView(ViewFactory.CREATE_EXAM);
+    switch (evt.getPropertyName()){
+      case "create exam" -> {
+        viewHandler.openView(ViewFactory.CREATE_EXAM);
+      }
+      case "view exam" -> {
+        viewHandler.openView(ViewFactory.EXAM_INFO);
+      }
+    }
+
     viewModel.removeListener(this);
   }
 }

@@ -2,8 +2,7 @@ package en.via.sep2_exammaster.viewmodel;
 
 import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.shared.Course;
-import en.via.sep2_exammaster.shared.Exam;
-import en.via.sep2_exammaster.shared.Examinators;
+import en.via.sep2_exammaster.shared.Examiners;
 import en.via.sep2_exammaster.shared.Student;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -15,7 +14,6 @@ import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
@@ -57,7 +55,7 @@ public class CreateExamViewModel implements PropertyChangeListener {
       LocalTime time = LocalTime.parse(this.time.getValue());
       LocalDate date = this.date.getValue();
       boolean type = this.type.getValue().equals("Written");
-      Examinators examinators = Examinators.valueOf(this.examiner.getValue());
+      Examiners examiners = Examiners.valueOf(this.examiner.getValue());
 
       if (title.isBlank() || room.isBlank() || content.isBlank())
       {
@@ -70,7 +68,7 @@ public class CreateExamViewModel implements PropertyChangeListener {
       }
 
       model.createExam(title, content, room, course, date, time, type,
-          examinators);
+          examiners);
     }
     catch (DateTimeParseException e){
       support.firePropertyChange("time parsing error", null, false);

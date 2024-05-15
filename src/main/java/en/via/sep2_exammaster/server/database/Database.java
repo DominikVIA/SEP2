@@ -14,7 +14,7 @@ public interface Database {
       String description, Teacher primaryTeacher,
       String additionalTeacherInitials, List<Student> students) throws SQLException;
   void deleteCourse(String code);
-  Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examiners);
+  Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners);
   List<User> readAllUsers();
   Student readStudent(int studentID);
   Teacher readTeacher(String initials);

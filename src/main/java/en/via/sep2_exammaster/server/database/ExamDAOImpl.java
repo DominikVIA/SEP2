@@ -2,7 +2,7 @@ package en.via.sep2_exammaster.server.database;
 
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
-import en.via.sep2_exammaster.shared.Examinators;
+import en.via.sep2_exammaster.shared.Examiners;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -23,7 +23,7 @@ public class ExamDAOImpl implements ExamDAO {
   }
 
   @Override
-  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examinators examiners) {
+  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners) {
     try(Connection connection = getConnection()) {
       PreparedStatement statement = connection.prepareStatement(
           "INSERT INTO exams(title, content, room, examiners, date, time, course_code, written, completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, false);");
@@ -72,7 +72,7 @@ public class ExamDAOImpl implements ExamDAO {
             result.getDate("date").toLocalDate(),
             result.getTime("time").toLocalTime(),
             result.getBoolean("written"),
-            Examinators.valueOf(result.getString("examiners"))
+            Examiners.valueOf(result.getString("examiners"))
             );
         temp.setCompleted(result.getBoolean("completed"));
         answer.add(temp);

@@ -2,15 +2,12 @@ package en.via.sep2_exammaster.server;
 
 import dk.via.remote.observer.RemotePropertyChangeListener;
 import dk.via.remote.observer.RemotePropertyChangeSupport;
-import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.server.database.CourseDAOImpl;
 import en.via.sep2_exammaster.server.database.Database;
 import en.via.sep2_exammaster.server.database.DatabaseManager;
 import en.via.sep2_exammaster.shared.*;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
@@ -70,8 +67,8 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     }
     catch (IllegalArgumentException e){
       switch (e.getMessage()){
-        case "code exists" -> support.firePropertyChange("course create fail", null, primaryTeacher);
-        case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", null, primaryTeacher);
+        case "code exists" -> support.firePropertyChange("course create fail", primaryTeacher, null);
+        case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", primaryTeacher, null);
       }
     }
     catch (SQLException e) {
@@ -120,7 +117,7 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   @Override
   public void createExam(User loggedIn, String title, String content,
       String room, Course course, LocalDate date,
-      LocalTime time, boolean written, Examinators examiners)
+      LocalTime time, boolean written, Examiners examiners)
       throws RemoteException {
     Exam temp = database.createExam(title, content, room, course, date, time, written, examiners);
     support.firePropertyChange("exam create success", loggedIn, temp);
@@ -129,7 +126,7 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {
     Student temp = database.readStudent(studentID);
     if(temp != null) return temp;
-    support.firePropertyChange("student not found", null, loggedIn);
+    support.firePropertyChange("student not found", loggedIn, null);
     return null;
   }
 
@@ -139,7 +136,7 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
        temp = database.readTeacher(initials);
     }
     catch (IllegalArgumentException e){
-      support.firePropertyChange("teacher not found", null, loggedIn);
+      support.firePropertyChange("teacher not found", loggedIn, null);
     }
     return temp;
   }

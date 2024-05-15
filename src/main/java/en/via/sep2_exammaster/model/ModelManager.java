@@ -4,14 +4,10 @@ import dk.via.remote.observer.RemotePropertyChangeEvent;
 import dk.via.remote.observer.RemotePropertyChangeListener;
 import en.via.sep2_exammaster.shared.*;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.AccessException;
-import java.rmi.NoSuchObjectException;
-import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -107,9 +103,14 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   @Override
   public void createExam(String title, String content,
       String room, Course course, LocalDate date,
-      LocalTime time, boolean written, Examinators examiners)
+      LocalTime time, boolean written, Examiners examiners)
       throws IOException{
     server.createExam(loggedIn, title, content, room, course, date, time, written, examiners);
+  }
+
+  @Override
+  public void viewExamInfo(Exam exam){
+    support.firePropertyChange("view exam", null, exam);
   }
 
   @Override public User getLoggedIn() {
@@ -125,9 +126,7 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override public void propertyChange(RemotePropertyChangeEvent<Serializable> evt) {
-    if(evt.getNewValue().equals(loggedIn)
-        || ( evt.getOldValue() != null
-        && evt.getOldValue().equals(loggedIn))
+    if(evt.getOldValue().equals(loggedIn)
         || (evt.getNewValue() instanceof Course
         && (((Course) evt.getNewValue()).getTeacher(0).equals(loggedIn)
         || ((Course) evt.getNewValue()).getTeacher(1).equals(loggedIn))
