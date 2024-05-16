@@ -63,7 +63,7 @@
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <Text layoutX="53.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Create New Exam" wrappingWidth="258.22216796875">
+            <Text layoutX="53.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Edit Exam" wrappingWidth="258.22216796875">
                <font>
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
