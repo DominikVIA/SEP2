@@ -6,16 +6,14 @@ import en.via.sep2_exammaster.viewmodel.CourseInfoViewModel;
 import en.via.sep2_exammaster.viewmodel.ExamInfoViewModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.Optional;
 
 public class ExamInfoViewController implements PropertyChangeListener {
   @FXML public TextField titleField;
@@ -29,12 +27,13 @@ public class ExamInfoViewController implements PropertyChangeListener {
   @FXML public ListView<Student> studentsList;
   @FXML public Button addResultButton;
   @FXML public Button viewButton;
+  @FXML public Button editButton;
 
   private ViewHandler viewHandler;
   private ExamInfoViewModel viewModel;
   private Region root;
 
-  @FXML void onAddResult(ActionEvent event) {
+  @FXML void onAddResult() {
 
   }
 
@@ -55,12 +54,22 @@ public class ExamInfoViewController implements PropertyChangeListener {
       addResultButton.setDisable(false);
   }
 
-  @FXML void onDelete(ActionEvent event) {
-
+  @FXML void onDelete() throws IOException
+  {
+    Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to delete this exam?\n"+
+        "It will cause all associated information to be deleted, i.e. corresponding results.",
+        ButtonType.OK, ButtonType.CANCEL);
+    alert.setHeaderText(null);
+    Optional<ButtonType> result = alert.showAndWait();
+    if(result.isPresent() && result.get() == ButtonType.OK){
+      viewModel.onDelete();
+      viewHandler.openView(ViewFactory.MY_COURSES);
+      viewModel.removeListener(this);
+    }
   }
 
-  @FXML void onEdit(ActionEvent event) {
-
+  @FXML void onEdit() {
+    viewModel.onEdit();
   }
 
   @FXML void onMake(ActionEvent event) {
@@ -88,6 +97,7 @@ public class ExamInfoViewController implements PropertyChangeListener {
 
     viewButton.setDisable(true);
     addResultButton.setDisable(true);
+    if(viewModel.getExam().isCompleted()) editButton.setDisable(true);
   }
 
   public Region getRoot() {
@@ -97,11 +107,13 @@ public class ExamInfoViewController implements PropertyChangeListener {
   public void reset() {
     viewButton.setDisable(true);
     addResultButton.setDisable(true);
+    if(viewModel.getExam().isCompleted()) editButton.setDisable(true);
     viewModel.reset();
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-
+    viewHandler.openView(ViewFactory.EXAM_EDIT);
+    viewModel.removeListener(this);
   }
 }
 

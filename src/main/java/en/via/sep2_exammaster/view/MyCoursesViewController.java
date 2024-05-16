@@ -21,7 +21,7 @@ public class MyCoursesViewController {
 
   @FXML void onAdd() throws IOException
   {
-    viewHandler.openView(ViewFactory.CREATE_COURSE);
+    viewHandler.openView(ViewFactory.COURSE_CREATE);
   }
 
   @FXML void onView() {

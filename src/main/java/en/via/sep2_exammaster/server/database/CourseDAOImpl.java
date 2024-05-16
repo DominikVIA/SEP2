@@ -120,7 +120,7 @@ public class CourseDAOImpl implements CourseDAO {
         }
 
         course.addExams(ExamDAOImpl.getInstance().getExamsByCourse(course).toArray(new Exam[0]));
-        course.addStudents(StudentDAOImpl.getInstance().readStudentsFromCourse(course).toArray(new Student[0]));
+        course.addStudents(StudentDAOImpl.getInstance().getStudentsFromCourse(course).toArray(new Student[0]));
       }
       return course;
     }

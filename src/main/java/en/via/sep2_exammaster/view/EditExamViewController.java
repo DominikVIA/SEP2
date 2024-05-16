@@ -1,23 +1,19 @@
 package en.via.sep2_exammaster.view;
 
 import en.via.sep2_exammaster.shared.Student;
-import en.via.sep2_exammaster.viewmodel.CreateCourseViewModel;
 import en.via.sep2_exammaster.viewmodel.CreateExamViewModel;
+import en.via.sep2_exammaster.viewmodel.EditExamViewModel;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.chrono.Chronology;
 
-public class CreateExamViewController implements PropertyChangeListener {
-
+public class EditExamViewController implements PropertyChangeListener {
   @FXML public TextField titleField;
   @FXML public TextField roomField;
   @FXML public TextArea contentArea;
@@ -28,26 +24,17 @@ public class CreateExamViewController implements PropertyChangeListener {
   @FXML public ChoiceBox<String> examinerBox;
   @FXML public ChoiceBox<String> typeBox;
   @FXML public Button addButton;
-  @FXML public Button addAllButton;
   @FXML public Button removeButton;
 
   private ViewHandler viewHandler;
-  private CreateExamViewModel viewModel;
+  private EditExamViewModel viewModel;
   private Region root;
 
   @FXML void onAdd() {
     viewModel.addStudent();
-    if(!addAllButton.isDisabled()) addAllButton.setDisable(true);
   }
 
-  @FXML void onAddAll() {
-    viewModel.addAllStudents();
-    addButton.setDisable(true);
-    addAllButton.setDisable(true);
-  }
-
-  @FXML
-  void onCancel() {
+  @FXML void onCancel() {
     viewModel.removeListener(this);
     viewHandler.openView(ViewFactory.COURSE_INFO);
   }
@@ -58,22 +45,18 @@ public class CreateExamViewController implements PropertyChangeListener {
       removeButton.setDisable(false);
   }
 
-  @FXML
-  void onRemove() {
+  @FXML void onRemove() {
     viewModel.remove(studentsList.getSelectionModel().getSelectedItem());
     removeButton.setDisable(true);
-    if(addButton.isDisabled()) addButton.setDisable(false);
-    if(studentsList.getItems().isEmpty()) addAllButton.setDisable(false);
   }
 
-  @FXML
-  void onCreate() throws IOException {
-    viewModel.onCreate();
+  @FXML void onSave() throws IOException {
+    viewModel.onSave();
   }
 
-  public void init(ViewHandler viewHandler, CreateExamViewModel createExamViewModel, Region root){
+  public void init(ViewHandler viewHandler, EditExamViewModel editExamViewModel, Region root){
     this.viewHandler = viewHandler;
-    this.viewModel = createExamViewModel;
+    this.viewModel = editExamViewModel;
     this.root = root;
 
     typeBox.getItems().add("Written");
@@ -147,10 +130,11 @@ public class CreateExamViewController implements PropertyChangeListener {
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
-      case "exam create success" ->
+      case "exam edit success" ->
           Platform.runLater(() -> {
+            viewModel.viewExamInfo();
             viewModel.removeListener(this);
-            viewHandler.openView(ViewFactory.MY_COURSES);
+            viewHandler.openView(ViewFactory.EXAM_INFO);
           });
       case "student parsing error" ->
           Platform.runLater(() -> {
@@ -161,10 +145,10 @@ public class CreateExamViewController implements PropertyChangeListener {
             showError("The provided Student ID belongs to a student already enrolled in exam.");
           });
       case "student not in course" ->
-      Platform.runLater(() -> {
-        showError("The provided Student ID belongs to a student that is not enrolled in the course. "
-            + "Student cannot be added to the exam.");
-      });
+          Platform.runLater(() -> {
+            showError("The provided Student ID belongs to a student that is not enrolled in the course. "
+                + "Student cannot be added to the exam.");
+          });
       case "student not found" ->
           Platform.runLater(() -> {
             showError("Student ID is incorrect.");
@@ -184,4 +168,3 @@ public class CreateExamViewController implements PropertyChangeListener {
     }
   }
 }
-

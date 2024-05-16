@@ -34,7 +34,7 @@ public class TeacherDAOImpl implements TeacherDAO {
   }
 
   @Override
-  public List<Teacher> readAllTeachers(){
+  public List<Teacher> getAllTeachers(){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers;");
       ResultSet result = statement.executeQuery();
@@ -56,7 +56,7 @@ public class TeacherDAOImpl implements TeacherDAO {
   }
 
   @Override
-  public Teacher readTeacherByInitials(String initials){
+  public Teacher getTeacherByInitials(String initials){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM teachers WHERE teacher_id = ?");
       statement.setString(1, initials);

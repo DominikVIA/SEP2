@@ -62,7 +62,7 @@
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </TextField>
-            <Button layoutX="459.0" layoutY="362.0" mnemonicParsing="false" onAction="#onEdit" styleClass="normalButton" text="Edit exam">
+            <Button fx:id="editButton" layoutX="459.0" layoutY="362.0" mnemonicParsing="false" onAction="#onEdit" styleClass="normalButton" text="Edit exam">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>

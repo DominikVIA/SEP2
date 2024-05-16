@@ -4,6 +4,7 @@ import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
+import en.via.sep2_exammaster.shared.Teacher;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -84,13 +85,15 @@ public class EditCourseViewModel implements PropertyChangeListener {
 
   public void reset() {
     if(course != null){
+//      Teacher additional = null;
+//      if(course.getTeacher())
       Platform.runLater(() -> {
         studentArrayList = course.getStudents();
         code.set(course.getCode());
         semester.set(course.getSemester() + "");
         title.set(course.getTitle());
         description.set(course.getDescription());
-        additionalTeacher.set(course.getTeacher(1) != null ? course.getTeacher(1).toString() : "");
+        additionalTeacher.set(course.getTeacher(1) != null ? course.getTeacher(1).getInitials() : "");
         student.set("");
         studentsList.getValue().setAll(course.getStudents());
       });
@@ -134,12 +137,10 @@ public class EditCourseViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if(!evt.getPropertyName().contains("login")) {
-      if(evt.getPropertyName().equals("edit course") || evt.getPropertyName().equals("edit success")){
-        course = (Course) evt.getNewValue();
-        reset();
-      }
-      support.firePropertyChange(evt);
+    if (evt.getPropertyName().equals("edit course") || evt.getPropertyName().equals("course edit success")) {
+      course = (Course) evt.getNewValue();
+      reset();
     }
+    support.firePropertyChange(evt);
   }
 }

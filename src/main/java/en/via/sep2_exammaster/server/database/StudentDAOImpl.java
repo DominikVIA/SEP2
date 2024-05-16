@@ -27,7 +27,7 @@ public class StudentDAOImpl implements StudentDAO {
     );
   }
 
-  public void writeStudent(Student student){
+  public void createStudent(Student student){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("INSERT INTO students VALUES (?, ?, ?);");
       statement.setInt(1, student.getStudentNo());
@@ -41,7 +41,7 @@ public class StudentDAOImpl implements StudentDAO {
   }
 
   @Override
-  public List<Student> readAllStudents(){
+  public List<Student> getAllStudents(){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM students;");
       ResultSet result = statement.executeQuery();
@@ -62,7 +62,7 @@ public class StudentDAOImpl implements StudentDAO {
   }
 
   @Override
-  public Student readStudentByStudentNo(int studentNo){
+  public Student getStudentByStudentNo(int studentNo){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM students WHERE student_id = ?");
       statement.setInt(1, studentNo);
@@ -82,7 +82,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
   }
 
-  public List<Student> readStudentsFromCourse(Course course){
+  public List<Student> getStudentsFromCourse(Course course){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("""
           SELECT *

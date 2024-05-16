@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Exam implements Serializable
-{
+public class Exam implements Serializable {
+  private int id;
   private String title, content, room;
   private LocalDate date;
   private LocalTime time;
@@ -18,7 +18,8 @@ public class Exam implements Serializable
   private boolean written, completed;
   private Examiners examiners;
 
-  public Exam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners){
+  public Exam(int id, String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners){
+    this.id = id;
     this.title = title;
     this.content = content;
     this.room = room;
@@ -32,28 +33,8 @@ public class Exam implements Serializable
     this.announcements = new ArrayList<>();
   }
 
-  public Exam(String title, String content, String room, LocalDate date, LocalTime time){
-    this.title = title;
-    this.content = content;
-    this.room = room;
-    this.date = date;
-    this.time = time;
-    this.course = null;
-    this.completed = false;
-    this.students = new ArrayList<>();
-    this.announcements = new ArrayList<>();
-  }
-
-  public Exam(Exam exam, Course course){
-    this.title = exam.getTitle();
-    this.content = exam.getContent();
-    this.room = exam.getRoom();
-    this.course = course;
-    this.date = exam.getDate();
-    this.time = exam.getTime();
-    this.completed = exam.isCompleted();
-    this.students = exam.getStudents();
-    this.announcements = exam.getAnnouncements();
+  public int getId(){
+    return id;
   }
 
   public String getTitle(){

@@ -63,7 +63,7 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
       List<Student> students) throws RemoteException {
     try {
       Course temp = database.createCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
-      support.firePropertyChange("course create success", null, temp);
+      support.firePropertyChange("course create success", primaryTeacher, temp);
     }
     catch (IllegalArgumentException e){
       switch (e.getMessage()){
@@ -82,10 +82,10 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
       List<Student> students) throws RemoteException {
     try {
       Course temp = database.editCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
-      support.firePropertyChange("edit success", null, temp);
+      support.firePropertyChange("course edit success", primaryTeacher, temp);
     }
     catch (IllegalArgumentException e){
-      support.firePropertyChange("teacher not found", null, primaryTeacher);
+      support.firePropertyChange("teacher not found", primaryTeacher, null);
     }
     catch (SQLException e) {
       throw new RuntimeException(e);
@@ -119,8 +119,34 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws RemoteException {
-    Exam temp = database.createExam(title, content, room, course, date, time, written, examiners, students);
-    support.firePropertyChange("exam create success", loggedIn, temp);
+    try{
+      Exam temp = database.createExam(title, content, room, course, date, time, written, examiners, students);
+      support.firePropertyChange("exam create success", loggedIn, temp);
+    }
+    catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public void editExam(
+      User loggedIn, int id, String title,
+      String content, String room, Course course, LocalDate date,
+      LocalTime time, boolean written,
+      Examiners examiners, List<Student> students
+  ) throws RemoteException {
+    try{
+      Exam temp = database.editExam(id, title, content, room, course, date, time, written, examiners, students);
+      support.firePropertyChange("exam edit success", loggedIn, temp);
+    }
+    catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public void deleteExam(int id) throws RemoteException{
+    database.deleteExam(id);
   }
 
   @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {

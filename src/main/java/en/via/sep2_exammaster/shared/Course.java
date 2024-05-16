@@ -36,10 +36,6 @@ public class Course implements Serializable
     students.add(student);
   }
 
-  public void createExam(Exam exam){
-    exams.add(new Exam(exam, this));
-  }
-
   public void addExam(Exam exam){
     exams.add(exam);
   }

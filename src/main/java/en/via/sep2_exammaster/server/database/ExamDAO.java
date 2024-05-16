@@ -11,6 +11,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface ExamDAO {
-  Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students);
+  Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students)
+      throws SQLException;
+  Exam editExam(int id, String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students) throws SQLException;
   List<Exam> getExamsByCourse(Course course) throws SQLException;
+  void deleteExam(int id);
 }

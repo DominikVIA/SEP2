@@ -138,7 +138,6 @@ public class CreateCourseViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if(!evt.getPropertyName().contains("login"))
-      support.firePropertyChange(evt);
+    support.firePropertyChange(evt);
   }
 }

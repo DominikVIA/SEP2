@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class ExamInfoViewModel implements PropertyChangeListener {
@@ -51,6 +52,18 @@ public class ExamInfoViewModel implements PropertyChangeListener {
       announcementsList.getValue().setAll(exam.getAnnouncements());
       studentsList.getValue().setAll(exam.getStudents());
     }
+  }
+
+  public void onDelete() throws IOException {
+    model.deleteExam(exam.getId());
+  }
+
+  public void onEdit(){
+    model.viewEditExam(exam);
+  }
+
+  public Exam getExam(){
+    return exam;
   }
 
   public void bindTitle(StringProperty property){
@@ -98,12 +111,14 @@ public class ExamInfoViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if(!evt.getPropertyName().contains("login")){
-      if(evt.getPropertyName().equals("view exam")){
+    switch (evt.getPropertyName()){
+      case "view exam" -> {
         exam = (Exam) evt.getNewValue();
         reset();
       }
-      support.firePropertyChange(evt);
+      case "edit exam" -> {
+        support.firePropertyChange(evt);
+      }
     }
   }
 }

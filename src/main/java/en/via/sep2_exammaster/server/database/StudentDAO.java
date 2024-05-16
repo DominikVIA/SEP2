@@ -5,6 +5,6 @@ import en.via.sep2_exammaster.shared.Student;
 import java.util.List;
 
 public interface StudentDAO {
-  List<Student> readAllStudents();
-  Student readStudentByStudentNo(int studentNo);
+  List<Student> getAllStudents();
+  Student getStudentByStudentNo(int studentNo);
 }

@@ -51,12 +51,12 @@ public class CourseInfoViewModel implements PropertyChangeListener {
     model.viewCreateExam(course);
   }
 
-  public void onDelete(String code) throws IOException {
-    model.deleteCourse(code);
+  public void onDelete() throws IOException {
+    model.deleteCourse(course.getCode());
   }
 
-  public void onEdit() throws IOException {
-    model.editCourse(course);
+  public void onEdit() {
+    model.viewEditCourse(course);
   }
 
   public void onViewExam(Exam exam){

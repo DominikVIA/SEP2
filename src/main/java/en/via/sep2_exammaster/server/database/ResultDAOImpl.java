@@ -33,7 +33,7 @@ public class ResultDAOImpl implements ResultDAO {
       ResultSet result = statement.executeQuery();
       ArrayList<Student> answer = new ArrayList<>();
       while(result.next()){
-        answer.add(StudentDAOImpl.getInstance().readStudentByStudentNo(result.getInt(1)));
+        answer.add(StudentDAOImpl.getInstance().getStudentByStudentNo(result.getInt(1)));
       }
       return answer;
     }
