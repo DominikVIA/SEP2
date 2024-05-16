@@ -1,5 +1,9 @@
 package en.via.sep2_exammaster.server.database;
 
-public interface ResultDAO
-{
+import en.via.sep2_exammaster.shared.Student;
+
+import java.util.List;
+
+public interface ResultDAO {
+  List<Student> readStudentsEnrolledInExam(int examID);
 }

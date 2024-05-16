@@ -68,7 +68,7 @@ public class CreateExamViewModel implements PropertyChangeListener {
       }
 
       model.createExam(title, content, room, course, date, time, type,
-          examiners);
+          examiners, studentArrayList);
     }
     catch (DateTimeParseException e){
       support.firePropertyChange("time parsing error", null, false);

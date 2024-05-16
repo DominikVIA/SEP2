@@ -3,6 +3,7 @@ package en.via.sep2_exammaster.server.database;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Examiners;
+import en.via.sep2_exammaster.shared.Student;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -23,10 +24,12 @@ public class ExamDAOImpl implements ExamDAO {
   }
 
   @Override
-  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners) {
+  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students) {
     try(Connection connection = getConnection()) {
-      PreparedStatement statement = connection.prepareStatement(
-          "INSERT INTO exams(title, content, room, examiners, date, time, course_code, written, completed) VALUES (?, ?, ?, ?, ?, ?, ?, ?, false);");
+      PreparedStatement statement = connection.prepareStatement("""
+      INSERT INTO exams(title, content, room, examiners, date, time, course_code, written, completed)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, false);
+      """, PreparedStatement.RETURN_GENERATED_KEYS);
       statement.setString(1, title);
       statement.setString(2, content);
       statement.setString(3, room);
@@ -35,8 +38,21 @@ public class ExamDAOImpl implements ExamDAO {
       statement.setObject(6, time);
       statement.setString(7, course.getCode());
       statement.setBoolean(8, written);
-      statement.execute();
-      return new Exam(title, content, room, course, date, time, written, examiners);
+      statement.executeUpdate();
+      ResultSet resultSet = statement.getGeneratedKeys();
+      resultSet.next();
+
+      int id = resultSet.getInt(1);
+      statement = connection.prepareStatement("INSERT INTO results(student_id, exam_id) VALUES (?,?)");
+      for(Student temp : students){
+        statement.setInt(1, temp.getStudentNo());
+        statement.setInt(2, id);
+        statement.executeUpdate();
+      }
+
+      Exam answer = new Exam(title, content, room, course, date, time, written, examiners);
+      answer.addStudents(students.toArray(new Student[0]));
+      return answer;
     }
     catch (SQLException e){
       e.printStackTrace();
@@ -64,6 +80,7 @@ public class ExamDAOImpl implements ExamDAO {
       ResultSet result = statement.executeQuery();
       ArrayList<Exam> answer = new ArrayList<>();
       while(result.next()){
+        int examID = result.getInt(1);
         Exam temp = new Exam(
             result.getString("title"),
             result.getString("content"),
@@ -75,6 +92,7 @@ public class ExamDAOImpl implements ExamDAO {
             Examiners.valueOf(result.getString("examiners"))
             );
         temp.setCompleted(result.getBoolean("completed"));
+        temp.addStudents(ResultDAOImpl.getInstance().readStudentsEnrolledInExam(examID).toArray(new Student[0]));
         answer.add(temp);
       }
 

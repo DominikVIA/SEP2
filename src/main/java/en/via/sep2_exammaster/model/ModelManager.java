@@ -103,9 +103,9 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   @Override
   public void createExam(String title, String content,
       String room, Course course, LocalDate date,
-      LocalTime time, boolean written, Examiners examiners)
+      LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws IOException{
-    server.createExam(loggedIn, title, content, room, course, date, time, written, examiners);
+    server.createExam(loggedIn, title, content, room, course, date, time, written, examiners, students);
   }
 
   @Override

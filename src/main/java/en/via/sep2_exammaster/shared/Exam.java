@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Exam implements Serializable
 {
@@ -97,6 +98,10 @@ public class Exam implements Serializable
 
   public void addStudent(Student student){
     students.add(student);
+  }
+
+  public void addStudents(Student...students){
+    this.students.addAll(List.of(students));
   }
 
   public void setCompleted(boolean completed) {

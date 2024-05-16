@@ -24,7 +24,7 @@ public interface Model extends Closeable{
   void deleteCourse(String code) throws IOException;
   void createExam(String title, String content,
       String room, Course course, LocalDate date,
-      LocalTime time, boolean written, Examiners examiners)
+      LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws IOException;
   void viewCreateExam(Course course);
   void viewExamInfo(Exam exam);
