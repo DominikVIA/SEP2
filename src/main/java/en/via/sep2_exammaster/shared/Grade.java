@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum Grade implements Serializable
 {
-  A (12), B(10) , C(7), D(4), E(2), Fx(0), F(-3);
+  A (12), B(10) , C(7), D(4), E(2), Fx(0), F(-3), Sick(-1);
 
   private final int grade;
 
@@ -36,9 +36,21 @@ public enum Grade implements Serializable
       case 0 -> {
         return Fx;
       }
-      default -> {
+      case -3 -> {
         return F;
       }
+      case -1 -> {
+        return Sick;
+      }
+      default -> {
+        return null;
+      }
     }
+  }
+
+  @Override public String toString() {
+    if(grade != -1)
+      return getGrade() + " (ECTS: " + name() + ")";
+    return "Sick";
   }
 }

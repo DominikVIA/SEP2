@@ -1,9 +1,11 @@
 package en.via.sep2_exammaster.view;
 
 import en.via.sep2_exammaster.shared.Announcement;
+import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
 import en.via.sep2_exammaster.viewmodel.CourseInfoViewModel;
 import en.via.sep2_exammaster.viewmodel.ExamInfoViewModel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -26,15 +28,30 @@ public class ExamInfoViewController implements PropertyChangeListener {
   @FXML public ListView<Announcement> announcementsList;
   @FXML public ListView<Student> studentsList;
   @FXML public Button addResultButton;
-  @FXML public Button viewButton;
+  @FXML public Button viewAnnouncementButton;
   @FXML public Button editButton;
+  @FXML public Button completeButton;
 
   private ViewHandler viewHandler;
   private ExamInfoViewModel viewModel;
   private Region root;
 
-  @FXML void onAddResult() {
+  @FXML
+  void onMarkCompleted() throws IOException
+  {
+    Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to mark this exam as completed?\n"+
+        "This action is irreversible and will make editing the exam information impossible. Do you want to continue?",
+        ButtonType.OK, ButtonType.CANCEL);
+    alert.setHeaderText(null);
+    Optional<ButtonType> result = alert.showAndWait();
+    if(result.isPresent() && result.get() == ButtonType.OK) {
+      viewModel.markExamCompleted();
+      completeButton.setDisable(true);
+    }
+  }
 
+  @FXML void onAddResults() {
+    viewModel.viewAddResults();
   }
 
   @FXML void onBack() {
@@ -43,19 +60,18 @@ public class ExamInfoViewController implements PropertyChangeListener {
   }
 
   @FXML void onClickAnnouncement() {
-    viewButton.setDisable(true);
+    viewAnnouncementButton.setDisable(true);
     if(announcementsList.getSelectionModel().getSelectedItem() != null)
-      viewButton.setDisable(false);
+      viewAnnouncementButton.setDisable(false);
   }
 
-  @FXML void onClickStudent() {
-    addResultButton.setDisable(true);
-    if(studentsList.getSelectionModel().getSelectedItem() != null)
-      addResultButton.setDisable(false);
+
+  @FXML
+  void onMakeAnnouncement() {
+
   }
 
-  @FXML void onDelete() throws IOException
-  {
+  @FXML void onDelete() throws IOException {
     Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to delete this exam?\n"+
         "It will cause all associated information to be deleted, i.e. corresponding results.",
         ButtonType.OK, ButtonType.CANCEL);
@@ -72,11 +88,7 @@ public class ExamInfoViewController implements PropertyChangeListener {
     viewModel.onEdit();
   }
 
-  @FXML void onMake(ActionEvent event) {
-
-  }
-
-  @FXML void onView(ActionEvent event) {
+  @FXML void onViewAnnouncement(ActionEvent event) {
 
   }
 
@@ -94,10 +106,6 @@ public class ExamInfoViewController implements PropertyChangeListener {
     viewModel.bindExaminer(examinerField.textProperty());
     viewModel.bindStudents(studentsList.itemsProperty());
     viewModel.bindAnnouncements(announcementsList.itemsProperty());
-
-    viewButton.setDisable(true);
-    addResultButton.setDisable(true);
-    if(viewModel.getExam().isCompleted()) editButton.setDisable(true);
   }
 
   public Region getRoot() {
@@ -105,15 +113,35 @@ public class ExamInfoViewController implements PropertyChangeListener {
   }
 
   public void reset() {
-    viewButton.setDisable(true);
-    addResultButton.setDisable(true);
-    if(viewModel.getExam().isCompleted()) editButton.setDisable(true);
+    viewAnnouncementButton.setDisable(true);
+    editButton.setDisable(viewModel.getExam() != null && viewModel.getExam().isCompleted());
+    addResultButton.setDisable(viewModel.getExam() != null && !viewModel.getExam().isCompleted());
     viewModel.reset();
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    viewHandler.openView(ViewFactory.EXAM_EDIT);
-    viewModel.removeListener(this);
+    switch(evt.getPropertyName()){
+      case "view exam" -> {
+        Platform.runLater(() -> {
+          editButton.setDisable(((Exam) evt.getNewValue()).isCompleted());
+          addResultButton.setDisable(!((Exam) evt.getNewValue()).isCompleted());
+          completeButton.setDisable(((Exam) evt.getNewValue()).isCompleted());
+        });
+      }
+      case "edit exam" -> {
+        Platform.runLater(() -> {
+          viewHandler.openView(ViewFactory.EXAM_EDIT);
+          viewModel.removeListener(this);
+        });
+      }
+      case "add results" -> {
+        Platform.runLater(() -> {
+          viewHandler.openView(ViewFactory.RESULTS_ADD);
+          viewModel.removeListener(this);
+        });
+      }
+    }
+
   }
 }
 

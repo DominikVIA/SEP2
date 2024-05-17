@@ -62,6 +62,11 @@ public class DatabaseManager implements Database {
   }
 
   @Override
+  public void markExamCompleted(Exam exam){
+    exams.markExamCompleted(exam);
+  }
+
+  @Override
   public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws SQLException {
     return exams.createExam(title, content, room, course, date, time, written, examiners, students);
@@ -80,6 +85,16 @@ public class DatabaseManager implements Database {
   @Override
   public void deleteExam(int id){
     exams.deleteExam(id);
+  }
+
+  @Override
+  public Result getStudentResultByExamId(Exam exam, Student student){
+    return results.getStudentResultByExamId(exam, student);
+  }
+
+  @Override
+  public Result editResult(Student student, Exam exam, Grade grade, String feedback){
+    return results.editResult(student, exam, grade, feedback);
   }
 
   @Override

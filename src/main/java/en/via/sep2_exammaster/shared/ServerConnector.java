@@ -23,6 +23,7 @@ public interface ServerConnector extends Remote {
       List<Student> students) throws RemoteException;
   void deleteCourse(String code) throws RemoteException;
   List<Course> getCourses(Teacher teacher) throws RemoteException;
+  void markExamCompleted(Exam exam) throws RemoteException;
   void createExam(User loggedIn, String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws RemoteException;
   void editExam(
@@ -32,6 +33,9 @@ public interface ServerConnector extends Remote {
       Examiners examiners, List<Student> students
   ) throws RemoteException;
   void deleteExam(int id) throws RemoteException;
+  Result getStudentExamResult(Exam exam, Student student) throws
+      RemoteException;
+  void editResult(User loggedIn, Student student, Exam exam, Grade grade, String feedback) throws RemoteException;
   Student getStudent(User loggedIn, int studentID) throws RemoteException;
   Teacher getTeacher(User loggedIn, String initials) throws RemoteException;
   void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException;

@@ -14,13 +14,13 @@
    <children>
       <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" stylesheets="@examMaster.css" VBox.vgrow="ALWAYS">
          <children>
-            <Button layoutX="44.0" layoutY="362.0" mnemonicParsing="false" onAction="#onMake" styleClass="normalButton" text="Make announcement">
+            <Button layoutX="44.0" layoutY="362.0" mnemonicParsing="false" onAction="#onMakeAnnouncement" styleClass="normalButton" text="Make announcement">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <ListView fx:id="studentsList" layoutX="43.0" layoutY="256.0" onMouseClicked="#onClickStudent" prefHeight="100.0" prefWidth="289.0" styleClass="smallListView" />
-            <TextArea fx:id="contentArea" editable="false" layoutX="43.0" layoutY="93.0" prefHeight="60.0" prefWidth="289.0" text="Content">
+            <ListView fx:id="announcementsList" layoutX="43.0" layoutY="256.0" prefHeight="100.0" prefWidth="289.0" styleClass="smallListView" />
+            <TextArea fx:id="contentArea" editable="false" layoutX="43.0" layoutY="93.0" prefHeight="60.0" prefWidth="289.0" text="Content" wrapText="true">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
@@ -31,13 +31,13 @@
                </font>
             </TextField>
             <Separator layoutX="28.0" layoutY="68.0" prefHeight="31.0" prefWidth="593.0" />
-            <ListView fx:id="announcementsList" layoutX="376.0" layoutY="125.0" onMouseClicked="#onClickAnnouncement" prefHeight="180.0" prefWidth="234.0" styleClass="smallListView" />
+            <ListView fx:id="studentsList" layoutX="376.0" layoutY="125.0" onMouseClicked="#onClickAnnouncement" prefHeight="180.0" prefWidth="234.0" styleClass="smallListView" />
             <Label layoutX="376.0" layoutY="93.0" prefHeight="35.0" prefWidth="219.0" styleClass="normalLabel" text="Participating students:">
                <font>
                   <Font name="Avenir Heavy" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="376.0" layoutY="311.0" mnemonicParsing="false" onAction="#onMake" prefHeight="30.0" prefWidth="116.0" styleClass="normalButton" text="Add results">
+            <Button fx:id="addResultButton" layoutX="376.0" layoutY="311.0" mnemonicParsing="false" onAction="#onAddResults" prefHeight="30.0" prefWidth="219.0" styleClass="normalButton" text="Exam results">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
@@ -62,7 +62,7 @@
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </TextField>
-            <Button layoutX="427.0" layoutY="362.0" mnemonicParsing="false" onAction="#onEdit" prefHeight="30.0" prefWidth="89.0" styleClass="normalButton" text="Edit exam">
+            <Button fx:id="editButton" layoutX="427.0" layoutY="362.0" mnemonicParsing="false" onAction="#onEdit" prefHeight="30.0" prefWidth="89.0" styleClass="normalButton" text="Edit exam">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
@@ -87,17 +87,12 @@
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </TextField>
-            <Button fx:id="completeButton" layoutX="451.0" layoutY="40.0" maxHeight="37.0" minHeight="30.0" mnemonicParsing="false" onAction="#onMake" prefHeight="37.0" prefWidth="160.0" styleClass="completeButton" text="Mark as completed ✓">
+            <Button fx:id="completeButton" layoutX="451.0" layoutY="40.0" maxHeight="37.0" minHeight="30.0" mnemonicParsing="false" onAction="#onMarkCompleted" prefHeight="37.0" prefWidth="160.0" styleClass="completeButton" text="Mark as completed ✓">
                <font>
                   <Font name="Avenir Roman" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="viewButton1" layoutX="287.0" layoutY="362.0" mnemonicParsing="false" onAction="#onView" styleClass="normalButton" text="View">
-               <font>
-                  <Font name="Avenir Roman" size="13.0" />
-               </font>
-            </Button>
-            <Button layoutX="495.0" layoutY="311.0" mnemonicParsing="false" onAction="#onMake" prefHeight="30.0" prefWidth="116.0" styleClass="normalButton" text="Edit results">
+            <Button fx:id="viewAnnouncementButton" layoutX="196.0" layoutY="362.0" mnemonicParsing="false" onAction="#onViewAnnouncement" styleClass="normalButton" text="View announcement">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>

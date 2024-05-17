@@ -17,6 +17,7 @@ public class ViewFactory {
   public static final String EXAM_CREATE = "create exam";
   public static final String EXAM_INFO = "exam info";
   public static final String EXAM_EDIT = "edit exam";
+  public static final String RESULTS_ADD = "add results";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -28,6 +29,7 @@ public class ViewFactory {
   private CreateExamViewController createExamViewController;
   private ExamInfoViewController examInfoViewController;
   private EditExamViewController editExamViewController;
+  private AddResultsViewController addResultsViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -40,6 +42,7 @@ public class ViewFactory {
     this.createExamViewController = null;
     this.examInfoViewController = null;
     this.editExamViewController = null;
+    this.addResultsViewController = null;
   }
 
   public Region loadLoginView() {
@@ -177,6 +180,23 @@ public class ViewFactory {
     return editExamViewController.getRoot();
   }
 
+  public Region loadAddResultsView() {
+    if (addResultsViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("AddResultsView.fxml"));
+      try {
+        Region root = loader.load();
+        addResultsViewController = loader.getController();
+        addResultsViewController.init(viewHandler, viewModelFactory.getAddResultsViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    addResultsViewController.reset();
+//    viewModelFactory.getAddResultsViewModel().addListener(addResultsViewController);
+    return addResultsViewController.getRoot();
+  }
+
   public Region load(String id) {
     Region root = switch(id) {
       case LOGIN -> loadLoginView();
@@ -187,6 +207,7 @@ public class ViewFactory {
       case EXAM_CREATE -> loadCreateExamView();
       case EXAM_INFO -> loadExamInfoView();
       case EXAM_EDIT -> loadEditExamView();
+      case RESULTS_ADD -> loadAddResultsView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

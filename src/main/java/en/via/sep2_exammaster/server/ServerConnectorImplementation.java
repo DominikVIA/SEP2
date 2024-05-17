@@ -7,6 +7,7 @@ import en.via.sep2_exammaster.server.database.Database;
 import en.via.sep2_exammaster.server.database.DatabaseManager;
 import en.via.sep2_exammaster.shared.*;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -115,6 +116,11 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   }
 
   @Override
+  public void markExamCompleted(Exam exam) throws RemoteException{
+    database.markExamCompleted(exam);
+  }
+
+  @Override
   public void createExam(User loggedIn, String title, String content,
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examiners examiners, List<Student> students)
@@ -147,6 +153,19 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   @Override
   public void deleteExam(int id) throws RemoteException{
     database.deleteExam(id);
+  }
+
+  @Override
+  public Result getStudentExamResult(Exam exam, Student student) throws
+      RemoteException
+  {
+    return database.getStudentResultByExamId(exam, student);
+  }
+
+  @Override
+  public void editResult(User loggedIn, Student student, Exam exam, Grade grade, String feedback) throws RemoteException{
+    Result temp = database.editResult(student, exam, grade, feedback);
+    support.firePropertyChange("result edit success", loggedIn, temp);
   }
 
   @Override public Student getStudent(User loggedIn, int studentID) throws RemoteException {

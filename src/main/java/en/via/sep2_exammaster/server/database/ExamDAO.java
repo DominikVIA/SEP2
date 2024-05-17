@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 public interface ExamDAO {
+  void markExamCompleted(Exam exam);
   Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws SQLException;
   Exam editExam(int id, String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students) throws SQLException;

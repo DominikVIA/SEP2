@@ -1,5 +1,8 @@
 package en.via.sep2_exammaster.server.database;
 
+import en.via.sep2_exammaster.shared.Exam;
+import en.via.sep2_exammaster.shared.Grade;
+import en.via.sep2_exammaster.shared.Result;
 import en.via.sep2_exammaster.shared.Student;
 
 import java.sql.*;
@@ -36,6 +39,49 @@ public class ResultDAOImpl implements ResultDAO {
         answer.add(StudentDAOImpl.getInstance().getStudentByStudentNo(result.getInt(1)));
       }
       return answer;
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public Result getStudentResultByExamId(Exam exam, Student student){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM results WHERE student_id = ? AND exam_id = ?;");
+      statement.setInt(1, student.getStudentNo());
+      statement.setInt(2, exam.getId());
+      ResultSet result = statement.executeQuery();
+      Result answer = null;
+      if(result.next()){
+        answer = new Result(
+            Grade.findGrade(result.getInt("grade")),
+            result.getString("feedback"),
+            exam);
+      }
+      return answer;
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public Result editResult(Student student, Exam exam, Grade grade, String feedback){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("""
+          UPDATE results
+          SET grade = ?, feedback = ?
+          WHERE student_id = ? AND exam_id = ?;
+          """);
+      statement.setInt(1, grade.getGrade());
+      statement.setString(2, (feedback.isBlank() ? null : feedback));
+      statement.setInt(3, student.getStudentNo());
+      statement.setInt(4, exam.getId());
+      statement.execute();
+      return getStudentResultByExamId(exam, student);
     }
     catch (SQLException e){
       e.printStackTrace();

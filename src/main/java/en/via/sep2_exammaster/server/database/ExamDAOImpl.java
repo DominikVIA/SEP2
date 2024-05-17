@@ -32,6 +32,18 @@ public class ExamDAOImpl implements ExamDAO {
   }
 
   @Override
+  public void markExamCompleted(Exam exam){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("UPDATE exams SET completed = true WHERE id = ?");
+      statement.setInt(1, exam.getId());
+      statement.execute();
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+  }
+
+  @Override
   public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students) throws SQLException {
     Connection connection = getConnection();
     try {

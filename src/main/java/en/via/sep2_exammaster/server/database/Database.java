@@ -14,6 +14,7 @@ public interface Database {
       String description, Teacher primaryTeacher,
       String additionalTeacherInitials, List<Student> students) throws SQLException;
   void deleteCourse(String code);
+  void markExamCompleted(Exam exam);
   Exam createExam(
       String title, String content,
       String room, Course course, LocalDate date,
@@ -27,6 +28,8 @@ public interface Database {
       Examiners examiners, List<Student> students
   ) throws SQLException;
   void deleteExam(int id);
+  Result getStudentResultByExamId(Exam exam, Student student);
+  Result editResult(Student student, Exam exam, Grade grade, String feedback);
   List<User> readAllUsers();
   Student readStudent(int studentID);
   Teacher readTeacher(String initials);

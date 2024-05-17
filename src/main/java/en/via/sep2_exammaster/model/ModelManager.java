@@ -106,6 +106,11 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override
+  public void markExamCompleted(Exam exam) throws IOException{
+    server.markExamCompleted(exam);
+  }
+
+  @Override
   public void createExam(String title, String content,
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examiners examiners,
@@ -129,6 +134,27 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   @Override
   public void viewExamInfo(Exam exam){
     support.firePropertyChange("view exam", null, exam);
+  }
+
+  @Override
+  public void viewAddResults(Exam exam){
+    support.firePropertyChange("add results", null, exam);
+  }
+
+  @Override
+  public Result getStudentExamResult(Exam exam, Student student){
+    try{
+      return server.getStudentExamResult(exam, student);
+    }
+    catch (IOException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public void editResult(Student student, Exam exam, Grade grade, String feedback) throws IOException{
+    server.editResult(loggedIn, student, exam, grade, feedback);
   }
 
   @Override public User getLoggedIn() {

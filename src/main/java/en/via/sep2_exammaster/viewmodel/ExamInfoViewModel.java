@@ -54,8 +54,18 @@ public class ExamInfoViewModel implements PropertyChangeListener {
     }
   }
 
+  public void markExamCompleted() throws IOException {
+    model.markExamCompleted(exam);
+    exam.complete();
+    reset();
+  }
+
   public void onDelete() throws IOException {
     model.deleteExam(exam.getId());
+  }
+
+  public void viewAddResults(){
+    model.viewAddResults(exam);
   }
 
   public void onEdit(){
@@ -115,8 +125,9 @@ public class ExamInfoViewModel implements PropertyChangeListener {
       case "view exam" -> {
         exam = (Exam) evt.getNewValue();
         reset();
+        support.firePropertyChange(evt);
       }
-      case "edit exam" -> {
+      case "edit exam", "add results" -> {
         support.firePropertyChange(evt);
       }
     }
