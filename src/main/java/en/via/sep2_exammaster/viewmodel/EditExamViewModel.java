@@ -2,9 +2,13 @@ package en.via.sep2_exammaster.viewmodel;
 
 import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.shared.Course;
+import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Examiners;
 import en.via.sep2_exammaster.shared.Student;
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -17,9 +21,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-public class CreateExamViewModel implements PropertyChangeListener {
-  private Course course;
-  private final ArrayList<Student> studentArrayList;
+public class EditExamViewModel implements PropertyChangeListener {
+  private Exam exam;
+  private ArrayList<Student> studentArrayList;
   private final Model model;
   private final StringProperty room, title, content, time, student;
   private final ObjectProperty<ObservableList<Student>> studentsList;
@@ -27,7 +31,7 @@ public class CreateExamViewModel implements PropertyChangeListener {
   private final ObjectProperty<String> examiner, type;
   private final PropertyChangeSupport support;
 
-  public CreateExamViewModel(Model model){
+  public EditExamViewModel(Model model){
     this.model = model;
     this.model.addListener(this);
 
@@ -46,10 +50,24 @@ public class CreateExamViewModel implements PropertyChangeListener {
     this.studentArrayList = new ArrayList<>();
   }
 
-  public void onCreate() throws IOException {
+  public void reset(){
+    if(exam != null){
+      title.set(exam.getTitle());
+      room.set(exam.getRoom());
+      content.set(exam.getContent());
+      time.set(exam.getTime().toString());
+      student.set("");
+      studentsList.getValue().setAll(exam.getStudents());
+      studentArrayList = exam.getStudents();
+      date.set(exam.getDate());
+    }
+  }
+
+  public void onSave() throws IOException {
     try
     {
       String title = this.title.getValue();
+      System.out.println(title);
       String room = this.room.getValue();
       String content = this.content.getValue();
       LocalTime time = LocalTime.parse(this.time.getValue());
@@ -57,18 +75,17 @@ public class CreateExamViewModel implements PropertyChangeListener {
       boolean type = this.type.getValue().equals("Written");
       Examiners examiners = Examiners.valueOf(this.examiner.getValue());
 
-      if (title.isBlank() || room.isBlank() || content.isBlank())
-      {
+      if (title.isBlank() || room.isBlank() || content.isBlank()) {
         support.firePropertyChange("information blank", null, "error");
         return;
       }
+
       if(studentArrayList.isEmpty()){
         support.firePropertyChange("no students", null, "error");
         return;
       }
 
-      model.createExam(title, content, room, course, date, time, type,
-          examiners, studentArrayList);
+      model.editExam(exam.getId(), title, content, room, exam.getCourse(), date, time, type, examiners, studentArrayList);
     }
     catch (DateTimeParseException e){
       support.firePropertyChange("time parsing error", null, false);
@@ -83,7 +100,7 @@ public class CreateExamViewModel implements PropertyChangeListener {
           support.firePropertyChange("student already enrolled", null, student);
           return;
         }
-        if(!course.getStudents().contains(temp)){
+        if(!exam.getCourse().getStudents().contains(temp)){
           support.firePropertyChange("student not in course", null, student);
           return;
         }
@@ -100,29 +117,13 @@ public class CreateExamViewModel implements PropertyChangeListener {
     }
   }
 
-
-  public void addAllStudents(){
-    for(Student temp : course.getStudents()) {
-      studentArrayList.add(temp);
-      studentsList.getValue().add(temp);
-      student.set("");
-    }
-  }
-
   public void remove(Student student){
     studentArrayList.remove(student);
     studentsList.getValue().remove(student);
   }
 
-  public void reset(){
-    title.set("");
-    room.set("");
-    content.set("");
-    time.set("");
-    student.set("");
-    studentsList.getValue().setAll();
-    studentArrayList.clear();
-    date.set(LocalDate.now());
+  public void viewExamInfo(){
+    model.viewExamInfo(exam);
   }
 
   public void bindTitle(StringProperty property){
@@ -170,11 +171,14 @@ public class CreateExamViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("create exam"))
-    {
-      this.course = (Course) evt.getNewValue();
-      reset();
+    if(evt.getPropertyName().equals("edit exam")) {
+        this.exam = (Exam) evt.getNewValue();
+        reset();
+      }
+    if(evt.getPropertyName().equals("exam edit success")){
+      this.exam = (Exam) evt.getNewValue();
     }
     support.firePropertyChange(evt);
   }
+
 }

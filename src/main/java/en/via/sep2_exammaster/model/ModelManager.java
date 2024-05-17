@@ -86,13 +86,18 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override
+  public void viewEditCourse(Course course){
+    support.firePropertyChange("edit course", null, course);
+  }
+
+  @Override
   public void viewCreateExam(Course course){
     support.firePropertyChange("create exam", null, course);
   }
 
   @Override
-  public void editCourse(Course course){
-    support.firePropertyChange("edit course", null, course);
+  public void viewEditExam(Exam exam){
+    support.firePropertyChange("edit exam", null, exam);
   }
 
   @Override
@@ -103,9 +108,22 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   @Override
   public void createExam(String title, String content,
       String room, Course course, LocalDate date,
-      LocalTime time, boolean written, Examiners examiners, List<Student> students)
-      throws IOException{
+      LocalTime time, boolean written, Examiners examiners,
+      List<Student> students) throws IOException {
     server.createExam(loggedIn, title, content, room, course, date, time, written, examiners, students);
+  }
+
+  @Override
+  public void editExam(int id, String title, String content,
+      String room, Course course, LocalDate date,
+      LocalTime time, boolean written, Examiners examiners,
+      List<Student> students) throws IOException {
+    server.editExam(loggedIn, id, title, content, room, course, date, time, written, examiners, students);
+  }
+
+  @Override
+  public void deleteExam(int id) throws IOException{
+    server.deleteExam(id);
   }
 
   @Override
@@ -126,14 +144,8 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override public void propertyChange(RemotePropertyChangeEvent<Serializable> evt) {
-    if(evt.getOldValue().equals(loggedIn)
-        || (evt.getNewValue() instanceof Course
-        && (((Course) evt.getNewValue()).getTeacher(0).equals(loggedIn)
-        || ((Course) evt.getNewValue()).getTeacher(1).equals(loggedIn))
-      )
-    ) {
+    if(evt.getOldValue().equals(loggedIn))
       support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
-    }
   }
 
   @Override public void close() throws IOException {

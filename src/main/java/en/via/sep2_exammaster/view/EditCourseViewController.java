@@ -95,7 +95,7 @@ public class EditCourseViewController implements PropertyChangeListener {
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
-      case "edit success" ->
+      case "course edit success" ->
           Platform.runLater(() -> {
             viewModel.removeListener(this);
             viewModel.viewCourse();

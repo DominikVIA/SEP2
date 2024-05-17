@@ -13,8 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="640.0" stylesheets="@examMaster.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="640.0" stylesheets="@examMaster.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="en.via.sep2_exammaster.view.EditExamViewController">
    <children>
       <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="411.0" prefWidth="600.0" stylesheets="@examMaster.css">
          <children>
@@ -58,7 +57,7 @@
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="removeButton" layoutX="469.0" layoutY="324.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="30.0" prefWidth="124.0" styleClass="normalButton" text="Remove Student" textAlignment="CENTER">
+            <Button fx:id="removeButton" layoutX="340.0" layoutY="323.0" mnemonicParsing="false" onAction="#onRemove" prefHeight="30.0" prefWidth="252.0" styleClass="normalButton" text="Remove Student" textAlignment="CENTER">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
@@ -81,11 +80,6 @@
                </font>
             </Label>
             <ChoiceBox fx:id="examinerBox" layoutX="171.0" layoutY="324.0" prefHeight="28.0" prefWidth="109.0" />
-            <Button fx:id="addAllButton" layoutX="340.0" layoutY="324.0" mnemonicParsing="false" onAction="#onAddAll" prefHeight="30.0" prefWidth="124.0" styleClass="normalButton" text="Add All Students" textAlignment="CENTER">
-               <font>
-                  <Font name="Avenir Roman" size="13.0" />
-               </font>
-            </Button>
             <Button layoutX="340.0" layoutY="360.0" mnemonicParsing="false" onAction="#onCancel" prefHeight="30.0" prefWidth="61.0" styleClass="normalButton" text="Cancel">
                <font>
                   <Font name="Avenir Roman" size="13.0" />

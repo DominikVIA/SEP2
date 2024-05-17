@@ -35,7 +35,7 @@ public class DatabaseManager implements Database {
   {
     Teacher additionalTeacher = null;
     if(additionalTeacherInitials != null && !additionalTeacherInitials.isBlank()) {
-      additionalTeacher = teachers.readTeacherByInitials(
+      additionalTeacher = teachers.getTeacherByInitials(
           additionalTeacherInitials);
       if(additionalTeacher == null) throw new IllegalArgumentException("teacher initials incorrect");
     }
@@ -49,7 +49,7 @@ public class DatabaseManager implements Database {
   {
     Teacher additionalTeacher = null;
     if(additionalTeacherInitials != null && !additionalTeacherInitials.isBlank()) {
-      additionalTeacher = teachers.readTeacherByInitials(
+      additionalTeacher = teachers.getTeacherByInitials(
           additionalTeacherInitials);
       if(additionalTeacher == null) throw new IllegalArgumentException("teacher initials incorrect");
     }
@@ -62,25 +62,41 @@ public class DatabaseManager implements Database {
   }
 
   @Override
-  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students){
+  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students)
+      throws SQLException {
     return exams.createExam(title, content, room, course, date, time, written, examiners, students);
+  }
+
+  @Override
+  public Exam editExam(
+      int id, String title, String content,
+      String room, Course course, LocalDate date, LocalTime time,
+      boolean written, Examiners examiners,
+      List<Student> students
+  ) throws SQLException{
+    return exams.editExam(id, title, content, room, course, date, time, written, examiners, students);
+  }
+
+  @Override
+  public void deleteExam(int id){
+    exams.deleteExam(id);
   }
 
   @Override
   public List<User> readAllUsers() {
     ArrayList<User> answer = new ArrayList<>();
-    answer.addAll(students.readAllStudents());
-    answer.addAll(teachers.readAllTeachers());
+    answer.addAll(students.getAllStudents());
+    answer.addAll(teachers.getAllTeachers());
     return answer;
   }
 
   @Override
   public Student readStudent(int studentID){
-    return students.readStudentByStudentNo(studentID);
+    return students.getStudentByStudentNo(studentID);
   }
 
   @Override
   public Teacher readTeacher(String initials){
-    return teachers.readTeacherByInitials(initials);
+    return teachers.getTeacherByInitials(initials);
   }
 }

@@ -36,16 +36,17 @@ public class CourseInfoViewController implements PropertyChangeListener {
     Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure you want to delete this course?\n"+
         "It will cause all associated information to be deleted, such as exams, the corresponding results, etc.",
         ButtonType.OK, ButtonType.CANCEL);
+    alert.setHeaderText(null);
     Optional<ButtonType> result = alert.showAndWait();
     if(result.isPresent() && result.get() == ButtonType.OK){
-      viewModel.onDelete(codeField.getText());
+      viewModel.onDelete();
       viewHandler.openView(ViewFactory.MY_COURSES);
       viewModel.removeListener(this);
     }
   }
 
-  @FXML void onEditCourse() throws IOException {
-    viewHandler.openView(ViewFactory.EDIT_COURSE);
+  @FXML void onEditCourse() {
+    viewHandler.openView(ViewFactory.COURSE_EDIT);
     viewModel.onEdit();
     viewModel.removeListener(this);
   }
@@ -93,7 +94,7 @@ public class CourseInfoViewController implements PropertyChangeListener {
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
       case "create exam" -> {
-        viewHandler.openView(ViewFactory.CREATE_EXAM);
+        viewHandler.openView(ViewFactory.EXAM_CREATE);
       }
       case "view exam" -> {
         viewHandler.openView(ViewFactory.EXAM_INFO);

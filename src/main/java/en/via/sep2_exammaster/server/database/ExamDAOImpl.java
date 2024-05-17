@@ -23,11 +23,22 @@ public class ExamDAOImpl implements ExamDAO {
     return instance;
   }
 
+  private Connection getConnection() throws SQLException {
+    return DriverManager.getConnection(
+        "jdbc:postgresql://localhost:5432/postgres?currentSchema=exam_master",
+        "postgres",
+        "ViaViaVia"
+    );
+  }
+
   @Override
-  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students) {
-    try(Connection connection = getConnection()) {
+  public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students) throws SQLException {
+    Connection connection = getConnection();
+    try {
+      connection.setAutoCommit(false);
       PreparedStatement statement = connection.prepareStatement("""
-      INSERT INTO exams(title, content, room, examiners, date, time, course_code, written, completed)
+      INSERT INTO
+      exams(title, content, room, examiners, date, time, course_code, written, completed)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, false);
       """, PreparedStatement.RETURN_GENERATED_KEYS);
       statement.setString(1, title);
@@ -39,10 +50,11 @@ public class ExamDAOImpl implements ExamDAO {
       statement.setString(7, course.getCode());
       statement.setBoolean(8, written);
       statement.executeUpdate();
+
       ResultSet resultSet = statement.getGeneratedKeys();
       resultSet.next();
-
       int id = resultSet.getInt(1);
+
       statement = connection.prepareStatement("INSERT INTO results(student_id, exam_id) VALUES (?,?)");
       for(Student temp : students){
         statement.setInt(1, temp.getStudentNo());
@@ -50,26 +62,19 @@ public class ExamDAOImpl implements ExamDAO {
         statement.executeUpdate();
       }
 
-      Exam answer = new Exam(title, content, room, course, date, time, written, examiners);
+      Exam answer = new Exam(id, title, content, room, course, date, time, written, examiners);
       answer.addStudents(students.toArray(new Student[0]));
+      connection.commit();
       return answer;
     }
     catch (SQLException e){
+      connection.rollback();
       e.printStackTrace();
       return null;
     }
-  }
-
-  public static Exam createExam(ResultSet resultSet) throws SQLException {
-    String title = resultSet.getString(7);
-    String content = resultSet.getString(8);
-    String room = resultSet.getString(9);
-    LocalDate date = LocalDate.parse(resultSet.getString(10));
-    LocalTime time = LocalTime.parse(resultSet.getString(11));
-    boolean completed = resultSet.getBoolean(13);
-    Exam temp = new Exam(title, content, room, date, time);
-    temp.setCompleted(completed);
-    return temp;
+    finally {
+      connection.close();
+    }
   }
 
   @Override
@@ -82,6 +87,7 @@ public class ExamDAOImpl implements ExamDAO {
       while(result.next()){
         int examID = result.getInt(1);
         Exam temp = new Exam(
+            examID,
             result.getString("title"),
             result.getString("content"),
             result.getString("room"),
@@ -104,11 +110,96 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
-  private Connection getConnection() throws SQLException {
-    return DriverManager.getConnection(
-        "jdbc:postgresql://localhost:5432/postgres?currentSchema=exam_master",
-        "postgres",
-        "ViaViaVia"
-    );
+  public Exam getExamByID(int id){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM exams WHERE id = ?;");
+      statement.setInt(1, id);
+      ResultSet result = statement.executeQuery();
+      Exam exam = null;
+      if(result.next()){
+        exam = new Exam(
+            id,
+            result.getString(2),
+            result.getString(3),
+            result.getString(4),
+            null,
+            result.getDate(6).toLocalDate(),
+            result.getTime(7).toLocalTime(),
+            result.getBoolean(9),
+            Examiners.valueOf(result.getString(5))
+            );
+        exam.setCompleted(result.getBoolean("completed"));
+      }
+      return exam;
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public Exam editExam(
+      int id, String title, String content,
+      String room, Course course, LocalDate date, LocalTime time,
+      boolean written, Examiners examiners,
+      List<Student> students
+  ) throws SQLException {
+    Connection connection = getConnection();
+    try {
+      connection.setAutoCommit(false);
+      PreparedStatement statement = connection.prepareStatement("""
+          UPDATE exams
+          SET title = ?, room = ?, content = ?, date = ?, time = ?, written = ?, examiners = ?
+          WHERE id = ?;
+          """);
+      statement.setString(1, title);
+      statement.setString(2, room);
+      statement.setString(3, content);
+      statement.setObject(4, date);
+      statement.setObject(5, time);
+      statement.setBoolean(6, written);
+      statement.setString(7, examiners.name());
+      statement.setInt(8, id);
+      statement.executeUpdate();
+
+      statement = connection.prepareStatement("DELETE FROM results WHERE exam_id = ?;");
+      statement.setInt(1, id);
+      statement.executeUpdate();
+
+      for(Student student : students) {
+        statement = connection.prepareStatement(
+            "INSERT INTO results(student_id, exam_id) VALUES (?, ?);");
+        statement.setInt(1, student.getStudentNo());
+        statement.setInt(2, id);
+        statement.execute();
+      }
+
+      connection.commit();
+      Exam temp = getExamByID(id);
+      temp.addStudents(students.toArray(new Student[0]));
+      temp.setCourse(course);
+      return temp;
+    }
+    catch (SQLException e){
+      connection.rollback();
+      e.printStackTrace();
+      return null;
+    }
+    finally {
+      connection.close();
+    }
+  }
+
+  @Override
+  public void deleteExam(int id){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("DELETE FROM exams WHERE id = ?;");
+      statement.setInt(1, id);
+      statement.execute();
+    }
+    catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 }
