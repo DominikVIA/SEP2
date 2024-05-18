@@ -36,7 +36,7 @@ public class EditExamViewController implements PropertyChangeListener {
 
   @FXML void onCancel() {
     viewModel.removeListener(this);
-    viewHandler.openView(ViewFactory.COURSE_INFO);
+    viewHandler.openView(ViewFactory.EXAM_INFO);
   }
 
   @FXML void onClick() {
@@ -61,12 +61,10 @@ public class EditExamViewController implements PropertyChangeListener {
 
     typeBox.getItems().add("Written");
     typeBox.getItems().add("Oral");
-    typeBox.getSelectionModel().selectFirst();
 
     examinerBox.getItems().add("Internal");
     examinerBox.getItems().add("External");
     examinerBox.getItems().add("Both");
-    examinerBox.getSelectionModel().selectFirst();
 
     datePicker.setDayCellFactory(picker -> new DateCell() {
       public void updateItem(LocalDate date, boolean empty) {
@@ -118,6 +116,8 @@ public class EditExamViewController implements PropertyChangeListener {
   }
 
   public void reset() {
+//    typeBox.getSelectionModel().selectFirst();
+//    examinerBox.getSelectionModel().selectFirst();
     removeButton.setDisable(true);
     viewModel.reset();
   }

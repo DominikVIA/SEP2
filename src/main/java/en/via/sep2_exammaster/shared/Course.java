@@ -40,6 +40,10 @@ public class Course implements Serializable
     exams.add(exam);
   }
 
+  public void deleteExam(Exam exam){
+    exams.remove(exam);
+  }
+
   public void addExams(Exam...exams){
     this.exams.addAll(List.of(exams));
   }

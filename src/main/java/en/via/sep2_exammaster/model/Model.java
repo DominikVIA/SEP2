@@ -31,8 +31,10 @@ public interface Model extends Closeable{
       LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws IOException;
   void deleteExam(int id) throws IOException;
+  void createAnnouncement(String title, String content, Exam exam) throws IOException;
   void markExamCompleted(Exam exam) throws IOException;
   void viewCreateExam(Course course);
+  void viewCreateAnnouncement(Exam exam);
   void viewExamInfo(Exam exam);
   void viewEditExam(Exam exam);
   void viewAddResults(Exam exam);

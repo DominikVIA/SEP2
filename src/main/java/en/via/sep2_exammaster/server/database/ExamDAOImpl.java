@@ -1,9 +1,6 @@
 package en.via.sep2_exammaster.server.database;
 
-import en.via.sep2_exammaster.shared.Course;
-import en.via.sep2_exammaster.shared.Exam;
-import en.via.sep2_exammaster.shared.Examiners;
-import en.via.sep2_exammaster.shared.Student;
+import en.via.sep2_exammaster.shared.*;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -90,6 +87,29 @@ public class ExamDAOImpl implements ExamDAO {
   }
 
   @Override
+  public Announcement createAnnouncement(String title, String content, Exam exam){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("""
+          INSERT INTO announcements(exam_id, title, content, date, time)
+          VALUES(?,?,?,?,?);
+          """, Statement.RETURN_GENERATED_KEYS);
+      statement.setInt(1, exam.getId());
+      statement.setString(2, title);
+      statement.setString(3, content);
+      statement.setObject(4, LocalDate.now());
+      statement.setObject(5, LocalTime.now());
+      statement.executeUpdate();
+      ResultSet result = statement.getGeneratedKeys();
+      result.next();
+      return getAnnouncementById(result.getInt(1));
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  @Override
   public List<Exam> getExamsByCourse(Course course) throws SQLException {
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM exams WHERE course_code = ?;");
@@ -111,9 +131,57 @@ public class ExamDAOImpl implements ExamDAO {
             );
         temp.setCompleted(result.getBoolean("completed"));
         temp.addStudents(ResultDAOImpl.getInstance().readStudentsEnrolledInExam(examID).toArray(new Student[0]));
+        temp.addAnnouncements(getExamAnnouncements(temp).toArray(new Announcement[0]));
         answer.add(temp);
       }
 
+      return answer;
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public Announcement getAnnouncementById(int id){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM announcements WHERE id = ?;");
+      statement.setInt(1, id);
+      ResultSet result = statement.executeQuery();
+      Announcement answer = null;
+      if(result.next()){
+        answer = new Announcement(
+            result.getInt(1),
+            result.getString(3),
+            result.getString(4),
+            ((Date) result.getObject(5)).toLocalDate(),
+            ((Time) result.getObject(6)).toLocalTime()
+        );
+      }
+      return answer;
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  public List<Announcement> getExamAnnouncements(Exam exam){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM announcements WHERE exam_id = ?;");
+      statement.setInt(1, exam.getId());
+      ResultSet result = statement.executeQuery();
+      ArrayList<Announcement> answer = new ArrayList<>();
+      while(result.next()){
+        answer.add(new Announcement(
+            result.getInt(1),
+            result.getString(3),
+            result.getString(4),
+            ((Date) result.getObject(5)).toLocalDate(),
+            ((Time) result.getObject(6)).toLocalTime()
+          )
+        );
+      }
       return answer;
     }
     catch (SQLException e){

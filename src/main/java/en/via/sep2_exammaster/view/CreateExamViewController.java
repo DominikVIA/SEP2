@@ -1,5 +1,6 @@
 package en.via.sep2_exammaster.view;
 
+import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
 import en.via.sep2_exammaster.viewmodel.CreateCourseViewModel;
 import en.via.sep2_exammaster.viewmodel.CreateExamViewModel;
@@ -78,12 +79,10 @@ public class CreateExamViewController implements PropertyChangeListener {
 
     typeBox.getItems().add("Written");
     typeBox.getItems().add("Oral");
-    typeBox.getSelectionModel().selectFirst();
 
     examinerBox.getItems().add("Internal");
     examinerBox.getItems().add("External");
     examinerBox.getItems().add("Both");
-    examinerBox.getSelectionModel().selectFirst();
 
     datePicker.setDayCellFactory(picker -> new DateCell() {
       public void updateItem(LocalDate date, boolean empty) {
@@ -135,6 +134,8 @@ public class CreateExamViewController implements PropertyChangeListener {
   }
 
   public void reset() {
+    typeBox.getSelectionModel().selectFirst();
+    examinerBox.getSelectionModel().selectFirst();
     removeButton.setDisable(true);
     viewModel.reset();
   }
@@ -150,7 +151,10 @@ public class CreateExamViewController implements PropertyChangeListener {
       case "exam create success" ->
           Platform.runLater(() -> {
             viewModel.removeListener(this);
-            viewHandler.openView(ViewFactory.MY_COURSES);
+            Exam temp = (Exam) evt.getNewValue();
+            temp.getCourse().addExam(temp);
+            viewModel.viewCourse(temp.getCourse());
+            viewHandler.openView(ViewFactory.COURSE_INFO);
           });
       case "student parsing error" ->
           Platform.runLater(() -> {

@@ -73,6 +73,10 @@ public class Exam implements Serializable {
     return examiners;
   }
 
+  public void addAnnouncements(Announcement...announcements){
+    this.announcements.addAll(List.of(announcements));
+  }
+
   public ArrayList<Announcement> getAnnouncements(){
     return announcements;
   }
@@ -103,5 +107,11 @@ public class Exam implements Serializable {
 
   public String toString(){
       return title + " (" + date + ", " + time + ")";
+  }
+
+  @Override public boolean equals(Object obj) {
+    if(obj == null || obj.getClass() != getClass()) return false;
+    Exam temp = (Exam) obj;
+    return id == temp.id;
   }
 }

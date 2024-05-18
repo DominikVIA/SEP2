@@ -1,5 +1,6 @@
 package en.via.sep2_exammaster.view;
 
+import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Student;
 import en.via.sep2_exammaster.viewmodel.CourseInfoViewModel;
 import en.via.sep2_exammaster.viewmodel.CreateCourseViewModel;
@@ -35,7 +36,7 @@ public class CreateCourseViewController implements PropertyChangeListener {
   @FXML void onCancel() {
     reset();
     viewModel.removeListener(this);
-    viewHandler.openView(ViewFactory.MY_COURSES);
+    viewHandler.openView(ViewFactory.COURSE_INFO);
   }
 
   @FXML void onClick() {
@@ -45,13 +46,8 @@ public class CreateCourseViewController implements PropertyChangeListener {
   }
 
   @FXML
-  void onCreate() {
-    try {
-      viewModel.createCourse();
-    }
-    catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+  void onCreate() throws IOException{
+    viewModel.createCourse();
   }
 
   @FXML void onRemove() {
@@ -111,7 +107,8 @@ public class CreateCourseViewController implements PropertyChangeListener {
       case "course create success" ->
         Platform.runLater(() -> {
           viewModel.removeListener(this);
-          viewHandler.openView(ViewFactory.MY_COURSES);
+          viewModel.viewCourse((Course) evt.getNewValue());
+          viewHandler.openView(ViewFactory.COURSE_INFO);
         });
       case "course create fail" ->
           Platform.runLater(() -> {

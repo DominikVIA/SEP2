@@ -1,5 +1,6 @@
 package en.via.sep2_exammaster.view;
 
+import en.via.sep2_exammaster.viewmodel.CreateAnnouncementViewModel;
 import en.via.sep2_exammaster.viewmodel.CreateCourseViewModel;
 import en.via.sep2_exammaster.viewmodel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,7 @@ public class ViewFactory {
   public static final String EXAM_INFO = "exam info";
   public static final String EXAM_EDIT = "edit exam";
   public static final String RESULTS_ADD = "add results";
+  public static final String ANNOUNCEMENT_CREATE = "create announcement";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -30,6 +32,7 @@ public class ViewFactory {
   private ExamInfoViewController examInfoViewController;
   private EditExamViewController editExamViewController;
   private AddResultsViewController addResultsViewController;
+  private CreateAnnouncementViewController createAnnouncementViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -43,6 +46,7 @@ public class ViewFactory {
     this.examInfoViewController = null;
     this.editExamViewController = null;
     this.addResultsViewController = null;
+    this.createAnnouncementViewController = null;
   }
 
   public Region loadLoginView() {
@@ -197,6 +201,23 @@ public class ViewFactory {
     return addResultsViewController.getRoot();
   }
 
+  public Region loadCreateAnnouncementView() {
+    if (createAnnouncementViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("CreateAnnouncementView.fxml"));
+      try {
+        Region root = loader.load();
+        createAnnouncementViewController = loader.getController();
+        createAnnouncementViewController.init(viewHandler, viewModelFactory.getCreateAnnouncementViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    createAnnouncementViewController.reset();
+    viewModelFactory.getCreateAnnouncementViewModel().addListener(createAnnouncementViewController);
+    return createAnnouncementViewController.getRoot();
+  }
+
   public Region load(String id) {
     Region root = switch(id) {
       case LOGIN -> loadLoginView();
@@ -208,6 +229,7 @@ public class ViewFactory {
       case EXAM_INFO -> loadExamInfoView();
       case EXAM_EDIT -> loadEditExamView();
       case RESULTS_ADD -> loadAddResultsView();
+      case ANNOUNCEMENT_CREATE -> loadCreateAnnouncementView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

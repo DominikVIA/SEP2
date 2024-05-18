@@ -28,6 +28,7 @@ public interface Database {
       Examiners examiners, List<Student> students
   ) throws SQLException;
   void deleteExam(int id);
+  Announcement createAnnouncement(String title, String content, Exam exam);
   Result getStudentResultByExamId(Exam exam, Student student);
   Result editResult(Student student, Exam exam, Grade grade, String feedback);
   List<User> readAllUsers();

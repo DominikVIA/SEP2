@@ -62,6 +62,11 @@ public class DatabaseManager implements Database {
   }
 
   @Override
+  public Announcement createAnnouncement(String title, String content, Exam exam){
+    return exams.createAnnouncement(title, content, exam);
+  }
+
+  @Override
   public void markExamCompleted(Exam exam){
     exams.markExamCompleted(exam);
   }

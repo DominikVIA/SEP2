@@ -96,6 +96,11 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override
+  public void viewCreateAnnouncement(Exam exam){
+    support.firePropertyChange("create announcement", null, exam);
+  }
+
+  @Override
   public void viewEditExam(Exam exam){
     support.firePropertyChange("edit exam", null, exam);
   }
@@ -129,6 +134,11 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   @Override
   public void deleteExam(int id) throws IOException{
     server.deleteExam(id);
+  }
+
+  @Override
+  public void createAnnouncement(String title, String content, Exam exam) throws IOException{
+    server.createAnnouncement(loggedIn, title, content, exam);
   }
 
   @Override

@@ -57,6 +57,7 @@ public class ExamInfoViewController implements PropertyChangeListener {
 
   @FXML void onBack() {
     viewModel.removeListener(this);
+    viewModel.viewCourseInfo(false);
     viewHandler.openView(ViewFactory.COURSE_INFO);
   }
 
@@ -69,7 +70,9 @@ public class ExamInfoViewController implements PropertyChangeListener {
 
   @FXML
   void onMakeAnnouncement() {
-
+    viewModel.viewCreateAnnouncement();
+    viewModel.removeListener(this);
+    viewHandler.openView(ViewFactory.ANNOUNCEMENT_CREATE);
   }
 
   @FXML void onDelete() throws IOException {
@@ -80,7 +83,7 @@ public class ExamInfoViewController implements PropertyChangeListener {
     Optional<ButtonType> result = alert.showAndWait();
     if(result.isPresent() && result.get() == ButtonType.OK){
       viewModel.onDelete();
-      viewHandler.openView(ViewFactory.MY_COURSES);
+      viewHandler.openView(ViewFactory.COURSE_INFO);
       viewModel.removeListener(this);
     }
   }

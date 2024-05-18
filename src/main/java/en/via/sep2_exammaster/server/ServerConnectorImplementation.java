@@ -45,7 +45,6 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
         int index = allUsers.indexOf(user);
         user = allUsers.get(index);
         onlineUsers.add(user);
-        System.out.println("logged in: " + user);
       }
       else throw new IllegalArgumentException("login fail online");
     }
@@ -56,7 +55,6 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
 
   @Override public void logout(User user) throws RemoteException{
     onlineUsers.remove(user);
-    System.out.println("logged out: " + user);
   }
 
   @Override public void createCourse(String code, int semester, String title,
@@ -153,6 +151,12 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   @Override
   public void deleteExam(int id) throws RemoteException{
     database.deleteExam(id);
+  }
+
+  @Override
+  public void createAnnouncement(User loggedIn, String title, String content, Exam exam) throws RemoteException{
+    Announcement temp = database.createAnnouncement(title, content, exam);
+    support.firePropertyChange("announcement create success", loggedIn, temp);
   }
 
   @Override

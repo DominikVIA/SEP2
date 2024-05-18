@@ -101,6 +101,10 @@ public class CreateCourseViewModel implements PropertyChangeListener {
     studentsList.getValue().remove(student);
   }
 
+  public void viewCourse(Course course){
+    model.viewCourse(course);
+  }
+
   public void bindCode(StringProperty property){
     property.bindBidirectional(code);
   }

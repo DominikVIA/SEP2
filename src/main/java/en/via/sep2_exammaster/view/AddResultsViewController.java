@@ -102,7 +102,6 @@ public class AddResultsViewController {
 
   public void reset() {
     studentsList.getSelectionModel().selectFirst();
-    System.out.println(studentsList.getSelectionModel().getSelectedIndex());
     saveButton.setDisable(true);
     viewModel.reset();
   }

@@ -56,6 +56,8 @@ public class EditExamViewModel implements PropertyChangeListener {
       room.set(exam.getRoom());
       content.set(exam.getContent());
       time.set(exam.getTime().toString());
+      examiner.set(exam.getExaminers().name());
+      type.set((exam.isWritten() ? "Written" : "Oral"));
       student.set("");
       studentsList.getValue().setAll(exam.getStudents());
       studentArrayList = exam.getStudents();
@@ -67,7 +69,6 @@ public class EditExamViewModel implements PropertyChangeListener {
     try
     {
       String title = this.title.getValue();
-      System.out.println(title);
       String room = this.room.getValue();
       String content = this.content.getValue();
       LocalTime time = LocalTime.parse(this.time.getValue());
@@ -171,13 +172,10 @@ public class EditExamViewModel implements PropertyChangeListener {
   }
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
-    if(evt.getPropertyName().equals("edit exam")) {
+    if(evt.getPropertyName().equals("edit exam") || evt.getPropertyName().equals("exam edit success") ) {
         this.exam = (Exam) evt.getNewValue();
         reset();
       }
-    if(evt.getPropertyName().equals("exam edit success")){
-      this.exam = (Exam) evt.getNewValue();
-    }
     support.firePropertyChange(evt);
   }
 

@@ -114,6 +114,10 @@ public class CreateExamViewModel implements PropertyChangeListener {
     studentsList.getValue().remove(student);
   }
 
+  public void viewCourse(Course course){
+    model.viewCourse(course);
+  }
+
   public void reset(){
     title.set("");
     room.set("");
