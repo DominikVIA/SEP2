@@ -47,6 +47,7 @@ public class ExamInfoViewController implements PropertyChangeListener {
     if(result.isPresent() && result.get() == ButtonType.OK) {
       viewModel.markExamCompleted();
       completeButton.setDisable(true);
+      editButton.setDisable(true);
     }
   }
 
