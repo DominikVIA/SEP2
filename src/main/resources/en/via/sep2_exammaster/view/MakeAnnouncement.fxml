@@ -68,7 +68,7 @@
                </font>
             </Text>
             <TextArea layoutX="74.0" layoutY="181.0" prefHeight="172.0" prefWidth="465.0" />
-            <Label layoutX="55.0" layoutY="60.0" prefHeight="24.0" prefWidth="251.0" styleClass="normalLabel" text="DBS1 Re-Exam">
+            <Label fx:id="examLabel" layoutX="55.0" layoutY="60.0" prefHeight="24.0" prefWidth="356.0" styleClass="normalLabel">
                <font>
                   <Font name="Avenir Roman" size="16.0" />
                </font>
