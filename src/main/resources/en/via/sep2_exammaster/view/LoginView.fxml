@@ -8,18 +8,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@examMaster.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="en.via.sep2_exammaster.view.LoginViewController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" stylesheets="@examMaster.css" VBox.vgrow="ALWAYS">
       <children>
-            <Text layoutX="74.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Welcome!" textAlignment="CENTER" wrappingWidth="133.54632568359375">
-               <font>
-                  <Font name="Avenir Heavy" size="27.0" />
-               </font>
-            </Text>
-            <Button layoutX="106.0" layoutY="325.0" maxHeight="28.0" minHeight="28.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="28.0" prefWidth="60.0" styleClass="normalButton" text="Log In">
+            <Button layoutX="106.0" layoutY="318.0" maxHeight="28.0" minHeight="28.0" mnemonicParsing="false" onAction="#onLogin" prefHeight="28.0" prefWidth="60.0" styleClass="normalButton" text="Log In">
                <font>
                   <Font name="Avenir Roman" size="12.0" />
                </font>
@@ -27,8 +21,18 @@
           <ImageView fitHeight="508.0" fitWidth="359.0" layoutX="281.0" layoutY="-86.0" pickOnBounds="true" preserveRatio="true">
               <Image url="@via.jpg" />
           </ImageView>
-            <TextField fx:id="usernameField" layoutX="41.0" layoutY="243.0" prefHeight="28.0" prefWidth="190.0" promptText="Username" styleClass="normalTextField" />
-            <PasswordField fx:id="passwordField" layoutX="41.0" layoutY="281.0" prefHeight="28.0" prefWidth="190.0" promptText="Password" styleClass="normalTextField" />
+            <TextField fx:id="usernameField" layoutX="41.0" layoutY="236.0" prefHeight="28.0" prefWidth="190.0" promptText="Username" styleClass="normalTextField" />
+            <PasswordField fx:id="passwordField" layoutX="41.0" layoutY="274.0" prefHeight="28.0" prefWidth="190.0" promptText="Password" styleClass="normalTextField" />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="36.0" layoutY="162.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logo.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="150.0" fitWidth="152.0" layoutX="52.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@logo2.png" />
+               </image>
+            </ImageView>
       </children>
     </AnchorPane>
   </children>
