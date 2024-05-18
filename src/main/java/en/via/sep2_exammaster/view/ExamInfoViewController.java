@@ -92,8 +92,8 @@ public class ExamInfoViewController implements PropertyChangeListener {
     viewModel.onEdit();
   }
 
-  @FXML void onViewAnnouncement(ActionEvent event) {
-
+  @FXML void onViewAnnouncement() {
+    viewModel.viewInfoAnnouncement(announcementsList.getSelectionModel().getSelectedItem());
   }
 
   public void init(ViewHandler viewHandler, ExamInfoViewModel examInfoViewModel, Region root) {
@@ -141,6 +141,12 @@ public class ExamInfoViewController implements PropertyChangeListener {
       case "add results" -> {
         Platform.runLater(() -> {
           viewHandler.openView(ViewFactory.RESULTS_ADD);
+          viewModel.removeListener(this);
+        });
+      }
+      default -> {
+        Platform.runLater(() -> {
+          viewHandler.openView(ViewFactory.ANNOUNCEMENT_INFO);
           viewModel.removeListener(this);
         });
       }

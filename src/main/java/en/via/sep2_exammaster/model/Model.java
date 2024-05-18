@@ -35,6 +35,7 @@ public interface Model extends Closeable{
   void markExamCompleted(Exam exam) throws IOException;
   void viewCreateExam(Course course);
   void viewCreateAnnouncement(Exam exam);
+  void viewAnnouncement(Announcement announcement, String examTitle);
   void viewExamInfo(Exam exam);
   void viewEditExam(Exam exam);
   void viewAddResults(Exam exam);

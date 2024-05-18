@@ -101,6 +101,11 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override
+  public void viewAnnouncement(Announcement announcement, String examTitle){
+    support.firePropertyChange("view announcement-" + examTitle, null, announcement);
+  }
+
+  @Override
   public void viewEditExam(Exam exam){
     support.firePropertyChange("edit exam", null, exam);
   }

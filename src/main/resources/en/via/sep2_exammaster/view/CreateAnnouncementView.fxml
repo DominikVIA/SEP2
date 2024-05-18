@@ -35,7 +35,7 @@
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
             </Text>
-            <TextArea fx:id="contentArea" layoutX="74.0" layoutY="181.0" prefHeight="172.0" prefWidth="465.0" />
+            <TextArea fx:id="contentArea" layoutX="74.0" layoutY="181.0" prefHeight="172.0" prefWidth="465.0" wrapText="true" />
             <Label fx:id="examLabel" layoutX="55.0" layoutY="60.0" prefHeight="25.0" prefWidth="450.0" styleClass="normalLabel">
                <font>
                   <Font name="Avenir Roman" size="16.0" />

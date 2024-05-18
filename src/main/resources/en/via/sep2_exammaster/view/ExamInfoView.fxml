@@ -19,7 +19,7 @@
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <ListView fx:id="announcementsList" layoutX="43.0" layoutY="256.0" prefHeight="100.0" prefWidth="289.0" styleClass="smallListView" />
+            <ListView fx:id="announcementsList" layoutX="43.0" layoutY="256.0" onMouseClicked="#onClickAnnouncement" prefHeight="100.0" prefWidth="289.0" styleClass="smallListView" />
             <TextArea fx:id="contentArea" editable="false" layoutX="43.0" layoutY="93.0" prefHeight="60.0" prefWidth="289.0" text="Content" wrapText="true">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
@@ -31,13 +31,13 @@
                </font>
             </TextField>
             <Separator layoutX="28.0" layoutY="68.0" prefHeight="31.0" prefWidth="593.0" />
-            <ListView fx:id="studentsList" layoutX="376.0" layoutY="125.0" onMouseClicked="#onClickAnnouncement" prefHeight="180.0" prefWidth="234.0" styleClass="smallListView" />
+            <ListView fx:id="studentsList" layoutX="376.0" layoutY="125.0" prefHeight="180.0" prefWidth="234.0" styleClass="smallListView" />
             <Label layoutX="376.0" layoutY="93.0" prefHeight="35.0" prefWidth="219.0" styleClass="normalLabel" text="Participating students:">
                <font>
                   <Font name="Avenir Heavy" size="20.0" />
                </font>
             </Label>
-            <Button fx:id="addResultButton" layoutX="376.0" layoutY="311.0" mnemonicParsing="false" onAction="#onAddResults" prefHeight="30.0" prefWidth="219.0" styleClass="normalButton" text="Exam results">
+            <Button fx:id="addResultButton" layoutX="376.0" layoutY="311.0" mnemonicParsing="false" onAction="#onAddResults" prefHeight="30.0" prefWidth="234.0" styleClass="normalButton" text="Exam results">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>

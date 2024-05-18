@@ -79,6 +79,10 @@ public class ExamInfoViewModel implements PropertyChangeListener {
     model.viewCreateAnnouncement(exam);
   }
 
+  public void viewInfoAnnouncement(Announcement announcement){
+    model.viewAnnouncement(announcement, exam.getTitle());
+  }
+
   public void onEdit(){
     model.viewEditExam(exam);
   }
@@ -140,6 +144,11 @@ public class ExamInfoViewModel implements PropertyChangeListener {
       }
       case "edit exam", "add results" -> {
         support.firePropertyChange(evt);
+      }
+      default -> {
+        if (evt.getPropertyName().contains("view announcement")){
+          support.firePropertyChange(evt);
+        }
       }
     }
   }

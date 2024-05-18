@@ -20,6 +20,7 @@ public class ViewFactory {
   public static final String EXAM_EDIT = "edit exam";
   public static final String RESULTS_ADD = "add results";
   public static final String ANNOUNCEMENT_CREATE = "create announcement";
+  public static final String ANNOUNCEMENT_INFO = "announcement info";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -33,6 +34,7 @@ public class ViewFactory {
   private EditExamViewController editExamViewController;
   private AddResultsViewController addResultsViewController;
   private CreateAnnouncementViewController createAnnouncementViewController;
+  private AnnouncementInfoViewController announcementInfoViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -218,6 +220,22 @@ public class ViewFactory {
     return createAnnouncementViewController.getRoot();
   }
 
+  public Region loadAnnouncementInfoView() {
+    if (announcementInfoViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("AnnouncementInfoView.fxml"));
+      try {
+        Region root = loader.load();
+        announcementInfoViewController = loader.getController();
+        announcementInfoViewController.init(viewHandler, viewModelFactory.getAnnouncementInfoViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    announcementInfoViewController.reset();
+    return announcementInfoViewController.getRoot();
+  }
+
   public Region load(String id) {
     Region root = switch(id) {
       case LOGIN -> loadLoginView();
@@ -230,6 +248,7 @@ public class ViewFactory {
       case EXAM_EDIT -> loadEditExamView();
       case RESULTS_ADD -> loadAddResultsView();
       case ANNOUNCEMENT_CREATE -> loadCreateAnnouncementView();
+      case ANNOUNCEMENT_INFO -> loadAnnouncementInfoView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;
