@@ -2,6 +2,8 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -11,17 +13,38 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Text layoutX="150.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Upcoming Exams" textAlignment="CENTER" wrappingWidth="340.0">
+            <Text layoutX="150.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="My Exams" textAlignment="CENTER" wrappingWidth="340.0">
                <font>
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
             </Text>
-            <ListView fx:id="examsList" layoutX="91.0" layoutY="85.0" onMouseClicked="#onClick" prefHeight="246.0" prefWidth="458.0" styleClass="bigListView" />
-            <Button fx:id="viewExamButton" layoutX="279.0" layoutY="341.0" mnemonicParsing="false" onAction="#onViewExam" styleClass="normalButton" text="View exam">
+            <Button fx:id="viewExamButton" layoutX="90.0" layoutY="343.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="30.0" prefWidth="460.0" styleClass="normalButton" text="View exam">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
+            <TabPane layoutX="90.0" layoutY="81.0" prefHeight="257.0" prefWidth="460.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Upcoming">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView prefHeight="230.0" prefWidth="460.0" styleClass="bigListView" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Completed">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView prefHeight="230.0" prefWidth="460.0" styleClass="bigListView" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
       </children>
     </AnchorPane>
   </children>
