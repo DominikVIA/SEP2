@@ -61,18 +61,12 @@ public class CreateAnnouncementViewController implements PropertyChangeListener 
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
-      case "announcement create success" -> {
-        Platform.runLater(() -> {
-          viewModel.viewExamInfo();
-          viewModel.removeListener(this);
-          viewHandler.openView(ViewFactory.EXAM_INFO);
-        });
-      }
-      case "creating error" -> {
-        Platform.runLater(() -> {
-          showError("The title and content cannot be left empty.");
-        });
-      }
+      case "announcement create success" -> Platform.runLater(() -> {
+        viewModel.viewExamInfo();
+        viewModel.removeListener(this);
+        viewHandler.openView(ViewFactory.EXAM_INFO);
+      });
+      case "creating error" -> Platform.runLater(() -> showError("The title and content cannot be left empty."));
     }
   }
 }

@@ -21,20 +21,20 @@
             </Button>
             <TabPane fx:id="tabPane" layoutX="64.0" layoutY="61.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="272.0" prefWidth="505.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Upcoming">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ListView fx:id="completedList1" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
                 <Tab text="Completed">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <ListView fx:id="completedList" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Upcoming">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="upcomingList" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
                            </children>
                         </AnchorPane>
                   </content>

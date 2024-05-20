@@ -41,14 +41,16 @@ public class AddResultsViewModel implements PropertyChangeListener {
   public void studentClicked(Student student)
   {
     Result temp = model.getStudentExamResult(exam, student);
-    if(temp.getGrade() != null) grade.set(temp.getGrade());
+    if(temp.getGrade().getGrade() != -2) grade.set(temp.getGrade());
+    else grade.set(Grade.Null);
     if(temp.getFeedback() != null) feedback.set(temp.getFeedback());
+    else feedback.set("");
   }
 
   public void reset(){
     if(exam != null){
-      studentClicked(exam.getStudents().get(0));
       studentsList.getValue().setAll(exam.getStudents());
+      studentClicked(exam.getStudents().get(0));
     }
   }
 
@@ -77,6 +79,5 @@ public class AddResultsViewModel implements PropertyChangeListener {
       exam = (Exam) evt.getNewValue();
       reset();
     }
-//    support.firePropertyChange(evt);
   }
 }

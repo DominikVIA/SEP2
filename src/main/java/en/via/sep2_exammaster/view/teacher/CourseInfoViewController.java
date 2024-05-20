@@ -92,12 +92,8 @@ public class CourseInfoViewController implements PropertyChangeListener {
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
-      case "create exam" -> {
-        viewHandler.openView(ViewFactory.EXAM_CREATE);
-      }
-      case "view exam" -> {
-        viewHandler.openView(ViewFactory.EXAM_INFO);
-      }
+      case "create exam" -> viewHandler.openView(ViewFactory.EXAM_CREATE);
+      case "view exam" -> viewHandler.openView(ViewFactory.EXAM_INFO);
     }
 
     viewModel.removeListener(this);

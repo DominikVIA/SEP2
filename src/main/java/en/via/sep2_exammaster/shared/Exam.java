@@ -106,7 +106,7 @@ public class Exam implements Serializable {
   }
 
   public String toString(){
-      return title + " (" + date + ", " + time + ")";
+      return title + " | " + date + ", " + time;
   }
 
   @Override public boolean equals(Object obj) {

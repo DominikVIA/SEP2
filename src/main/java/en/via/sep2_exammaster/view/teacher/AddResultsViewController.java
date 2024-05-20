@@ -5,13 +5,14 @@ import en.via.sep2_exammaster.shared.Student;
 import en.via.sep2_exammaster.view.ViewFactory;
 import en.via.sep2_exammaster.view.ViewHandler;
 import en.via.sep2_exammaster.viewmodel.teacher.AddResultsViewModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class AddResultsViewController {
@@ -30,11 +31,29 @@ public class AddResultsViewController {
   }
 
   @FXML void onSave() throws IOException {
+    if(gradeBox.getSelectionModel().getSelectedItem().getGrade() == -2){
+      Alert alert = new Alert(Alert.AlertType.WARNING, "You need to select a grade first.");
+      alert.setHeaderText(null);
+      alert.showAndWait();
+      return;
+    }
+    if(!gradeBox.isDisabled()) {
+      Alert alert = new Alert(Alert.AlertType.WARNING, "Saving a grade is irreversible. Are you sure you want to continue?",
+          ButtonType.OK, ButtonType.CANCEL);
+      alert.setHeaderText(null);
+      Optional<ButtonType> result = alert.showAndWait();
+      if (result.isPresent() && result.get() == ButtonType.CANCEL) {
+        gradeBox.getSelectionModel().select(Grade.Null);
+        saveButton.setDisable(true);
+        return;
+      }
+      gradeBox.setDisable(true);
+    }
     viewModel.saveInformation(studentsList.getSelectionModel().getSelectedItem());
     saveButton.setDisable(true);
   }
 
-  @FXML void onClickStudents() throws IOException {
+  @FXML void onClickStudents() {
     if(studentsList.getSelectionModel().getSelectedItem() != null && index != studentsList.getSelectionModel().getSelectedIndex()){
       if(!saveButton.isDisabled()){
         Alert alert = new Alert(Alert.AlertType.WARNING, "Changing to another student will cause your changes to be lost. "
@@ -48,14 +67,9 @@ public class AddResultsViewController {
         }
       }
       viewModel.studentClicked(studentsList.getSelectionModel().getSelectedItem());
+      gradeBox.setDisable(gradeBox.getSelectionModel().getSelectedItem().getGrade() != -2);
       index = studentsList.getSelectionModel().getSelectedIndex();
-//      gradeBox.setDisable(false);
-//      feedbackArea.setDisable(false);
       saveButton.setDisable(true);
-    }
-    else {
-//      gradeBox.setDisable(true);
-//      feedbackArea.setDisable(true);
     }
 
   }
@@ -65,30 +79,19 @@ public class AddResultsViewController {
     this.viewModel = addResultsViewModel;
     this.root = root;
 
-    gradeBox.getItems().addAll(Grade.values());
+    gradeBox.getItems().addAll(Grade.A, Grade.B, Grade.C, Grade.D, Grade.E, Grade.Fx, Grade.F, Grade.Sick);
 
-    gradeBox.valueProperty().addListener(new ChangeListener<Grade>() {
-      @Override
-      public void changed(ObservableValue<? extends Grade> observable, Grade oldValue,
-          Grade newValue) {
-        saveButton.setDisable(false);
-      }
-    });
+    gradeBox.valueProperty().addListener(
+        (observable, oldValue, newValue) -> saveButton.setDisable(false));
 
-    feedbackArea.textProperty().addListener(new ChangeListener<String>() {
-      @Override
-      public void changed(ObservableValue<? extends String> observable, String oldValue,
-          String newValue) {
-        saveButton.setDisable(false);
-      }
-    });
+    feedbackArea.textProperty().addListener(
+        (observable, oldValue, newValue) -> saveButton.setDisable(false));
 
     viewModel.bindGrade(gradeBox.valueProperty());
     viewModel.bindFeedback(feedbackArea.textProperty());
     viewModel.bindStudents(studentsList.itemsProperty());
 
-//    gradeBox.setDisable(true);
-//    feedbackArea.setDisable(true);
+    gradeBox.setDisable(gradeBox.getSelectionModel().getSelectedItem().getGrade() != -2);
     saveButton.setDisable(true);
   }
 

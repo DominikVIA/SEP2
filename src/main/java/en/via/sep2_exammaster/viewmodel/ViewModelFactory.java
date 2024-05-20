@@ -1,6 +1,7 @@
 package en.via.sep2_exammaster.viewmodel;
 
 import en.via.sep2_exammaster.model.Model;
+import en.via.sep2_exammaster.viewmodel.student.AnnouncementInfoViewModelStudent;
 import en.via.sep2_exammaster.viewmodel.student.InfoExamViewModel;
 import en.via.sep2_exammaster.viewmodel.student.MyExamsViewModel;
 import en.via.sep2_exammaster.viewmodel.teacher.*;
@@ -16,7 +17,8 @@ public class ViewModelFactory {
   private final EditExamViewModel editExamViewModel;
   private final AddResultsViewModel addResultsViewModel;
   private final CreateAnnouncementViewModel createAnnouncementViewModel;
-  private final AnnouncementInfoViewModel announcementInfoViewModel;
+  private final AnnouncementInfoViewModelTeacher announcementInfoViewModelTeacher;
+  private final AnnouncementInfoViewModelStudent announcementInfoViewModelStudent;
   private final MyExamsViewModel myExamsViewModel;
   private final InfoExamViewModel infoExamViewModel;
 
@@ -31,7 +33,8 @@ public class ViewModelFactory {
     this.editExamViewModel = new EditExamViewModel(model);
     this.addResultsViewModel = new AddResultsViewModel(model);
     this.createAnnouncementViewModel = new CreateAnnouncementViewModel(model);
-    this.announcementInfoViewModel = new AnnouncementInfoViewModel(model);
+    this.announcementInfoViewModelTeacher = new AnnouncementInfoViewModelTeacher(model);
+    this.announcementInfoViewModelStudent = new AnnouncementInfoViewModelStudent(model);
     this.myExamsViewModel = new MyExamsViewModel(model);
     this.infoExamViewModel = new InfoExamViewModel(model);
   }
@@ -76,8 +79,13 @@ public class ViewModelFactory {
     return createAnnouncementViewModel;
   }
 
-  public AnnouncementInfoViewModel getAnnouncementInfoViewModel() {
-    return announcementInfoViewModel;
+  public AnnouncementInfoViewModelTeacher getAnnouncementInfoViewModelTeacher() {
+    return announcementInfoViewModelTeacher;
+  }
+
+  public AnnouncementInfoViewModelStudent getAnnouncementInfoViewModelStudent()
+  {
+    return announcementInfoViewModelStudent;
   }
 
   public MyExamsViewModel getMyExamsViewModel() {

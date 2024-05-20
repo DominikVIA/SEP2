@@ -53,7 +53,8 @@ public class ResultDAOImpl implements ResultDAO {
       Result answer = null;
       if(result.next()){
         answer = new Result(
-            Grade.findGrade(result.getInt("grade")),
+            Grade.findGrade(result.getString("grade") != null ?
+                Integer.parseInt(result.getString("grade")) : -2),
             result.getString("feedback"),
             exam);
       }
@@ -73,7 +74,7 @@ public class ResultDAOImpl implements ResultDAO {
           SET grade = ?, feedback = ?
           WHERE student_id = ? AND exam_id = ?;
           """);
-      statement.setInt(1, grade.getGrade());
+      statement.setString(1, grade.getGrade() + "");
       statement.setString(2, (feedback.isBlank() ? null : feedback));
       statement.setInt(3, student.getStudentNo());
       statement.setInt(4, exam.getId());
@@ -110,7 +111,11 @@ public class ResultDAOImpl implements ResultDAO {
             Examiners.valueOf(result.getString("examiners"))
         );
         tempExam.setCompleted(result.getBoolean("completed"));
-        Result tempResult = new Result(Grade.findGrade(result.getInt("grade")),
+        tempExam.addAnnouncements(ExamDAOImpl.getInstance()
+            .getExamAnnouncements(tempExam).toArray(new Announcement[0]));
+        Result tempResult = new Result(
+            Grade.findGrade(result.getString("grade") != null ?
+                Integer.parseInt(result.getString("grade")) : -2),
             result.getString("feedback"), tempExam);
         answer.add(tempResult);
       }

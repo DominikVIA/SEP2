@@ -1,5 +1,6 @@
 package en.via.sep2_exammaster.view;
 
+import en.via.sep2_exammaster.view.student.AnnouncementInfoViewControllerStudent;
 import en.via.sep2_exammaster.view.student.InfoExamViewController;
 import en.via.sep2_exammaster.view.student.MyExamsViewController;
 import en.via.sep2_exammaster.view.teacher.*;
@@ -23,7 +24,8 @@ public class ViewFactory {
   public static final String RESULTS_ADD = "add results";
   public static final String RESULT_INFO = "result info";
   public static final String ANNOUNCEMENT_CREATE = "create announcement";
-  public static final String ANNOUNCEMENT_INFO = "announcement info";
+  public static final String ANNOUNCEMENT_INFO_TEACHER = "announcement info teacher";
+  public static final String ANNOUNCEMENT_INFO_STUDENT = "announcement info student";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -37,7 +39,8 @@ public class ViewFactory {
   private EditExamViewController editExamViewController;
   private AddResultsViewController addResultsViewController;
   private CreateAnnouncementViewController createAnnouncementViewController;
-  private AnnouncementInfoViewController announcementInfoViewController;
+  private AnnouncementInfoViewControllerTeacher announcementInfoViewControllerTeacher;
+  private AnnouncementInfoViewControllerStudent announcementInfoViewControllerStudent;
   private MyExamsViewController myExamsViewController;
   private InfoExamViewController infoExamViewController;
 
@@ -205,8 +208,8 @@ public class ViewFactory {
         throw new IOError(e);
       }
     }
-    addResultsViewController.reset();
 //    viewModelFactory.getAddResultsViewModel().addListener(addResultsViewController);
+    addResultsViewController.reset();
     return addResultsViewController.getRoot();
   }
 
@@ -227,20 +230,36 @@ public class ViewFactory {
     return createAnnouncementViewController.getRoot();
   }
 
-  public Region loadAnnouncementInfoView() {
-    if (announcementInfoViewController == null) {
+  public Region loadAnnouncementInfoViewTeacher() {
+    if (announcementInfoViewControllerTeacher == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("InfoAnnouncementView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/InfoAnnouncementView.fxml"));
       try {
         Region root = loader.load();
-        announcementInfoViewController = loader.getController();
-        announcementInfoViewController.init(viewHandler, viewModelFactory.getAnnouncementInfoViewModel(), root);
+        announcementInfoViewControllerTeacher = loader.getController();
+        announcementInfoViewControllerTeacher.init(viewHandler, viewModelFactory.getAnnouncementInfoViewModelTeacher(), root);
       } catch (IOException e) {
         throw new IOError(e);
       }
     }
-    announcementInfoViewController.reset();
-    return announcementInfoViewController.getRoot();
+    announcementInfoViewControllerTeacher.reset();
+    return announcementInfoViewControllerTeacher.getRoot();
+  }
+
+  public Region loadAnnouncementInfoViewStudent() {
+    if (announcementInfoViewControllerStudent == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("student/InfoAnnouncementView.fxml"));
+      try {
+        Region root = loader.load();
+        announcementInfoViewControllerStudent = loader.getController();
+        announcementInfoViewControllerStudent.init(viewHandler, viewModelFactory.getAnnouncementInfoViewModelStudent(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    announcementInfoViewControllerStudent.reset();
+    return announcementInfoViewControllerStudent.getRoot();
   }
 
   public Region loadMyExamsView() {
@@ -287,7 +306,8 @@ public class ViewFactory {
       case EXAM_EDIT -> loadEditExamView();
       case RESULTS_ADD -> loadAddResultsView();
       case ANNOUNCEMENT_CREATE -> loadCreateAnnouncementView();
-      case ANNOUNCEMENT_INFO -> loadAnnouncementInfoView();
+      case ANNOUNCEMENT_INFO_TEACHER -> loadAnnouncementInfoViewTeacher();
+      case ANNOUNCEMENT_INFO_STUDENT -> loadAnnouncementInfoViewStudent();
       case MY_EXAMS -> loadMyExamsView();
       case RESULT_INFO -> loadResultInfoView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
