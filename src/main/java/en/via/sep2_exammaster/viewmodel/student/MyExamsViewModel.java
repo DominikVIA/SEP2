@@ -9,14 +9,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MyExamsViewModel {
   private final Model model;
-  private final ObjectProperty<ObservableList<Exam>> exams;
+  private final ObjectProperty<ObservableList<Exam>> upcoming;
+  private final ObjectProperty<ObservableList<Exam>> completed;
 
   public MyExamsViewModel(Model model){
     this.model = model;
-    exams = new SimpleObjectProperty<>(FXCollections.observableArrayList());
+    upcoming = new SimpleObjectProperty<>(FXCollections.observableArrayList());
+    completed = new SimpleObjectProperty<>(FXCollections.observableArrayList());
   }
 
   public void viewExam(Exam exam){
@@ -25,10 +29,21 @@ public class MyExamsViewModel {
 
   public void reset() throws IOException
   {
-    exams.getValue().setAll(model.getExams());
+    upcoming.getValue().setAll();
+    completed.getValue().setAll();
+    ArrayList<Exam> exams = (ArrayList<Exam>) model.getExams();
+    for(Exam temp : exams){
+      if(temp.isCompleted()) completed.getValue().add(temp);
+      else upcoming.getValue().add(temp);
+    }
+
   }
 
-  public void bindExam(ObjectProperty<ObservableList<Exam>> property){
-    property.bind(exams);
+  public void bindUpcoming(ObjectProperty<ObservableList<Exam>> property){
+    property.bind(upcoming);
+  }
+
+  public void bindCompleted(ObjectProperty<ObservableList<Exam>> property){
+    property.bind(completed);
   }
 }

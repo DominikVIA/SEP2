@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ResultDAO {
   List<Student> readStudentsEnrolledInExam(int examID);
+  List<Result> getResultsByStudentID(int studentId);
   Result getStudentResultByExamId(Exam exam, Student student);
   Result editResult(Student student, Exam exam, Grade grade, String feedback);
 }

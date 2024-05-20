@@ -1,9 +1,6 @@
 package en.via.sep2_exammaster.server.database;
 
-import en.via.sep2_exammaster.shared.Exam;
-import en.via.sep2_exammaster.shared.Grade;
-import en.via.sep2_exammaster.shared.Result;
-import en.via.sep2_exammaster.shared.Student;
+import en.via.sep2_exammaster.shared.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -82,6 +79,42 @@ public class ResultDAOImpl implements ResultDAO {
       statement.setInt(4, exam.getId());
       statement.execute();
       return getStudentResultByExamId(exam, student);
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+  @Override
+  public List<Result> getResultsByStudentID(int studentId){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("""
+          SELECT *
+          FROM results JOIN exams e ON e.id = results.exam_id
+          WHERE student_id = ?;
+          """);
+      statement.setInt(1, studentId);
+      ResultSet result = statement.executeQuery();
+      ArrayList<Result> answer = new ArrayList<>();
+      while (result.next()){
+        Exam tempExam = new Exam(
+            result.getInt("id"),
+            result.getString("title"),
+            result.getString("content"),
+            result.getString("room"),
+            null,
+            result.getDate("date").toLocalDate(),
+            result.getTime("time").toLocalTime(),
+            result.getBoolean("written"),
+            Examiners.valueOf(result.getString("examiners"))
+        );
+        tempExam.setCompleted(result.getBoolean("completed"));
+        Result tempResult = new Result(Grade.findGrade(result.getInt("grade")),
+            result.getString("feedback"), tempExam);
+        answer.add(tempResult);
+      }
+      return answer;
     }
     catch (SQLException e){
       e.printStackTrace();
