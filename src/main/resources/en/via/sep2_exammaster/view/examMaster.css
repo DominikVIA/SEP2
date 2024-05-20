@@ -297,7 +297,7 @@
     -fx-background-color:#7B81D2;
 }
 
-/*-------------------- Select -------------------------*/
+/*-------------------- Tab Pane -------------------------*/
 
 .tab-header-area .tab-header-background {
     -fx-background-color: #E7DFFE;
@@ -347,3 +347,19 @@
    -fx-padding: 0 2 0 2;
 }
 
+/*-------------------- Pie Chart -------------------------*/
+
+.data0.chart-pie { -fx-pie-color: #FEF2F2; }
+.data1.chart-pie { -fx-pie-color: #F3E9F8; }
+.data2.chart-pie { -fx-pie-color: #D3D0F9; }
+.data3.chart-pie { -fx-pie-color: #96A3E8; }
+.data4.chart-pie { -fx-pie-color: #7B81D2; }
+.data5.chart-pie { -fx-pie-color: #666AAE; }
+.data6.chart-pie { -fx-pie-color: #555790; }
+.data7.chart-pie { -fx-pie-color: #464877; }
+
+
+/*-------------------- Line Chart -------------------------*/
+
+.default-color0.chart-series-line{-fx-stroke:#7B81D2;}
+.default-color0.chart-line-symbol{-fx-background-color:#7B81D2, white;}
