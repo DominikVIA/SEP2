@@ -1,20 +1,13 @@
 package en.via.sep2_exammaster.view.student;
 
-import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Result;
 import en.via.sep2_exammaster.view.ViewFactory;
 import en.via.sep2_exammaster.view.ViewHandler;
 import en.via.sep2_exammaster.viewmodel.student.MyExamsViewModel;
-import en.via.sep2_exammaster.viewmodel.teacher.AddResultsViewModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
 
 import java.io.IOException;
@@ -54,15 +47,11 @@ public class MyExamsViewController {
     this.root = root;
 
     tabPane.getSelectionModel().selectedItemProperty().addListener(
-        new ChangeListener<Tab>() {
-          @Override
-          public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
-            upcomingList.getSelectionModel().clearSelection();
-            completedList.getSelectionModel().clearSelection();
-            viewExamButton.setDisable(true);
-          }
-        }
-    );
+        (ov, t, t1) -> {
+          upcomingList.getSelectionModel().clearSelection();
+          completedList.getSelectionModel().clearSelection();
+          viewExamButton.setDisable(true);
+        });
 
     viewModel.bindUpcoming(upcomingList.itemsProperty());
     viewModel.bindCompleted(completedList.itemsProperty());
