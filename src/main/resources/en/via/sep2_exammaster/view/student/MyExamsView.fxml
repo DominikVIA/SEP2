@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -13,23 +14,18 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Text layoutX="150.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="My Exams" textAlignment="CENTER" wrappingWidth="340.0">
-               <font>
-                  <Font name="Avenir Heavy" size="27.0" />
-               </font>
-            </Text>
-            <Button fx:id="viewExamButton" layoutX="90.0" layoutY="343.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="30.0" prefWidth="460.0" styleClass="normalButton" text="View exam">
+            <Button fx:id="viewExamButton" layoutX="264.0" layoutY="347.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="3.0" prefWidth="115.0" styleClass="normalButton" text="View exam">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <TabPane fx:id="tabPane" layoutX="90.0" layoutY="81.0" prefHeight="257.0" prefWidth="460.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" layoutX="64.0" layoutY="61.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="272.0" prefWidth="505.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab text="Upcoming">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="upcomingList" onMouseClicked="#onClick" prefHeight="230.0" prefWidth="460.0" styleClass="bigListView" />
+                              <ListView fx:id="completedList1" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -38,13 +34,19 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ListView fx:id="completedList" onMouseClicked="#onClick" prefHeight="230.0" prefWidth="460.0" styleClass="bigListView" />
+                              <ListView fx:id="completedList" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
                            </children>
                         </AnchorPane>
                   </content>
                 </Tab>
               </tabs>
             </TabPane>
+            <Line endX="318.10687255859375" endY="-8.795524597167969" layoutX="87.0" layoutY="104.0" startX="-7.3682708740234375" startY="-8.795516967773438" stroke="#7b81d2" />
+            <Text layoutX="80.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="My Exams" wrappingWidth="203.8992919921875">
+               <font>
+                  <Font name="Avenir Heavy" size="27.0" />
+               </font>
+            </Text>
       </children>
     </AnchorPane>
   </children>

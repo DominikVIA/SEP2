@@ -296,3 +296,54 @@
 .smallListView .list-cell:selected{
     -fx-background-color:#7B81D2;
 }
+
+/*-------------------- Select -------------------------*/
+
+.tab-header-area .tab-header-background {
+    -fx-background-color: #E7DFFE;
+    -fx-alignment: CENTER;
+}
+
+.tab {
+    -fx-background-color: #E7DFFE;
+    -fx-border-color: #7B81D2 #7B81D2 #E7DFFE #7B81D2;
+    -fx-border-radius: 3px 3px 0px 0px;
+    -fx-border-insets: 1;
+    -fx-border-width: 1px;
+}
+
+.tab .tab-label { 
+   -fx-text-fill: #7B81D2;
+   -fx-alignment: CENTER;
+   -fx-padding: 0 2 0 2;
+}
+
+.tab-pane:focused .tab-header-area .headers-region .tab:selected .focus-indicator {
+    -fx-border-width: 0;
+   -fx-border-insets: 0 0 0 0;
+   -fx-border-radius: 0;
+}
+
+.tab-pane:hover .tab-header-area .headers-region .tab:hover .tab-label{
+    -fx-border-width: 0;
+   -fx-border-insets: 0 0 0 0;
+   -fx-border-radius: 0;
+   -fx-text-fill: #7B81D2;
+   -fx-font-weight:bold;
+}
+
+.tab-pane:focused .tab-header-area .headers-region .tab:selected .tab-label {
+-fx-border-width: 0;
+-fx-border-insets: 0 0 0 0;
+-fx-border-radius: 0;
+-fx-text-fill: #96A3E8;
+-fx-font-weight:bold;
+}
+
+.tab .tab-label :hover,  .tab .tab-label :selected{ 
+    -fx-alignment: CENTER;
+   -fx-text-fill: #96A3E8;
+   -fx-font-weight:bold;
+   -fx-padding: 0 2 0 2;
+}
+
