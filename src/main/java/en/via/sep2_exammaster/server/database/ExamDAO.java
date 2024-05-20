@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ExamDAO {
   void markExamCompleted(Exam exam);
+  List<Exam> getExamsByStudentID(int studentId);
   Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students)
       throws SQLException;
   Announcement createAnnouncement(String title, String content, Exam exam);

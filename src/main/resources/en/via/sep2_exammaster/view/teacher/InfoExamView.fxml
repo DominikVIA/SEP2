@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="400.0" prefWidth="662.0" stylesheets="@../examMaster.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="en.via.sep2_exammaster.view.teacher.ExamInfoViewController">
+   <children>
+      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="437.0" prefWidth="678.0" stylesheets="@../examMaster.css" VBox.vgrow="ALWAYS">
+         <children>
+            <Button layoutX="44.0" layoutY="362.0" mnemonicParsing="false" onAction="#onMakeAnnouncement" styleClass="normalButton" text="Make announcement">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <ListView fx:id="announcementsList" layoutX="43.0" layoutY="256.0" onMouseClicked="#onClickAnnouncement" prefHeight="100.0" prefWidth="289.0" styleClass="smallListView" />
+            <TextArea fx:id="contentArea" editable="false" layoutX="43.0" layoutY="93.0" prefHeight="60.0" prefWidth="289.0" text="Content" wrapText="true">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </TextArea>
+            <TextField fx:id="titleField" editable="false" layoutX="43.0" layoutY="30.0" prefHeight="47.0" prefWidth="198.0" text="Title">
+               <font>
+                  <Font name="Avenir Heavy" size="21.0" />
+               </font>
+            </TextField>
+            <Separator layoutX="28.0" layoutY="68.0" prefHeight="31.0" prefWidth="593.0" />
+            <ListView fx:id="studentsList" layoutX="376.0" layoutY="125.0" prefHeight="180.0" prefWidth="234.0" styleClass="smallListView" />
+            <Label layoutX="376.0" layoutY="93.0" prefHeight="35.0" prefWidth="219.0" styleClass="normalLabel" text="Participating students:">
+               <font>
+                  <Font name="Avenir Heavy" size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="addResultButton" layoutX="376.0" layoutY="311.0" mnemonicParsing="false" onAction="#onAddResults" prefHeight="30.0" prefWidth="234.0" styleClass="normalButton" text="Exam results">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <Label layoutX="44.0" layoutY="227.0" prefHeight="35.0" prefWidth="204.0" styleClass="normalLabel" text="Announcements:">
+               <font>
+                  <Font name="Avenir Heavy" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="timeField" editable="false" layoutX="43.0" layoutY="162.0" prefHeight="26.0" prefWidth="140.0" text="Time">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="typeField" editable="false" layoutX="43.0" layoutY="199.0" prefHeight="26.0" prefWidth="140.0" text="Type">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="examinerField" editable="false" layoutX="193.0" layoutY="199.0" prefHeight="26.0" prefWidth="140.0" text="Examiner">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </TextField>
+            <Button fx:id="editButton" layoutX="427.0" layoutY="362.0" mnemonicParsing="false" onAction="#onEdit" prefHeight="30.0" prefWidth="89.0" styleClass="normalButton" text="Edit exam">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="517.0" layoutY="362.0" mnemonicParsing="false" onAction="#onDelete" prefHeight="30.0" prefWidth="94.0" styleClass="normalButton" text="Delete exam">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <TextField fx:id="roomField" editable="false" layoutX="245.0" layoutY="40.0" prefHeight="30.0" prefWidth="86.0" text="Room">
+               <font>
+                  <Font name="Avenir Roman" size="16.0" />
+               </font>
+            </TextField>
+            <Button layoutX="375.0" layoutY="362.0" mnemonicParsing="false" onAction="#onBack" prefHeight="30.0" prefWidth="51.0" styleClass="normalButton" text="Back">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <TextField fx:id="dateField" editable="false" layoutX="193.0" layoutY="162.0" prefHeight="26.0" prefWidth="140.0" text="Date">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </TextField>
+            <Button fx:id="completeButton" layoutX="451.0" layoutY="40.0" maxHeight="37.0" minHeight="30.0" mnemonicParsing="false" onAction="#onMarkCompleted" prefHeight="37.0" prefWidth="160.0" styleClass="completeButton" text="Mark as completed ✓">
+               <font>
+                  <Font name="Avenir Roman" size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="viewAnnouncementButton" layoutX="196.0" layoutY="362.0" mnemonicParsing="false" onAction="#onViewAnnouncement" styleClass="normalButton" text="View announcement">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <Label layoutX="245.0" layoutY="22.0" styleClass="normalLabel" text="Room:" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

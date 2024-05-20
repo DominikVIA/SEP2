@@ -190,6 +190,40 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  @Override
+  public List<Exam> getExamsByStudentID(int studentId){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("""
+          SELECT *
+          FROM exams JOIN results r on exams.id = r.exam_id
+          WHERE student_id = ?;
+          """);
+      statement.setInt(1, studentId);
+      ResultSet result = statement.executeQuery();
+      ArrayList<Exam> exams = new ArrayList<>();
+      while (result.next()){
+        Exam temp = new Exam(
+            result.getInt(1),
+            result.getString(2),
+            result.getString(3),
+            result.getString(4),
+            null,
+            result.getDate(6).toLocalDate(),
+            result.getTime(7).toLocalTime(),
+            result.getBoolean(9),
+            Examiners.valueOf(result.getString(5))
+        );
+        temp.setCompleted(result.getBoolean("completed"));
+        exams.add(temp);
+      }
+      return exams;
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
   public Exam getExamByID(int id){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM exams WHERE id = ?;");

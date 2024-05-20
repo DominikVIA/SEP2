@@ -1,7 +1,7 @@
 package en.via.sep2_exammaster.view;
 
-import en.via.sep2_exammaster.viewmodel.CreateAnnouncementViewModel;
-import en.via.sep2_exammaster.viewmodel.CreateCourseViewModel;
+import en.via.sep2_exammaster.view.student.MyExamsViewController;
+import en.via.sep2_exammaster.view.teacher.*;
 import en.via.sep2_exammaster.viewmodel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.Region;
@@ -12,6 +12,7 @@ import java.io.IOException;
 public class ViewFactory {
   public static final String LOGIN = "login";
   public static final String MY_COURSES = "my courses";
+  public static final String MY_EXAMS = "my exams";
   public static final String COURSE_INFO = "course information";
   public static final String COURSE_CREATE = "create course";
   public static final String COURSE_EDIT = "edit course";
@@ -35,6 +36,7 @@ public class ViewFactory {
   private AddResultsViewController addResultsViewController;
   private CreateAnnouncementViewController createAnnouncementViewController;
   private AnnouncementInfoViewController announcementInfoViewController;
+  private MyExamsViewController myExamsViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -49,6 +51,7 @@ public class ViewFactory {
     this.editExamViewController = null;
     this.addResultsViewController = null;
     this.createAnnouncementViewController = null;
+    this.myExamsViewController = null;
   }
 
   public Region loadLoginView() {
@@ -71,7 +74,7 @@ public class ViewFactory {
   public Region loadMyCoursesView() {
     if (myCoursesViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("MyCoursesView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/MyCoursesView.fxml"));
       try {
         Region root = loader.load();
         myCoursesViewController = loader.getController();
@@ -87,7 +90,7 @@ public class ViewFactory {
   public Region loadCourseInfoView() {
     if (courseInfoViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("CourseInfoView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/InfoCourseView.fxml"));
       try {
         Region root = loader.load();
         courseInfoViewController = loader.getController();
@@ -104,7 +107,7 @@ public class ViewFactory {
   public Region loadCreateCourseView() {
     if (createCourseViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("CreateCourseView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/CreateCourseView.fxml"));
       try {
         Region root = loader.load();
         createCourseViewController = loader.getController();
@@ -121,7 +124,7 @@ public class ViewFactory {
   public Region loadCreateExamView() {
     if (createExamViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("CreateExamView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/CreateExamView.fxml"));
       try {
         Region root = loader.load();
         createExamViewController = loader.getController();
@@ -138,7 +141,7 @@ public class ViewFactory {
   public Region loadEditCourseView() {
     if (editCourseViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("EditCourseView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/EditCourseView.fxml"));
       try {
         Region root = loader.load();
         editCourseViewController = loader.getController();
@@ -155,7 +158,7 @@ public class ViewFactory {
   public Region loadExamInfoView() {
     if (examInfoViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("ExamInfoView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/InfoExamView.fxml"));
       try {
         Region root = loader.load();
         examInfoViewController = loader.getController();
@@ -172,7 +175,7 @@ public class ViewFactory {
   public Region loadEditExamView() {
     if (editExamViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("EditExamView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/EditExamView.fxml"));
       try {
         Region root = loader.load();
         editExamViewController = loader.getController();
@@ -189,7 +192,7 @@ public class ViewFactory {
   public Region loadAddResultsView() {
     if (addResultsViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("AddResultsView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/AddResultsView.fxml"));
       try {
         Region root = loader.load();
         addResultsViewController = loader.getController();
@@ -206,7 +209,7 @@ public class ViewFactory {
   public Region loadCreateAnnouncementView() {
     if (createAnnouncementViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("CreateAnnouncementView.fxml"));
+      loader.setLocation(getClass().getResource("teacher/CreateAnnouncementView.fxml"));
       try {
         Region root = loader.load();
         createAnnouncementViewController = loader.getController();
@@ -223,7 +226,7 @@ public class ViewFactory {
   public Region loadAnnouncementInfoView() {
     if (announcementInfoViewController == null) {
       FXMLLoader loader = new FXMLLoader();
-      loader.setLocation(getClass().getResource("AnnouncementInfoView.fxml"));
+      loader.setLocation(getClass().getResource("InfoAnnouncementView.fxml"));
       try {
         Region root = loader.load();
         announcementInfoViewController = loader.getController();
@@ -234,6 +237,22 @@ public class ViewFactory {
     }
     announcementInfoViewController.reset();
     return announcementInfoViewController.getRoot();
+  }
+
+  public Region loadMyExamsView() {
+    if (myExamsViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("student/MyExamsView.fxml"));
+      try {
+        Region root = loader.load();
+        myExamsViewController = loader.getController();
+        myExamsViewController.init(viewHandler, viewModelFactory.getMyExamsViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    myExamsViewController.reset();
+    return myExamsViewController.getRoot();
   }
 
   public Region load(String id) {
@@ -249,6 +268,7 @@ public class ViewFactory {
       case RESULTS_ADD -> loadAddResultsView();
       case ANNOUNCEMENT_CREATE -> loadCreateAnnouncementView();
       case ANNOUNCEMENT_INFO -> loadAnnouncementInfoView();
+      case MY_EXAMS -> loadMyExamsView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

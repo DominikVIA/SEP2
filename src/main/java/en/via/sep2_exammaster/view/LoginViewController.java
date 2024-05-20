@@ -1,5 +1,6 @@
 package en.via.sep2_exammaster.view;
 
+import en.via.sep2_exammaster.shared.Teacher;
 import en.via.sep2_exammaster.viewmodel.LoginViewModel;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -52,8 +53,9 @@ public class LoginViewController implements PropertyChangeListener {
     switch (evt.getPropertyName()){
       case "login success" -> {
         Platform.runLater(() -> {
+          if(evt.getNewValue() instanceof Teacher) viewHandler.openView(ViewFactory.MY_COURSES);
+          else viewHandler.openView(ViewFactory.MY_EXAMS);
           viewModel.removeListener(this);
-          viewHandler.openView(ViewFactory.MY_COURSES);
         });
 
       }

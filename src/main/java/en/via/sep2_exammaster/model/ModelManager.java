@@ -121,6 +121,11 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override
+  public List<Exam> getExams() throws IOException {
+    return server.getExamsByStudentId(((Student)loggedIn).getStudentNo());
+  }
+
+  @Override
   public void createExam(String title, String content,
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examiners examiners,

@@ -119,6 +119,11 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   }
 
   @Override
+  public List<Exam> getExamsByStudentId(int studentId) throws RemoteException {
+    return database.getExamsByStudentId(studentId);
+  }
+
+  @Override
   public void createExam(User loggedIn, String title, String content,
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examiners examiners, List<Student> students)
