@@ -23,6 +23,7 @@ public interface Model extends Closeable{
   void viewEditCourse(Course course);
   void deleteCourse(String code) throws IOException;
   List<Exam> getExams() throws IOException;
+  List<Result> getResults() throws IOException;
   void createExam(String title, String content,
       String room, Course course, LocalDate date,
       LocalTime time, boolean written, Examiners examiners, List<Student> students)
@@ -38,6 +39,7 @@ public interface Model extends Closeable{
   void viewCreateAnnouncement(Exam exam);
   void viewAnnouncement(Announcement announcement, String examTitle);
   void viewExamInfo(Exam exam);
+  void viewResult(Result result);
   void viewEditExam(Exam exam);
   void viewAddResults(Exam exam);
   Result getStudentExamResult(Exam exam, Student student);

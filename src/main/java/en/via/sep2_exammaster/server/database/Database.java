@@ -16,6 +16,7 @@ public interface Database {
   void deleteCourse(String code);
   void markExamCompleted(Exam exam);
   List<Exam> getExamsByStudentId(int studentId);
+  List<Result> getResultsByStudentId(int studentId);
   Exam createExam(
       String title, String content,
       String room, Course course, LocalDate date,
