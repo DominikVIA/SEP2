@@ -22,12 +22,12 @@
                </font>
             </Text>
             <PieChart layoutX="41.0" layoutY="126.0" prefHeight="221.0" prefWidth="222.0" />
-            <LineChart layoutX="303.0" layoutY="101.0" legendVisible="false" prefHeight="270.0" prefWidth="332.0">
+            <LineChart layoutX="303.0" layoutY="86.0" legendVisible="false" prefHeight="308.0" prefWidth="332.0">
               <xAxis>
-                <CategoryAxis side="BOTTOM" />
+                <CategoryAxis label="Semester" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis side="LEFT" />
+                <NumberAxis autoRanging="false" label="Semester average" lowerBound="-3.0" side="LEFT" tickLabelGap="1.0" tickUnit="3.0" upperBound="12.0" />
               </yAxis>
             </LineChart>
             <Line endX="-99.99996948242188" endY="281.3143005371094" layoutX="399.0" layoutY="87.0" startX="-100.0" stroke="#7b81d2" />

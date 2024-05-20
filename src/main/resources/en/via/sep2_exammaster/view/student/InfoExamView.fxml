@@ -14,7 +14,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <TextArea fx:id="contentArea" editable="false" layoutX="43.0" layoutY="93.0" prefHeight="60.0" prefWidth="289.0" text="Content">
+            <TextArea fx:id="contentArea" editable="false" layoutX="43.0" layoutY="93.0" prefHeight="60.0" prefWidth="289.0" text="Content" wrapText="true">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font></TextArea>
@@ -55,7 +55,7 @@
                   <Font name="Avenir Black" size="20.0" />
                </font>
             </Label>
-            <TextArea fx:id="feedbackArea" editable="false" layoutX="43.0" layoutY="292.0" prefHeight="90.0" prefWidth="289.0" text="Feedback">
+            <TextArea fx:id="feedbackArea" editable="false" layoutX="43.0" layoutY="292.0" prefHeight="90.0" prefWidth="289.0" text="Feedback" wrapText="true">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>

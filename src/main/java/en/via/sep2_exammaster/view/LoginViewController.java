@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.Region;
 
 import java.beans.PropertyChangeEvent;
@@ -33,6 +34,14 @@ public class LoginViewController implements PropertyChangeListener {
 
     viewModel.bindUsername(usernameField.textProperty());
     viewModel.bindPassword(passwordField.textProperty());
+
+    TextFormatter<String> formatter = new TextFormatter<>(change -> {
+      if (change.isAdded() && usernameField.getText().length() >= 6) {
+        return null;
+      }
+      return change;
+    });
+    usernameField.setTextFormatter(formatter);
   }
 
   public Region getRoot() {
