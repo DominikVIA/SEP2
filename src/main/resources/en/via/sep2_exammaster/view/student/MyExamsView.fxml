@@ -14,27 +14,27 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="viewExamButton" layoutX="264.0" layoutY="347.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="3.0" prefWidth="115.0" styleClass="normalButton" text="View exam">
+            <Button fx:id="viewExamButton" layoutX="205.0" layoutY="345.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="3.0" prefWidth="115.0" styleClass="normalButton" text="View exam">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
             <TabPane fx:id="tabPane" layoutX="64.0" layoutY="61.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="272.0" prefWidth="505.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
-                <Tab text="Completed">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ListView fx:id="completedList" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
-                           </children>
-                        </AnchorPane>
-                  </content>
-                </Tab>
                 <Tab text="Upcoming">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <ListView fx:id="upcomingList" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Completed">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ListView fx:id="completedList" layoutX="5.0" layoutY="6.0" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#onClick" prefHeight="227.0" prefWidth="485.0" styleClass="bigListView" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -47,6 +47,11 @@
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
             </Text>
+            <Button layoutX="347.0" layoutY="345.0" mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="67.0" styleClass="normalButton" text="Reset">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
       </children>
     </AnchorPane>
   </children>

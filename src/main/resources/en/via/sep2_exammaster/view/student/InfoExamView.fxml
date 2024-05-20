@@ -60,7 +60,7 @@
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </TextArea>
-            <Label fx:id="gradeLabel" layoutX="162.0" layoutY="252.0" prefHeight="30.0" prefWidth="155.0" styleClass="normalLabel" text=" ">
+            <Label fx:id="gradeLabel" layoutX="162.0" layoutY="252.0" prefHeight="30.0" prefWidth="168.0" styleClass="normalLabel">
                <font>
                   <Font name="Avenir Black" size="20.0" />
                </font>

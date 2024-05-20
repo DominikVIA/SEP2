@@ -1,8 +1,6 @@
 package en.via.sep2_exammaster.viewmodel.student;
 
 import en.via.sep2_exammaster.model.Model;
-import en.via.sep2_exammaster.shared.Course;
-import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Result;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -10,10 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MyExamsViewModel {
+public class MyExamsViewModel{
   private final Model model;
   private final ObjectProperty<ObservableList<Result>> upcoming;
   private final ObjectProperty<ObservableList<Result>> completed;

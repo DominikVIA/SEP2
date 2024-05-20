@@ -17,14 +17,19 @@
                </font>
             </Text>
             <ListView fx:id="coursesList" layoutX="91.0" layoutY="85.0" onMouseClicked="#onClick" prefHeight="246.0" prefWidth="458.0" styleClass="bigListView" />
-            <Button layoutX="220.0" layoutY="343.0" mnemonicParsing="false" onAction="#onAdd" styleClass="normalButton" text="Add course">
+            <Button layoutX="165.0" layoutY="343.0" mnemonicParsing="false" onAction="#onAdd" styleClass="normalButton" text="Add course">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="viewButton" layoutX="341.0" layoutY="343.0" mnemonicParsing="false" onAction="#onView" styleClass="normalButton" text="View course">
+            <Button fx:id="viewButton" layoutX="286.0" layoutY="343.0" mnemonicParsing="false" onAction="#onView" styleClass="normalButton" text="View course">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="414.0" layoutY="343.0" mnemonicParsing="false" onAction="#reset" styleClass="normalButton" text="Refresh">
+               <font>
+                  <Font size="13.0" />
                </font>
             </Button>
       </children>

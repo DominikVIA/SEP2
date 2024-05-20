@@ -200,6 +200,7 @@ public class ModelManager extends UnicastRemoteObject implements Model, RemotePr
   }
 
   @Override public void propertyChange(RemotePropertyChangeEvent<Serializable> evt) {
+    if(evt.getPropertyName().contains("success")) support.firePropertyChange("refresh", null, false);
     if(evt.getOldValue().equals(loggedIn))
       support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
   }

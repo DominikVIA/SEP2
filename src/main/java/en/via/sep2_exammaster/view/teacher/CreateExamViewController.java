@@ -124,6 +124,8 @@ public class CreateExamViewController implements PropertyChangeListener {
     viewModel.bindType(typeBox.valueProperty());
     viewModel.bindStudents(studentsList.itemsProperty());
 
+    addButton.setDisable(false);
+    addAllButton.setDisable(false);
     removeButton.setDisable(true);
   }
 

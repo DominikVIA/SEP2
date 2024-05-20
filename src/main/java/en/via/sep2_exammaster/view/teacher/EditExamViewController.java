@@ -71,7 +71,7 @@ public class EditExamViewController implements PropertyChangeListener {
       public void updateItem(LocalDate date, boolean empty) {
         super.updateItem(date, empty);
         LocalDate today = LocalDate.now();
-        setDisable(empty || date.compareTo(today) < 0);
+        setDisable(empty || date.isBefore(today));
       }
     });
 
@@ -109,6 +109,7 @@ public class EditExamViewController implements PropertyChangeListener {
     viewModel.bindType(typeBox.valueProperty());
     viewModel.bindStudents(studentsList.itemsProperty());
 
+
     removeButton.setDisable(true);
   }
 
@@ -117,8 +118,6 @@ public class EditExamViewController implements PropertyChangeListener {
   }
 
   public void reset() {
-//    typeBox.getSelectionModel().selectFirst();
-//    examinerBox.getSelectionModel().selectFirst();
     removeButton.setDisable(true);
     viewModel.reset();
   }
@@ -138,34 +137,20 @@ public class EditExamViewController implements PropertyChangeListener {
             viewHandler.openView(ViewFactory.EXAM_INFO);
           });
       case "student parsing error" ->
-          Platform.runLater(() -> {
-            showError("The \"Student\" field only accepts numbers.");
-          });
+          Platform.runLater(() -> showError("The \"Student\" field only accepts numbers."));
       case "student already enrolled" ->
-          Platform.runLater(() -> {
-            showError("The provided Student ID belongs to a student already enrolled in exam.");
-          });
+          Platform.runLater(() -> showError("The provided Student ID belongs to a student already enrolled in exam."));
       case "student not in course" ->
-          Platform.runLater(() -> {
-            showError("The provided Student ID belongs to a student that is not enrolled in the course. "
-                + "Student cannot be added to the exam.");
-          });
+          Platform.runLater(() -> showError("The provided Student ID belongs to a student that is not enrolled in the course. "
+              + "Student cannot be added to the exam."));
       case "student not found" ->
-          Platform.runLater(() -> {
-            showError("Student ID is incorrect.");
-          });
+          Platform.runLater(() -> showError("Student ID is incorrect."));
       case "information blank" ->
-          Platform.runLater(() -> {
-            showError("Title, room and content cannot be left empty.");
-          });
+          Platform.runLater(() -> showError("Title, room and content cannot be left empty."));
       case "time parsing error" ->
-          Platform.runLater(() -> {
-            showError("The time has to be input in a HH:MM pattern.");
-          });
+          Platform.runLater(() -> showError("The time has to be input in a HH:MM pattern."));
       case "no students" ->
-          Platform.runLater(() -> {
-            showError("An exam cannot be created without any students.");
-          });
+          Platform.runLater(() -> showError("An exam cannot be created without any students."));
     }
   }
 }
