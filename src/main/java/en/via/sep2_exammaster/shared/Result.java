@@ -27,6 +27,10 @@ public class Result implements Serializable
   }
 
   public String toString(){
-    return exam + (exam.isCompleted() ? " and student received a(n) " + grade + " | " + (feedback != null ? "feedback: " + feedback : "feedback has not been added yet.") : "");
+    return exam.toString();
   }
+
+//  public String toString(){
+//    return exam + (exam.isCompleted() ? " and student received a(n) " + grade + " | " + (feedback != null ? "feedback: " + feedback : "feedback has not been added yet.") : "");
+//  }
 }

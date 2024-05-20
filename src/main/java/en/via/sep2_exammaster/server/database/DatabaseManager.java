@@ -72,6 +72,11 @@ public class DatabaseManager implements Database {
   }
 
   @Override
+  public List<Result> getResultsByStudentId(int studentId){
+    return results.getResultsByStudentID(studentId);
+  }
+
+  @Override
   public List<Exam> getExamsByStudentId(int studentId){
     return exams.getExamsByStudentID(studentId);
   }
