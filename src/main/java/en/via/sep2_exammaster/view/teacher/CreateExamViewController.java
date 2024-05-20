@@ -137,6 +137,8 @@ public class CreateExamViewController implements PropertyChangeListener {
     typeBox.getSelectionModel().selectFirst();
     examinerBox.getSelectionModel().selectFirst();
     removeButton.setDisable(true);
+    addButton.setDisable(false);
+    addAllButton.setDisable(false);
     viewModel.reset();
   }
 
