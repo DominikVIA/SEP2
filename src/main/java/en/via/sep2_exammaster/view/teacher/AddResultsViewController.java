@@ -53,7 +53,8 @@ public class AddResultsViewController {
     saveButton.setDisable(true);
   }
 
-  @FXML void onClickStudents() {
+  @FXML void onClickStudents() throws IOException
+  {
     if(studentsList.getSelectionModel().getSelectedItem() != null && index != studentsList.getSelectionModel().getSelectedIndex()){
       if(!saveButton.isDisabled()){
         Alert alert = new Alert(Alert.AlertType.WARNING, "Changing to another student will cause your changes to be lost. "
@@ -91,7 +92,6 @@ public class AddResultsViewController {
     viewModel.bindFeedback(feedbackArea.textProperty());
     viewModel.bindStudents(studentsList.itemsProperty());
 
-    gradeBox.setDisable(gradeBox.getSelectionModel().getSelectedItem().getGrade() != -2);
     saveButton.setDisable(true);
   }
 
@@ -99,10 +99,19 @@ public class AddResultsViewController {
     return root;
   }
 
-  public void reset() {
+  public void reset()
+  {
     studentsList.getSelectionModel().selectFirst();
     saveButton.setDisable(true);
-    viewModel.reset();
+    try
+    {
+      viewModel.reset();
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
+    gradeBox.setDisable(gradeBox.getSelectionModel().getSelectedItem().getGrade() != -2);
   }
 }
 

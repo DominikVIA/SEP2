@@ -35,8 +35,8 @@ public class InfoExamViewModel implements PropertyChangeListener {
     announcements = new SimpleObjectProperty<>(FXCollections.observableArrayList());
   }
 
-  public void viewAnnouncement(Announcement announcement){
-    model.viewAnnouncement(announcement, result.getExam().getTitle());
+  public void viewAnnouncementInfo(Announcement announcement){
+    model.viewAnnouncementInfo(announcement, result.getExam().getTitle());
   }
 
   public void reset(){

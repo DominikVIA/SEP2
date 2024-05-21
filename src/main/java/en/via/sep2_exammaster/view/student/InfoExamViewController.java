@@ -38,7 +38,7 @@ public class InfoExamViewController {
   }
 
   @FXML void onView() {
-    viewModel.viewAnnouncement(announcementsList.getSelectionModel().getSelectedItem());
+    viewModel.viewAnnouncementInfo(announcementsList.getSelectionModel().getSelectedItem());
     viewHandler.openView(ViewFactory.ANNOUNCEMENT_INFO_STUDENT);
   }
 

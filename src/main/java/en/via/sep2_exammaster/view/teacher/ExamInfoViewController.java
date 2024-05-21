@@ -93,7 +93,7 @@ public class ExamInfoViewController implements PropertyChangeListener {
   }
 
   @FXML void onViewAnnouncement() {
-    viewModel.viewInfoAnnouncement(announcementsList.getSelectionModel().getSelectedItem());
+    viewModel.viewAnnouncementInfo(announcementsList.getSelectionModel().getSelectedItem());
   }
 
   public void init(ViewHandler viewHandler, ExamInfoViewModel examInfoViewModel, Region root) {
