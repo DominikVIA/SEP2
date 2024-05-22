@@ -19,34 +19,26 @@ public interface Model extends Closeable{
       String title, String description, String additionalTeacherInitials,
       List<Student> students) throws IOException;
   List<Course> getCourses() throws IOException;
-  void viewCourse(Course course);
-  void viewEditCourse(Course course);
-  void deleteCourse(String code) throws IOException;
-  List<Exam> getExams() throws IOException;
-  List<Result> getResults() throws IOException;
+  void viewCourseRelated(Course course, String window) throws IOException;
   void createExam(String title, String content,
       String room, Course course, LocalDate date,
-      LocalTime time, boolean written, Examiners examiners, List<Student> students)
-      throws IOException;
+      LocalTime time, boolean written, Examiners examiners,
+      List<Student> students) throws IOException;
   void editExam(int id, String title, String content,
       String room, Course course, LocalDate date,
-      LocalTime time, boolean written, Examiners examiners, List<Student> students)
-      throws IOException;
+      LocalTime time, boolean written, Examiners examiners,
+      List<Student> students) throws IOException ;
   void deleteExam(int id) throws IOException;
-  void createAnnouncement(String title, String content, Exam exam) throws IOException;
   void markExamCompleted(Exam exam) throws IOException;
-  void viewCreateExam(Course course);
-  void viewCreateAnnouncement(Exam exam);
-  void viewAnnouncement(Announcement announcement, String examTitle);
-  void viewExamInfo(Exam exam);
-  void viewResult(Result result);
-  void viewEditExam(Exam exam);
-  void viewAddResults(Exam exam);
-  Result getStudentExamResult(Exam exam, Student student);
+  void createAnnouncement(String title, String content, Exam exam) throws IOException;
+  void viewAnnouncementInfo(Announcement announcement, String examTitle);
+  void viewExamRelated(Exam exam, String window) throws IOException;
+  List<Result> getResults();
+  Result getStudentExamResult(Exam exam, Student student)
+      throws IOException;
+  void viewResult(Result result) ;
   void editResult(Student student, Exam exam, Grade grade, String feedback) throws IOException;
   Student getStudent(int studentID) throws IOException;
-  Teacher getTeacher(String initials) throws IOException;
-  User getLoggedIn();
   void addListener(PropertyChangeListener listener);
   void removeListener(PropertyChangeListener listener);
 }

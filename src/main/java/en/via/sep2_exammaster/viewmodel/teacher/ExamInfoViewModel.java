@@ -1,6 +1,7 @@
 package en.via.sep2_exammaster.viewmodel.teacher;
 
 import en.via.sep2_exammaster.model.Model;
+import en.via.sep2_exammaster.model.ModelManager;
 import en.via.sep2_exammaster.shared.Announcement;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
@@ -66,25 +67,53 @@ public class ExamInfoViewModel implements PropertyChangeListener {
   }
 
   public void viewAddResults(){
-    model.viewAddResults(exam);
+    try
+    {
+      model.viewExamRelated(exam, ModelManager.ADD_RESULTS);
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
   public void viewCourseInfo(boolean deletion){
     exam.getCourse().deleteExam(exam);
     if(!deletion) exam.getCourse().addExam(exam);
-    model.viewCourse(exam.getCourse());
+    try
+    {
+      model.viewCourseRelated(exam.getCourse(), ModelManager.VIEW_COURSE);
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
   public void viewCreateAnnouncement(){
-    model.viewCreateAnnouncement(exam);
+    try
+    {
+      model.viewExamRelated(exam, ModelManager.CREATE_ANNOUNCEMENT);
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
-  public void viewInfoAnnouncement(Announcement announcement){
-    model.viewAnnouncement(announcement, exam.getTitle());
+  public void viewAnnouncementInfo(Announcement announcement){
+    model.viewAnnouncementInfo(announcement, exam.getTitle());
   }
 
   public void onEdit(){
-    model.viewEditExam(exam);
+    try
+    {
+      model.viewExamRelated(exam, ModelManager.EDIT_EXAM);
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
   public Exam getExam(){

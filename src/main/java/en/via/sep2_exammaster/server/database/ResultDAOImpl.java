@@ -53,7 +53,8 @@ public class ResultDAOImpl implements ResultDAO {
       Result answer = null;
       if(result.next()){
         answer = new Result(
-            Grade.findGrade(result.getInt("grade")),
+            Grade.findGrade(result.getString("grade") != null ?
+                Integer.parseInt(result.getString("grade")) : -2),
             result.getString("feedback"),
             exam);
       }
@@ -68,12 +69,10 @@ public class ResultDAOImpl implements ResultDAO {
   @Override
   public Result editResult(Student student, Exam exam, Grade grade, String feedback){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          UPDATE results
-          SET grade = ?, feedback = ?
-          WHERE student_id = ? AND exam_id = ?;
-          """);
-      statement.setInt(1, grade.getGrade());
+      PreparedStatement statement = connection.prepareStatement("UPDATE results "
+          + "SET grade = ?, feedback = ? "
+          + "WHERE student_id = ? AND exam_id = ?;");
+      statement.setString(1, grade.getGrade() + "");
       statement.setString(2, (feedback.isBlank() ? null : feedback));
       statement.setInt(3, student.getStudentNo());
       statement.setInt(4, exam.getId());
@@ -89,11 +88,10 @@ public class ResultDAOImpl implements ResultDAO {
   @Override
   public List<Result> getResultsByStudentID(int studentId){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          SELECT *
-          FROM results JOIN exams e ON e.id = results.exam_id
-          WHERE student_id = ?;
-          """);
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM results "
+          + "JOIN exams e ON e.id = results.exam_id "
+          + "JOIN courses c on e.course_code = c.code "
+          + "WHERE student_id = ? ORDER BY semester;");
       statement.setInt(1, studentId);
       ResultSet result = statement.executeQuery();
       ArrayList<Result> answer = new ArrayList<>();
@@ -103,14 +101,18 @@ public class ResultDAOImpl implements ResultDAO {
             result.getString("title"),
             result.getString("content"),
             result.getString("room"),
-            null,
+            CourseDAOImpl.getInstance().getCourseByCode(result.getString("course_code"), false),
             result.getDate("date").toLocalDate(),
             result.getTime("time").toLocalTime(),
             result.getBoolean("written"),
             Examiners.valueOf(result.getString("examiners"))
         );
         tempExam.setCompleted(result.getBoolean("completed"));
-        Result tempResult = new Result(Grade.findGrade(result.getInt("grade")),
+        tempExam.addAnnouncements(ExamDAOImpl.getInstance()
+            .getExamAnnouncements(tempExam).toArray(new Announcement[0]));
+        Result tempResult = new Result(
+            Grade.findGrade(result.getString("grade") != null ?
+                Integer.parseInt(result.getString("grade")) : -2),
             result.getString("feedback"), tempExam);
         answer.add(tempResult);
       }
@@ -121,30 +123,4 @@ public class ResultDAOImpl implements ResultDAO {
       return null;
     }
   }
-
-//  public List<Result> readResultByStudent(int student_ID){
-//    try(Connection connection = getConnection()){
-//      PreparedStatement statement = connection.prepareStatement("SELECT * FROM results WHERE student_id = ?;");
-//      statement.setInt(1, student_ID);
-//      ResultSet result = statement.executeQuery();
-//      ArrayList<Exam> answer = new ArrayList<>();
-//      while(result.next()){
-//        answer.add(new Exam(
-//            result.getString("title"),
-//            result.getString("content"),
-//            result.getString("room"),
-//            course,
-//            result.getDate("date").toLocalDate(),
-//            result.getTime("time").toLocalTime(),
-//            result.getBoolean("completed")
-//        ));
-//      }
-//
-//      return answer;
-//    }
-//    catch (SQLException e){
-//      e.printStackTrace();
-//      return null;
-//    }
-//  }
 }

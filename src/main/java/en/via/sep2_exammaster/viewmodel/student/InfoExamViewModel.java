@@ -35,8 +35,8 @@ public class InfoExamViewModel implements PropertyChangeListener {
     announcements = new SimpleObjectProperty<>(FXCollections.observableArrayList());
   }
 
-  public void viewAnnouncement(Announcement announcement){
-    model.viewAnnouncement(announcement, result.getExam().getTitle());
+  public void viewAnnouncementInfo(Announcement announcement){
+    model.viewAnnouncementInfo(announcement, result.getExam().getTitle());
   }
 
   public void reset(){
@@ -48,7 +48,7 @@ public class InfoExamViewModel implements PropertyChangeListener {
       date.set(result.getExam().getDate().toString());
       type.set((result.getExam().isWritten() ? "Written" : "Oral"));
       examiner.set(result.getExam().getExaminers().name());
-      gradeLabel.set((result.getGrade() != null ? result.getGrade().toString() : "Not graded"));
+      gradeLabel.set((result.getGrade().getGrade() != -2 ? result.getGrade().toString() : "Waiting for grade"));
       feedback.set(result.getFeedback());
       announcements.getValue().setAll(result.getExam().getAnnouncements());
     }

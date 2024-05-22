@@ -34,7 +34,7 @@ public class LoginViewModel implements PropertyChangeListener {
   }
 
   public void reset(){
-    username.set("");
+//    username.set("");
     password.set("");
   }
 

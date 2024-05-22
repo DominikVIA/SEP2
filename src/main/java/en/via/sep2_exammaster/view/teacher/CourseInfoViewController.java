@@ -27,7 +27,7 @@ public class CourseInfoViewController implements PropertyChangeListener {
   private CourseInfoViewModel viewModel;
   private Region root;
 
-  @FXML void onCreateExam() {
+  @FXML void onCreateExam() throws IOException {
     viewModel.onCreateExam();
   }
 
@@ -44,13 +44,15 @@ public class CourseInfoViewController implements PropertyChangeListener {
     }
   }
 
-  @FXML void onEditCourse() {
+  @FXML void onEditCourse() throws IOException
+  {
     viewHandler.openView(ViewFactory.COURSE_EDIT);
     viewModel.onEdit();
     viewModel.removeListener(this);
   }
 
-  @FXML void onViewExam() {
+  @FXML void onViewExam() throws IOException
+  {
     viewModel.onViewExam(examsList.getSelectionModel().getSelectedItem());
   }
 
@@ -92,12 +94,8 @@ public class CourseInfoViewController implements PropertyChangeListener {
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
-      case "create exam" -> {
-        viewHandler.openView(ViewFactory.EXAM_CREATE);
-      }
-      case "view exam" -> {
-        viewHandler.openView(ViewFactory.EXAM_INFO);
-      }
+      case "create exam" -> viewHandler.openView(ViewFactory.EXAM_CREATE);
+      case "view exam" -> viewHandler.openView(ViewFactory.EXAM_INFO);
     }
 
     viewModel.removeListener(this);

@@ -1,4 +1,4 @@
-package en.via.sep2_exammaster.viewmodel.teacher;
+package en.via.sep2_exammaster.viewmodel.student;
 
 import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.shared.Announcement;
@@ -8,13 +8,13 @@ import javafx.beans.property.StringProperty;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-public class AnnouncementInfoViewModel implements PropertyChangeListener {
+public class AnnouncementInfoViewModelStudent implements PropertyChangeListener {
   private Announcement announcement;
   private String examTitle;
   private final Model model;
   private final StringProperty titleLabel, content, examLabel, dayAndTimeLabel;
 
-  public AnnouncementInfoViewModel(Model model){
+  public AnnouncementInfoViewModelStudent(Model model){
     this.model = model;
     this.model.addListener(this);
 

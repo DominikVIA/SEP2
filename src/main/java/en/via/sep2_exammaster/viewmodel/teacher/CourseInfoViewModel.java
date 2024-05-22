@@ -1,6 +1,7 @@
 package en.via.sep2_exammaster.viewmodel.teacher;
 
 import en.via.sep2_exammaster.model.Model;
+import en.via.sep2_exammaster.model.ModelManager;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
@@ -47,20 +48,21 @@ public class CourseInfoViewModel implements PropertyChangeListener {
     }
   }
 
-  public void onCreateExam(){
-    model.viewCreateExam(course);
+  public void onCreateExam() throws IOException {
+    model.viewCourseRelated(course, ModelManager.CREATE_EXAM);
   }
 
   public void onDelete() throws IOException {
-    model.deleteCourse(course.getCode());
+    model.viewCourseRelated(course, ModelManager.DELETE_COURSE);
   }
 
-  public void onEdit() {
-    model.viewEditCourse(course);
+  public void onEdit() throws IOException {
+    model.viewCourseRelated(course, ModelManager.EDIT_COURSE);
   }
 
-  public void onViewExam(Exam exam){
-    model.viewExamInfo(exam);
+  public void onViewExam(Exam exam) throws IOException
+  {
+    model.viewExamRelated(exam, ModelManager.VIEW_EXAM);
   }
 
   public void bindCode(StringProperty property){

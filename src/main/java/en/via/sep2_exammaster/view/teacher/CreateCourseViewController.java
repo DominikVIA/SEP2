@@ -60,7 +60,7 @@ public class CreateCourseViewController implements PropertyChangeListener {
     this.root = root;
 
     TextFormatter<String> formatterCode = new TextFormatter<>(change -> {
-      if (change.isAdded() && codeField.getText().length() >= 4) {
+      if (change.isAdded() && codeField.getText().length() >= 12) {
         return null;
       }
       return change;

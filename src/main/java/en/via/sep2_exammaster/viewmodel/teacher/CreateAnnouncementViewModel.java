@@ -1,6 +1,7 @@
 package en.via.sep2_exammaster.viewmodel.teacher;
 
 import en.via.sep2_exammaster.model.Model;
+import en.via.sep2_exammaster.model.ModelManager;
 import en.via.sep2_exammaster.shared.Announcement;
 import en.via.sep2_exammaster.shared.Exam;
 import javafx.beans.property.SimpleStringProperty;
@@ -40,7 +41,14 @@ public class CreateAnnouncementViewModel implements PropertyChangeListener {
   }
 
   public void viewExamInfo(){
-    model.viewExamInfo(exam);
+    try
+    {
+      model.viewExamRelated(exam, ModelManager.VIEW_EXAM);
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
   public void reset(){

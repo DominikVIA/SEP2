@@ -34,7 +34,7 @@
                   <Font name="Avenir Roman" size="16.0" />
                </font>
             </Label>
-            <TextArea fx:id="descriptionArea" layoutX="58.0" layoutY="221.0" prefHeight="90.0" prefWidth="224.0" />
+            <TextArea fx:id="descriptionArea" layoutX="58.0" layoutY="221.0" prefHeight="90.0" prefWidth="224.0" wrapText="true" />
             <Label layoutX="175.0" layoutY="77.0" prefHeight="17.0" prefWidth="117.0" styleClass="normalLabel" text="Semester:">
                <font>
                   <Font name="Avenir Roman" size="16.0" />

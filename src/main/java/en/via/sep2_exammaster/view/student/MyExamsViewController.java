@@ -41,6 +41,10 @@ public class MyExamsViewController {
     }
   }
 
+  @FXML void onViewAnalytics(){
+    viewHandler.openView(ViewFactory.STUDENT_ANALYTICS);
+  }
+
   public void init(ViewHandler viewHandler, MyExamsViewModel myExamsViewModel, Region root) {
     this.viewHandler = viewHandler;
     this.viewModel = myExamsViewModel;

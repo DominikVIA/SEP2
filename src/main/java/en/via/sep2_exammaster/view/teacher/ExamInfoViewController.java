@@ -93,7 +93,7 @@ public class ExamInfoViewController implements PropertyChangeListener {
   }
 
   @FXML void onViewAnnouncement() {
-    viewModel.viewInfoAnnouncement(announcementsList.getSelectionModel().getSelectedItem());
+    viewModel.viewAnnouncementInfo(announcementsList.getSelectionModel().getSelectedItem());
   }
 
   public void init(ViewHandler viewHandler, ExamInfoViewModel examInfoViewModel, Region root) {
@@ -125,31 +125,27 @@ public class ExamInfoViewController implements PropertyChangeListener {
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch(evt.getPropertyName()){
-      case "view exam" -> {
+      case "view exam" ->
         Platform.runLater(() -> {
           editButton.setDisable(((Exam) evt.getNewValue()).isCompleted());
           addResultButton.setDisable(!((Exam) evt.getNewValue()).isCompleted());
           completeButton.setDisable(((Exam) evt.getNewValue()).isCompleted());
         });
-      }
-      case "edit exam" -> {
+      case "edit exam" ->
         Platform.runLater(() -> {
           viewHandler.openView(ViewFactory.EXAM_EDIT);
           viewModel.removeListener(this);
         });
-      }
-      case "add results" -> {
+      case "add results" ->
         Platform.runLater(() -> {
           viewHandler.openView(ViewFactory.RESULTS_ADD);
           viewModel.removeListener(this);
         });
-      }
-      default -> {
+      default ->
         Platform.runLater(() -> {
-          viewHandler.openView(ViewFactory.ANNOUNCEMENT_INFO);
+          viewHandler.openView(ViewFactory.ANNOUNCEMENT_INFO_TEACHER);
           viewModel.removeListener(this);
         });
-      }
     }
 
   }

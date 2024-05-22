@@ -19,7 +19,7 @@ public interface CourseDAO {
       String description, Teacher primaryTeacher,
       Teacher additionalTeacher, List<Student> students)
       throws SQLException;
-  Course getCourseByCode(String courseCode);
+  Course getCourseByCode(String courseCode, boolean withExtraInformation);
   List<Course> getCourses();
   void deleteCourse(String code);
 }

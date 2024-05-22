@@ -4,16 +4,9 @@ import en.via.sep2_exammaster.shared.Announcement;
 import en.via.sep2_exammaster.view.ViewFactory;
 import en.via.sep2_exammaster.view.ViewHandler;
 import en.via.sep2_exammaster.viewmodel.student.InfoExamViewModel;
-import en.via.sep2_exammaster.viewmodel.student.MyExamsViewModel;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Region;
-
-import java.io.IOException;
 
 public class InfoExamViewController {
 
@@ -45,8 +38,8 @@ public class InfoExamViewController {
   }
 
   @FXML void onView() {
-    viewModel.viewAnnouncement(announcementsList.getSelectionModel().getSelectedItem());
-//    viewHandler.openView();
+    viewModel.viewAnnouncementInfo(announcementsList.getSelectionModel().getSelectedItem());
+    viewHandler.openView(ViewFactory.ANNOUNCEMENT_INFO_STUDENT);
   }
 
   public void init(ViewHandler viewHandler, InfoExamViewModel infoExamViewModel, Region root) {
@@ -64,6 +57,7 @@ public class InfoExamViewController {
     viewModel.bindExaminer(examinerField.textProperty());
     viewModel.bindGradeLabel(gradeLabel.textProperty());
     viewModel.bindFeedback(feedbackArea.textProperty());
+    viewModel.bindAnnouncements(announcementsList.itemsProperty());
 
     viewButton.setDisable(true);
   }

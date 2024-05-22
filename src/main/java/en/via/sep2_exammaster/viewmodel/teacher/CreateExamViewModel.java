@@ -1,6 +1,7 @@
 package en.via.sep2_exammaster.viewmodel.teacher;
 
 import en.via.sep2_exammaster.model.Model;
+import en.via.sep2_exammaster.model.ModelManager;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Examiners;
 import en.via.sep2_exammaster.shared.Student;
@@ -115,7 +116,14 @@ public class CreateExamViewModel implements PropertyChangeListener {
   }
 
   public void viewCourse(Course course){
-    model.viewCourse(course);
+    try
+    {
+      model.viewCourseRelated(course, ModelManager.VIEW_COURSE);
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
   public void reset(){

@@ -13,6 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class AddResultsViewModel implements PropertyChangeListener {
   private Exam exam;
@@ -38,17 +39,19 @@ public class AddResultsViewModel implements PropertyChangeListener {
     model.editResult(student, exam, grade, feedback);
   }
 
-  public void studentClicked(Student student)
+  public void studentClicked(Student student) throws IOException
   {
     Result temp = model.getStudentExamResult(exam, student);
-    if(temp.getGrade() != null) grade.set(temp.getGrade());
+    if(temp.getGrade().getGrade() != -2) grade.set(temp.getGrade());
+    else grade.set(Grade.Null);
     if(temp.getFeedback() != null) feedback.set(temp.getFeedback());
+    else feedback.set("");
   }
 
-  public void reset(){
+  public void reset() throws IOException {
     if(exam != null){
-      studentClicked(exam.getStudents().get(0));
       studentsList.getValue().setAll(exam.getStudents());
+      studentClicked(exam.getStudents().get(0));
     }
   }
 
@@ -75,8 +78,14 @@ public class AddResultsViewModel implements PropertyChangeListener {
   @Override public void propertyChange(PropertyChangeEvent evt) {
     if(evt.getPropertyName().equals("add results")){
       exam = (Exam) evt.getNewValue();
-      reset();
+      try
+      {
+        reset();
+      }
+      catch (IOException e)
+      {
+        throw new RuntimeException(e);
+      }
     }
-//    support.firePropertyChange(evt);
   }
 }

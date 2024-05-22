@@ -2,14 +2,15 @@ package en.via.sep2_exammaster.view.teacher;
 
 import en.via.sep2_exammaster.view.ViewFactory;
 import en.via.sep2_exammaster.view.ViewHandler;
-import en.via.sep2_exammaster.viewmodel.teacher.AnnouncementInfoViewModel;
+import en.via.sep2_exammaster.viewmodel.teacher.AnnouncementInfoViewModelTeacher;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
-public class AnnouncementInfoViewController {
+public class AnnouncementInfoViewControllerTeacher
+{
 
   @FXML public Text announcementTitle;
   @FXML public Label examLabel;
@@ -17,16 +18,16 @@ public class AnnouncementInfoViewController {
   @FXML public Label dateAndTimeLabel;
 
   private ViewHandler viewHandler;
-  private AnnouncementInfoViewModel viewModel;
+  private AnnouncementInfoViewModelTeacher viewModel;
   private Region root;
 
   @FXML void onBack() {
     viewHandler.openView(ViewFactory.EXAM_INFO);
   }
 
-  public void init(ViewHandler viewHandler, AnnouncementInfoViewModel announcementInfoViewModel, Region root) {
+  public void init(ViewHandler viewHandler, AnnouncementInfoViewModelTeacher announcementInfoViewModelTeacher, Region root) {
     this.viewHandler = viewHandler;
-    this.viewModel = announcementInfoViewModel;
+    this.viewModel = announcementInfoViewModelTeacher;
     this.root = root;
 
     viewModel.bindTitleLabel(announcementTitle.textProperty());
