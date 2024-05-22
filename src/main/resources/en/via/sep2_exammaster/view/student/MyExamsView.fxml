@@ -14,7 +14,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="viewExamButton" layoutX="205.0" layoutY="345.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="3.0" prefWidth="115.0" styleClass="normalButton" text="View exam">
+            <Button fx:id="viewExamButton" layoutX="142.0" layoutY="347.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="3.0" prefWidth="115.0" styleClass="normalButton" text="View exam">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
@@ -47,9 +47,14 @@
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
             </Text>
-            <Button layoutX="347.0" layoutY="345.0" mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="67.0" styleClass="normalButton" text="Reset">
+            <Button layoutX="424.0" layoutY="347.0" mnemonicParsing="false" onAction="#reset" prefHeight="30.0" prefWidth="67.0" styleClass="normalButton" text="Refresh">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
+            <Button layoutX="293.0" layoutY="347.0" mnemonicParsing="false" onAction="#onViewAnalytics" styleClass="normalButton" text="View analytics">
+               <font>
+                  <Font size="13.0" />
                </font>
             </Button>
       </children>

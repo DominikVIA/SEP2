@@ -33,7 +33,7 @@ public interface Model extends Closeable{
   void createAnnouncement(String title, String content, Exam exam) throws IOException;
   void viewAnnouncementInfo(Announcement announcement, String examTitle);
   void viewExamRelated(Exam exam, String window) throws IOException;
-  List<Result> getResults() throws IOException;
+  List<Result> getResults();
   Result getStudentExamResult(Exam exam, Student student)
       throws IOException;
   void viewResult(Result result) ;

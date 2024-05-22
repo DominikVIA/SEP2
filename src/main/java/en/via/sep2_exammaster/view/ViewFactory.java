@@ -3,6 +3,7 @@ package en.via.sep2_exammaster.view;
 import en.via.sep2_exammaster.view.student.AnnouncementInfoViewControllerStudent;
 import en.via.sep2_exammaster.view.student.InfoExamViewController;
 import en.via.sep2_exammaster.view.student.MyExamsViewController;
+import en.via.sep2_exammaster.view.student.StudentAnalyticsViewController;
 import en.via.sep2_exammaster.view.teacher.*;
 import en.via.sep2_exammaster.viewmodel.ViewModelFactory;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +27,7 @@ public class ViewFactory {
   public static final String ANNOUNCEMENT_CREATE = "create announcement";
   public static final String ANNOUNCEMENT_INFO_TEACHER = "announcement info teacher";
   public static final String ANNOUNCEMENT_INFO_STUDENT = "announcement info student";
+  public static final String STUDENT_ANALYTICS = "student analytics";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -43,6 +45,7 @@ public class ViewFactory {
   private AnnouncementInfoViewControllerStudent announcementInfoViewControllerStudent;
   private MyExamsViewController myExamsViewController;
   private InfoExamViewController infoExamViewController;
+  private StudentAnalyticsViewController studentAnalyticsViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -59,6 +62,7 @@ public class ViewFactory {
     this.createAnnouncementViewController = null;
     this.myExamsViewController = null;
     this.infoExamViewController = null;
+    this.studentAnalyticsViewController = null;
   }
 
   public Region loadLoginView() {
@@ -294,6 +298,22 @@ public class ViewFactory {
     return infoExamViewController.getRoot();
   }
 
+  public Region loadStudentAnalyticsView() {
+    if (studentAnalyticsViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("student/StudentAnalyticsView.fxml"));
+      try {
+        Region root = loader.load();
+        studentAnalyticsViewController = loader.getController();
+        studentAnalyticsViewController.init(viewHandler, viewModelFactory.getStudentAnalyticsViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    studentAnalyticsViewController.reset();
+    return studentAnalyticsViewController.getRoot();
+  }
+
   public Region load(String id) {
     Region root = switch(id) {
       case LOGIN -> loadLoginView();
@@ -310,6 +330,7 @@ public class ViewFactory {
       case ANNOUNCEMENT_INFO_STUDENT -> loadAnnouncementInfoViewStudent();
       case MY_EXAMS -> loadMyExamsView();
       case RESULT_INFO -> loadResultInfoView();
+      case STUDENT_ANALYTICS -> loadStudentAnalyticsView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
     return root;

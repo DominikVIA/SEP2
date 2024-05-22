@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
@@ -12,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../examMaster.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="en.via.sep2_exammaster.view.student.MyExamsViewController">
+<VBox prefHeight="400.0" prefWidth="640.0" stylesheets="@../examMaster.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="en.via.sep2_exammaster.view.student.StudentAnalyticsViewController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -21,18 +20,18 @@
                   <Font name="Avenir Heavy" size="27.0" />
                </font>
             </Text>
-            <PieChart layoutX="41.0" layoutY="126.0" prefHeight="221.0" prefWidth="222.0" />
-            <LineChart layoutX="303.0" layoutY="86.0" legendVisible="false" prefHeight="308.0" prefWidth="332.0">
+            <PieChart fx:id="gradePieChart" layoutX="41.0" layoutY="126.0" prefHeight="221.0" prefWidth="222.0" />
+            <LineChart fx:id="averageLineChart" layoutX="303.0" layoutY="86.0" legendVisible="false" prefHeight="308.0" prefWidth="332.0">
               <xAxis>
-                <CategoryAxis label="Semester" side="BOTTOM" />
+                <NumberAxis label="Semester" minorTickCount="0" side="BOTTOM" upperBound="9.0" />
               </xAxis>
               <yAxis>
                 <NumberAxis autoRanging="false" label="Semester average" lowerBound="-3.0" side="LEFT" tickLabelGap="1.0" tickUnit="3.0" upperBound="12.0" />
               </yAxis>
             </LineChart>
             <Line endX="-99.99996948242188" endY="281.3143005371094" layoutX="399.0" layoutY="87.0" startX="-100.0" stroke="#7b81d2" />
-            <ChoiceBox layoutX="77.0" layoutY="106.0" prefWidth="150.0" />
-            <Button layoutX="28.0" layoutY="359.0" mnemonicParsing="false" styleClass="normalButton" text="Back" />
+            <ChoiceBox fx:id="semesterChoiceBox" layoutX="77.0" layoutY="106.0" prefWidth="150.0" />
+            <Button layoutX="28.0" layoutY="359.0" mnemonicParsing="false" onAction="#onBack" styleClass="normalButton" text="Back" />
       </children>
     </AnchorPane>
   </children>

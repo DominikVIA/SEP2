@@ -138,9 +138,16 @@ public class ModelManager implements Model, PropertyChangeListener  {
     }
   }
 
-  @Override public List<Result> getResults() throws IOException
+  @Override public List<Result> getResults()
   {
-    return resultManager.getResults();
+    try
+    {
+      return resultManager.getResults();
+    }
+    catch (IOException e)
+    {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override

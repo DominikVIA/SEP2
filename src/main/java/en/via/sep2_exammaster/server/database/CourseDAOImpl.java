@@ -92,7 +92,7 @@ public class CourseDAOImpl implements CourseDAO {
   }
 
   @Override
-  public Course getCourseByCode(String courseCode){
+  public Course getCourseByCode(String courseCode, boolean withExtraInformation){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("""
           SELECT * FROM courses
@@ -119,8 +119,12 @@ public class CourseDAOImpl implements CourseDAO {
           course.addAdditionalTeacher(additional);
         }
 
-        course.addExams(ExamDAOImpl.getInstance().getExamsByCourse(course).toArray(new Exam[0]));
-        course.addStudents(StudentDAOImpl.getInstance().getStudentsFromCourse(course).toArray(new Student[0]));
+        if(withExtraInformation)
+        {
+          course.addExams(ExamDAOImpl.getInstance().getExamsByCourse(course).toArray(new Exam[0]));
+          course.addStudents(
+              StudentDAOImpl.getInstance().getStudentsFromCourse(course).toArray(new Student[0]));
+        }
       }
       return course;
     }
@@ -176,7 +180,7 @@ public class CourseDAOImpl implements CourseDAO {
       }
 
       connection.commit();
-      return getCourseByCode(code);
+      return getCourseByCode(code, true);
     }
     catch (SQLException e){
       connection.rollback();
@@ -195,7 +199,7 @@ public class CourseDAOImpl implements CourseDAO {
       ResultSet result = statement.executeQuery();
       ArrayList<Course> list = new ArrayList<>();
       while (result.next()){
-        list.add(getCourseByCode(result.getString(1)));
+        list.add(getCourseByCode(result.getString(1), true));
       }
       return list;
     }

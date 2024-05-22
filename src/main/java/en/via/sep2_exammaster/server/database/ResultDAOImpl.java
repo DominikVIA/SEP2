@@ -92,8 +92,11 @@ public class ResultDAOImpl implements ResultDAO {
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("""
           SELECT *
-          FROM results JOIN exams e ON e.id = results.exam_id
-          WHERE student_id = ?;
+          FROM results
+          JOIN exams e ON e.id = results.exam_id
+          JOIN courses c on e.course_code = c.code
+          WHERE student_id = ?
+          ORDER BY semester;
           """);
       statement.setInt(1, studentId);
       ResultSet result = statement.executeQuery();
@@ -104,7 +107,7 @@ public class ResultDAOImpl implements ResultDAO {
             result.getString("title"),
             result.getString("content"),
             result.getString("room"),
-            null,
+            CourseDAOImpl.getInstance().getCourseByCode(result.getString("course_code"), false),
             result.getDate("date").toLocalDate(),
             result.getTime("time").toLocalTime(),
             result.getBoolean("written"),
