@@ -5,6 +5,7 @@ import en.via.sep2_exammaster.view.ViewHandler;
 import en.via.sep2_exammaster.viewmodel.student.MyExamsViewModel;
 import en.via.sep2_exammaster.viewmodel.student.StudentAnalyticsViewModel;
 import javafx.fxml.FXML;
+import javafx.geometry.Side;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;

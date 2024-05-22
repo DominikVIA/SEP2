@@ -43,6 +43,27 @@ public class ResultDAOImpl implements ResultDAO {
     }
   }
 
+  @Override public List<Result> getResultsByExam(Exam exam){
+    try(Connection connection = getConnection()){
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM results WHERE exam_id = ?;");
+      statement.setInt(1, exam.getId());
+      ResultSet result = statement.executeQuery();
+      ArrayList<Result> answer = new ArrayList<>();
+      while(result.next()){
+        answer.add(new Result(
+            Grade.findGrade(result.getString("grade") != null ?
+                Integer.parseInt(result.getString("grade")) : -2),
+            result.getString("feedback"),
+            exam));
+      }
+      return answer;
+    }
+    catch (SQLException e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
   @Override
   public Result getStudentResultByExamId(Exam exam, Student student){
     try(Connection connection = getConnection()){

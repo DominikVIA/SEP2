@@ -32,6 +32,7 @@ public interface Database {
   void deleteExam(int id);
   Announcement createAnnouncement(String title, String content, Exam exam);
   Result getStudentResultByExamId(Exam exam, Student student);
+  List<Result> getResultsByExam(Exam exam);
   Result editResult(Student student, Exam exam, Grade grade, String feedback);
   List<User> readAllUsers();
   Student readStudent(int studentID);

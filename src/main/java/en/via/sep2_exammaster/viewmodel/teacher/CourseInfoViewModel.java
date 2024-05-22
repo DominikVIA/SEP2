@@ -65,6 +65,11 @@ public class CourseInfoViewModel implements PropertyChangeListener {
     model.viewExamRelated(exam, ModelManager.VIEW_EXAM);
   }
 
+  public void onViewAnalytics(Exam exam) throws IOException
+  {
+    model.viewExamRelated(exam, ModelManager.VIEW_ANALYTICS);
+  }
+
   public void bindCode(StringProperty property){
     property.bind(code);
   }

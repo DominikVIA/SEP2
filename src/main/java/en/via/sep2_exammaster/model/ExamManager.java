@@ -85,6 +85,11 @@ public class ExamManager extends UnicastRemoteObject implements ExamManagerInter
     support.firePropertyChange("add results", null, exam);
   }
 
+  @Override
+  public void viewAnalytics(Exam exam){
+    support.firePropertyChange("view analytics", null, exam);
+  }
+
   @Override public void addListener(PropertyChangeListener listener) {
     support.addPropertyChangeListener(listener);
   }

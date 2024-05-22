@@ -176,6 +176,12 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
     return database.getStudentResultByExamId(exam, student);
   }
 
+  @Override public List<Result> getResultsByExam(Exam exam)
+      throws RemoteException
+  {
+    return database.getResultsByExam(exam);
+  }
+
   @Override
   public void editResult(User loggedIn, Student student, Exam exam, Grade grade, String feedback) throws RemoteException{
     Result temp = database.editResult(student, exam, grade, feedback);

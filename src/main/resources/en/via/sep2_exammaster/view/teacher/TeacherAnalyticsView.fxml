@@ -13,16 +13,16 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button layoutX="38.0" layoutY="359.0" mnemonicParsing="false" styleClass="normalButton" text="Back" />
-            <BarChart layoutX="24.0" layoutY="71.0" prefHeight="318.0" prefWidth="592.0">
+            <Button layoutX="24.0" layoutY="354.0" mnemonicParsing="false" styleClass="normalButton" text="Back" />
+            <BarChart fx:id="gradeChart" layoutX="24.0" layoutY="63.0" onMouseClicked="#onBack" prefHeight="318.0" prefWidth="592.0">
               <xAxis>
-                <CategoryAxis side="BOTTOM" />
+                <CategoryAxis label="Grades" side="BOTTOM" />
               </xAxis>
               <yAxis>
-                <NumberAxis side="LEFT" />
+                <NumberAxis autoRanging="false" label="Students" side="LEFT" upperBound="30.0" />
               </yAxis>
             </BarChart>
-            <Label fx:id="examTitleLabel" layoutX="38.0" layoutY="33.0" prefHeight="39.0" prefWidth="409.0" textFill="#7b81d2">
+            <Label fx:id="examTitleLabel" layoutX="38.0" layoutY="25.0" prefHeight="39.0" prefWidth="409.0" styleClass="title" textFill="#7b81d2">
                <font>
                   <Font name="Avenir Heavy" size="27.0" />
                </font>

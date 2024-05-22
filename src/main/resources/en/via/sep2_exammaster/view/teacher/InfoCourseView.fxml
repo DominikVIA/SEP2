@@ -70,7 +70,7 @@
                </font>
             </Button>
             <Label layoutX="220.0" layoutY="22.0" styleClass="normalLabel" text="Semester:" />
-            <Button layoutX="467.0" layoutY="288.0" mnemonicParsing="false" onAction="#onDeleteCourse" prefHeight="30.0" prefWidth="101.0" styleClass="normalButton" text="Get Analytics">
+            <Button fx:id="getAnalyticsButton" layoutX="467.0" layoutY="288.0" mnemonicParsing="false" onAction="#onGetAnalytics" prefHeight="30.0" prefWidth="101.0" styleClass="normalButton" text="Get Analytics">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>

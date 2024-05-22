@@ -11,6 +11,8 @@ import java.util.List;
    List<Result> getResults() throws IOException;
   Result getStudentExamResult(Exam exam, Student student)
       throws IOException;
+  List<Result> getResultsByExam(Exam exam)
+      throws IOException;
    void viewResult(Result result) ;
    void editResult(Student student, Exam exam, Grade grade, String feedback) throws IOException;
     void addListener(PropertyChangeListener listener);

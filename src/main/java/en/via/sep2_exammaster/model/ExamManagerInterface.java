@@ -27,6 +27,7 @@ import java.util.List;
    void viewCreateAnnouncement(Exam exam);
    void viewExamInfo(Exam exam);
    void viewAddResults(Exam exam);
+   void viewAnalytics(Exam exam);
    void addListener(PropertyChangeListener listener);
    void removeListener(PropertyChangeListener listener);
 }

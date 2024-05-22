@@ -41,6 +41,13 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
   }
 
   @Override
+  public List<Result> getResultsByExam(Exam exam)
+      throws IOException
+  {
+    return server.getResultsByExam(exam);
+  }
+
+  @Override
   public void viewResult(Result result) {
     support.firePropertyChange("view result", null, result);
   }

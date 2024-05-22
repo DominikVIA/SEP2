@@ -28,6 +28,7 @@ public class ModelManager implements Model, PropertyChangeListener  {
   public static final String DELETE_EXAM = "delete exam";
   public static final String CREATE_ANNOUNCEMENT = "create announcement";
   public static final String ADD_RESULTS = "add results";
+  public static final String VIEW_ANALYTICS = "view analytics";
 
   private final PropertyChangeSupport support;
   private final CourseManagerInterface courseManager;
@@ -135,6 +136,7 @@ public class ModelManager implements Model, PropertyChangeListener  {
       case DELETE_EXAM -> examManager.deleteExam(exam.getId());
       case CREATE_ANNOUNCEMENT -> examManager.viewCreateAnnouncement(exam);
       case ADD_RESULTS -> examManager.viewAddResults(exam);
+      case VIEW_ANALYTICS -> examManager.viewAnalytics(exam);
     }
   }
 
@@ -155,6 +157,13 @@ public class ModelManager implements Model, PropertyChangeListener  {
       throws IOException
   {
     return resultManager.getStudentExamResult(exam, student);
+  }
+
+  @Override
+  public List<Result> getResultsByExam(Exam exam)
+      throws IOException
+  {
+    return resultManager.getResultsByExam(exam);
   }
 
   @Override public void viewResult(Result result)

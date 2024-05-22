@@ -36,6 +36,8 @@ public interface Model extends Closeable{
   List<Result> getResults();
   Result getStudentExamResult(Exam exam, Student student)
       throws IOException;
+  List<Result> getResultsByExam(Exam exam)
+      throws IOException;
   void viewResult(Result result) ;
   void editResult(Student student, Exam exam, Grade grade, String feedback) throws IOException;
   Student getStudent(int studentID) throws IOException;

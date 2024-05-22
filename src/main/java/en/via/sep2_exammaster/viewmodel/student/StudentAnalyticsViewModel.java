@@ -33,8 +33,7 @@ public class StudentAnalyticsViewModel {
     semesterChosen = new SimpleObjectProperty<>();
   }
 
-  public void reset()
-  {
+  public void reset() {
     semesterItems.getValue().setAll();
     pieChart.getValue().setAll();
     semesterGrades.clear();
@@ -48,15 +47,22 @@ public class StudentAnalyticsViewModel {
       int semester = temp.getExam().getCourse().getSemester();
       if(!temp.getGrade().equals(Grade.Null)) {
         if (semesterCounter < semester) {
-          semesterGrades.add(grades);
+          if(!grades.isEmpty()){
+            semesterGrades.add((ArrayList<Grade>) grades.clone());
+          }
           grades.clear();
           semesterCounter = semester;
           semesterItems.getValue().add(getStringFromNumber(semester));
         }
+        
+
+        System.out.println("added grade");
+        
+
         grades.add(temp.getGrade());
       }
     }
-
+    semesterGrades.add((ArrayList<Grade>) grades.clone());
     int counter = 1;
     for(ArrayList<Grade> temp : semesterGrades){
       lineChart.get().get(0).getData().add(new XYChart.Data<>(counter, gradeAverage(temp)));

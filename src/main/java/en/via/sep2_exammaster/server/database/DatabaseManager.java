@@ -107,6 +107,11 @@ public class DatabaseManager implements Database {
     return results.getStudentResultByExamId(exam, student);
   }
 
+  @Override public List<Result> getResultsByExam(Exam exam)
+  {
+    return results.getResultsByExam(exam);
+  }
+
   @Override
   public Result editResult(Student student, Exam exam, Grade grade, String feedback){
     return results.editResult(student, exam, grade, feedback);

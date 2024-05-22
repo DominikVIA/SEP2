@@ -38,6 +38,7 @@ public interface ServerConnector extends Remote {
   void createAnnouncement(User loggedIn, String title, String content, Exam exam) throws RemoteException;
   Result getStudentExamResult(Exam exam, Student student) throws
       RemoteException;
+  List<Result> getResultsByExam(Exam exam) throws RemoteException;
   void editResult(User loggedIn, Student student, Exam exam, Grade grade, String feedback) throws RemoteException;
   Student getStudent(User loggedIn, int studentID) throws RemoteException;
   Teacher getTeacher(User loggedIn, String initials) throws RemoteException;

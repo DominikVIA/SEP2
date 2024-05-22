@@ -22,6 +22,7 @@ public class CourseInfoViewController implements PropertyChangeListener {
   @FXML public ListView<Student> studentsList;
   @FXML public TextField titleField;
   @FXML public Button viewButton;
+  @FXML public Button getAnalyticsButton;
 
   private ViewHandler viewHandler;
   private CourseInfoViewModel viewModel;
@@ -56,11 +57,19 @@ public class CourseInfoViewController implements PropertyChangeListener {
     viewModel.onViewExam(examsList.getSelectionModel().getSelectedItem());
   }
 
+  @FXML void onGetAnalytics() throws IOException{
+    viewModel.onViewAnalytics(examsList.getSelectionModel().getSelectedItem());
+  }
+
   @FXML void onClick(){
     viewButton.setDisable(true);
+    getAnalyticsButton.setDisable(true);
 
     if(examsList.getSelectionModel().getSelectedItem() != null)
+    {
       viewButton.setDisable(false);
+      getAnalyticsButton.setDisable(false);
+    }
   }
 
   @FXML void onBack(){
@@ -81,6 +90,7 @@ public class CourseInfoViewController implements PropertyChangeListener {
     viewModel.bindExams(examsList.itemsProperty());
 
     viewButton.setDisable(true);
+    getAnalyticsButton.setDisable(true);
   }
 
   public Region getRoot() {
@@ -89,6 +99,7 @@ public class CourseInfoViewController implements PropertyChangeListener {
 
   public void reset() {
     viewButton.setDisable(true);
+    getAnalyticsButton.setDisable(true);
     viewModel.reset();
   }
 
@@ -96,6 +107,7 @@ public class CourseInfoViewController implements PropertyChangeListener {
     switch (evt.getPropertyName()){
       case "create exam" -> viewHandler.openView(ViewFactory.EXAM_CREATE);
       case "view exam" -> viewHandler.openView(ViewFactory.EXAM_INFO);
+      case "view analytics" -> viewHandler.openView(ViewFactory.EXAM_ANALYTICS);
     }
 
     viewModel.removeListener(this);
