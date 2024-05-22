@@ -14,7 +14,7 @@
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-            <ListView fx:id="studentsList" layoutX="43.0" layoutY="256.0" prefHeight="116.0" prefWidth="289.0" styleClass="smallListView" />
+            <ListView fx:id="studentsList" layoutX="43.0" layoutY="256.0" prefHeight="129.0" prefWidth="289.0" styleClass="smallListView" />
             <TextField fx:id="titleField" editable="false" layoutX="43.0" layoutY="94.0" prefHeight="31.0" prefWidth="289.0" text="Title">
                <font>
                   <Font name="Avenir Roman" size="16.0" />
@@ -33,12 +33,12 @@
                </font>
             </TextField>
             <Separator layoutX="28.0" layoutY="68.0" prefHeight="31.0" prefWidth="313.0" />
-            <Button layoutX="440.0" layoutY="362.0" mnemonicParsing="false" onAction="#onEditCourse" styleClass="normalButton" text="Edit Course">
+            <Button layoutX="427.0" layoutY="356.0" mnemonicParsing="false" onAction="#onEditCourse" styleClass="normalButton" text="Edit Course">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <Button layoutX="530.0" layoutY="362.0" mnemonicParsing="false" onAction="#onDeleteCourse" styleClass="normalButton" text="Delete Course">
+            <Button layoutX="518.0" layoutY="356.0" mnemonicParsing="false" onAction="#onDeleteCourse" styleClass="normalButton" text="Delete Course">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
@@ -48,28 +48,33 @@
                   <Font name="Avenir Heavy" size="14.0" />
                </font>
             </Label>
-            <ListView fx:id="examsList" layoutX="376.0" layoutY="94.0" onMouseClicked="#onClick" prefHeight="170.0" prefWidth="225.0" styleClass="smallListView" />
-            <Label layoutX="376.0" layoutY="62.0" prefHeight="35.0" prefWidth="181.0" styleClass="normalLabel" text="Exams in course:">
+            <ListView fx:id="examsList" layoutX="366.0" layoutY="95.0" onMouseClicked="#onClick" prefHeight="188.0" prefWidth="254.0" styleClass="smallListView" />
+            <Label layoutX="366.0" layoutY="65.0" prefHeight="35.0" prefWidth="181.0" styleClass="normalLabel" text="Exams in course:">
                <font>
                   <Font name="Avenir Heavy" size="20.0" />
                </font>
             </Label>
-            <Button layoutX="376.0" layoutY="269.0" mnemonicParsing="false" onAction="#onCreateExam" styleClass="normalButton" text="Create Exam" textAlignment="RIGHT">
+            <Button layoutX="367.0" layoutY="288.0" mnemonicParsing="false" onAction="#onCreateExam" prefHeight="30.0" prefWidth="97.0" styleClass="normalButton" text="Create Exam" textAlignment="RIGHT">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <Button fx:id="viewButton" layoutX="556.0" layoutY="269.0" mnemonicParsing="false" onAction="#onViewExam" styleClass="normalButton" text="View" textAlignment="CENTER">
+            <Button fx:id="viewButton" layoutX="571.0" layoutY="288.0" mnemonicParsing="false" onAction="#onViewExam" prefHeight="30.0" prefWidth="50.0" styleClass="normalButton" text="View" textAlignment="CENTER">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font>
             </Button>
-            <Button layoutX="376.0" layoutY="362.0" mnemonicParsing="false" onAction="#onBack" styleClass="normalButton" text="Back">
+            <Button layoutX="366.0" layoutY="356.0" minHeight="30.0" mnemonicParsing="false" onAction="#onBack" styleClass="normalButton" text="Back">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
             <Label layoutX="220.0" layoutY="22.0" styleClass="normalLabel" text="Semester:" />
+            <Button layoutX="467.0" layoutY="288.0" mnemonicParsing="false" onAction="#onDeleteCourse" prefHeight="30.0" prefWidth="101.0" styleClass="normalButton" text="Get Analytics">
+               <font>
+                  <Font name="Avenir Roman" size="13.0" />
+               </font>
+            </Button>
       </children>
     </AnchorPane>
   </children>
