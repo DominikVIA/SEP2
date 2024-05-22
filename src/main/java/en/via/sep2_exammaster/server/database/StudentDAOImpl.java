@@ -84,12 +84,9 @@ public class StudentDAOImpl implements StudentDAO {
 
   public List<Student> getStudentsFromCourse(Course course){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          SELECT *
-          FROM students
-              JOIN course_students cs ON cs.student = students.student_id
-          WHERE course_code = ?;
-          """);
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM students "
+          + "JOIN course_students cs ON cs.student = students.student_id "
+          + "WHERE course_code = ?;");
       statement.setString(1, course.getCode());
       ResultSet result = statement.executeQuery();
       ArrayList<Student> answer = new ArrayList<>();

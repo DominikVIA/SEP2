@@ -45,11 +45,9 @@ public class ExamDAOImpl implements ExamDAO {
     Connection connection = getConnection();
     try {
       connection.setAutoCommit(false);
-      PreparedStatement statement = connection.prepareStatement("""
-      INSERT INTO
-      exams(title, content, room, examiners, date, time, course_code, written, completed)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, false);
-      """, PreparedStatement.RETURN_GENERATED_KEYS);
+      PreparedStatement statement = connection.prepareStatement("INSERT INTO"
+              + "exams(title, content, room, examiners, date, time, course_code, written, completed)"
+              + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, false);", PreparedStatement.RETURN_GENERATED_KEYS);
       statement.setString(1, title);
       statement.setString(2, content);
       statement.setString(3, room);
@@ -89,10 +87,9 @@ public class ExamDAOImpl implements ExamDAO {
   @Override
   public Announcement createAnnouncement(String title, String content, Exam exam){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          INSERT INTO announcements(exam_id, title, content, date, time)
-          VALUES(?,?,?,?,?);
-          """, Statement.RETURN_GENERATED_KEYS);
+      PreparedStatement statement = connection.prepareStatement("INSERT INTO "
+          + "announcements(exam_id, title, content, date, time)"
+          + "VALUES(?,?,?,?,?);", Statement.RETURN_GENERATED_KEYS);
       statement.setInt(1, exam.getId());
       statement.setString(2, title);
       statement.setString(3, content);
@@ -193,11 +190,9 @@ public class ExamDAOImpl implements ExamDAO {
   @Override
   public List<Exam> getExamsByStudentID(int studentId){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          SELECT *
-          FROM exams JOIN results r on exams.id = r.exam_id
-          WHERE student_id = ?;
-          """);
+      PreparedStatement statement = connection.prepareStatement("SELECT *"
+          + "FROM exams JOIN results r on exams.id = r.exam_id"
+          + "WHERE student_id = ?;");
       statement.setInt(1, studentId);
       ResultSet result = statement.executeQuery();
       ArrayList<Exam> exams = new ArrayList<>();
@@ -262,11 +257,10 @@ public class ExamDAOImpl implements ExamDAO {
     Connection connection = getConnection();
     try {
       connection.setAutoCommit(false);
-      PreparedStatement statement = connection.prepareStatement("""
-          UPDATE exams
-          SET title = ?, room = ?, content = ?, date = ?, time = ?, written = ?, examiners = ?
-          WHERE id = ?;
-          """);
+      PreparedStatement statement = connection.prepareStatement("UPDATE exams "
+          + "SET title = ?, room = ?, content = ?, "
+          + "date = ?, time = ?, written = ?, examiners = ? "
+          + "WHERE id = ?;");
       statement.setString(1, title);
       statement.setString(2, room);
       statement.setString(3, content);

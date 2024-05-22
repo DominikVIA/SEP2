@@ -33,8 +33,8 @@ public class StudentAnalyticsViewController {
     this.viewModel = studentAnalyticsViewModel;
     this.root = root;
 
-//    semesterChoiceBox.valueProperty().addListener(
-//        (observable, oldValue, newValue) -> ;
+    semesterChoiceBox.valueProperty().addListener(
+        (observable, oldValue, newValue) -> viewModel.pieChartUpdate());
 
     viewModel.bindLineChart(averageLineChart.dataProperty());
     viewModel.bindPieChart(gradePieChart.dataProperty());

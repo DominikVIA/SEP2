@@ -94,12 +94,10 @@ public class CourseDAOImpl implements CourseDAO {
   @Override
   public Course getCourseByCode(String courseCode, boolean withExtraInformation){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          SELECT * FROM courses
-              JOIN course_teachers ct ON courses.code = ct.course_code
-              JOIN teachers t ON ct.teacher = t.teacher_id
-          WHERE code = ?;
-          """);
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM courses "
+             + "JOIN course_teachers ct ON courses.code = ct.course_code "
+             + "JOIN teachers t ON ct.teacher = t.teacher_id "
+             + "WHERE code = ?;");
       statement.setString(1, courseCode);
       ResultSet result = statement.executeQuery();
 
@@ -142,11 +140,9 @@ public class CourseDAOImpl implements CourseDAO {
     Connection connection = getConnection();
     try {
       connection.setAutoCommit(false);
-      PreparedStatement statement = connection.prepareStatement("""
-          UPDATE courses
-          SET title = ?, semester = ?, description = ?
-          WHERE code = ?;
-          """);
+      PreparedStatement statement = connection.prepareStatement("UPDATE courses "
+          + "SET title = ?, semester = ?, description = ? "
+          + "WHERE code = ?;");
       statement.setString(1, title);
       statement.setInt(2, semester);
       statement.setString(3, description);

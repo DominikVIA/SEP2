@@ -69,11 +69,9 @@ public class ResultDAOImpl implements ResultDAO {
   @Override
   public Result editResult(Student student, Exam exam, Grade grade, String feedback){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          UPDATE results
-          SET grade = ?, feedback = ?
-          WHERE student_id = ? AND exam_id = ?;
-          """);
+      PreparedStatement statement = connection.prepareStatement("UPDATE results "
+          + "SET grade = ?, feedback = ? "
+          + "WHERE student_id = ? AND exam_id = ?;");
       statement.setString(1, grade.getGrade() + "");
       statement.setString(2, (feedback.isBlank() ? null : feedback));
       statement.setInt(3, student.getStudentNo());
@@ -90,14 +88,10 @@ public class ResultDAOImpl implements ResultDAO {
   @Override
   public List<Result> getResultsByStudentID(int studentId){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("""
-          SELECT *
-          FROM results
-          JOIN exams e ON e.id = results.exam_id
-          JOIN courses c on e.course_code = c.code
-          WHERE student_id = ?
-          ORDER BY semester;
-          """);
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM results "
+          + "JOIN exams e ON e.id = results.exam_id "
+          + "JOIN courses c on e.course_code = c.code "
+          + "WHERE student_id = ? ORDER BY semester;");
       statement.setInt(1, studentId);
       ResultSet result = statement.executeQuery();
       ArrayList<Result> answer = new ArrayList<>();
