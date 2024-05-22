@@ -5,12 +5,12 @@ import en.via.sep2_exammaster.model.ModelManager;
 import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Student;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -108,9 +108,7 @@ public class CourseInfoViewModel implements PropertyChangeListener {
         course = (Course) evt.getNewValue();
         reset();
       }
-      case "view exam", "create exam" -> {
-        support.firePropertyChange(evt);
-      }
+      case "view exam", "create exam", "view analytics" -> support.firePropertyChange(evt);
     }
   }
 }

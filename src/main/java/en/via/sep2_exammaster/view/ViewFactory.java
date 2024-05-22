@@ -28,6 +28,7 @@ public class ViewFactory {
   public static final String ANNOUNCEMENT_INFO_TEACHER = "announcement info teacher";
   public static final String ANNOUNCEMENT_INFO_STUDENT = "announcement info student";
   public static final String STUDENT_ANALYTICS = "student analytics";
+  public static final String TEACHER_ANALYTICS = "teacher analytics";
 
   private final ViewHandler viewHandler;
   private final ViewModelFactory viewModelFactory;
@@ -46,6 +47,7 @@ public class ViewFactory {
   private MyExamsViewController myExamsViewController;
   private InfoExamViewController infoExamViewController;
   private StudentAnalyticsViewController studentAnalyticsViewController;
+  private TeacherAnalyticsViewController teacherAnalyticsViewController;
 
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
@@ -63,6 +65,7 @@ public class ViewFactory {
     this.myExamsViewController = null;
     this.infoExamViewController = null;
     this.studentAnalyticsViewController = null;
+    this.teacherAnalyticsViewController = null;
   }
 
   public Region loadLoginView() {
@@ -314,8 +317,24 @@ public class ViewFactory {
     return studentAnalyticsViewController.getRoot();
   }
 
+  public Region loadTeacherAnalyticsView() {
+    if (teacherAnalyticsViewController == null) {
+      FXMLLoader loader = new FXMLLoader();
+      loader.setLocation(getClass().getResource("teacher/TeacherAnalyticsView.fxml"));
+      try {
+        Region root = loader.load();
+        teacherAnalyticsViewController = loader.getController();
+        teacherAnalyticsViewController.init(viewHandler, viewModelFactory.getTeacherAnalyticsViewModel(), root);
+      } catch (IOException e) {
+        throw new IOError(e);
+      }
+    }
+    teacherAnalyticsViewController.reset();
+    return teacherAnalyticsViewController.getRoot();
+  }
+
   public Region load(String id) {
-    Region root = switch(id) {
+    return switch(id) {
       case LOGIN -> loadLoginView();
       case MY_COURSES -> loadMyCoursesView();
       case COURSE_INFO -> loadCourseInfoView();
@@ -331,8 +350,8 @@ public class ViewFactory {
       case MY_EXAMS -> loadMyExamsView();
       case RESULT_INFO -> loadResultInfoView();
       case STUDENT_ANALYTICS -> loadStudentAnalyticsView();
+      case TEACHER_ANALYTICS -> loadTeacherAnalyticsView();
       default -> throw new IllegalArgumentException("Unknown view: " + id);
     };
-    return root;
   }
 }

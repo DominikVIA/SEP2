@@ -1,6 +1,7 @@
 package en.via.sep2_exammaster.viewmodel;
 
 import en.via.sep2_exammaster.model.Model;
+import en.via.sep2_exammaster.view.teacher.TeacherAnalyticsViewController;
 import en.via.sep2_exammaster.viewmodel.student.AnnouncementInfoViewModelStudent;
 import en.via.sep2_exammaster.viewmodel.student.InfoExamViewModel;
 import en.via.sep2_exammaster.viewmodel.student.MyExamsViewModel;
@@ -23,6 +24,7 @@ public class ViewModelFactory {
   private final MyExamsViewModel myExamsViewModel;
   private final InfoExamViewModel infoExamViewModel;
   private final StudentAnalyticsViewModel studentAnalyticsViewModel;
+  private final TeacherAnalyticsViewModel teacherAnalyticsViewModel;
 
   public ViewModelFactory(Model model) {
     this.loginViewModel = new LoginViewModel(model);
@@ -40,6 +42,7 @@ public class ViewModelFactory {
     this.myExamsViewModel = new MyExamsViewModel(model);
     this.infoExamViewModel = new InfoExamViewModel(model);
     this.studentAnalyticsViewModel = new StudentAnalyticsViewModel(model);
+    this.teacherAnalyticsViewModel = new TeacherAnalyticsViewModel(model);
   }
 
   public LoginViewModel getLoginViewModel() {
@@ -101,5 +104,9 @@ public class ViewModelFactory {
 
   public StudentAnalyticsViewModel getStudentAnalyticsViewModel() {
     return studentAnalyticsViewModel;
+  }
+
+  public TeacherAnalyticsViewModel getTeacherAnalyticsViewModel() {
+    return teacherAnalyticsViewModel;
   }
 }

@@ -11,7 +11,7 @@ import javafx.scene.layout.Region;
 
 public class TeacherAnalyticsViewController {
   @FXML public Label examTitleLabel;
-  @FXML public BarChart<Grade, Integer> gradeChart;
+  @FXML public BarChart<String, Integer> gradeChart;
 
   private ViewHandler viewHandler;
   private TeacherAnalyticsViewModel viewModel;
