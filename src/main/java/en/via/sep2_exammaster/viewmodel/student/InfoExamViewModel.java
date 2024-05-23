@@ -2,7 +2,6 @@ package en.via.sep2_exammaster.viewmodel.student;
 
 import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.shared.Announcement;
-import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Result;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

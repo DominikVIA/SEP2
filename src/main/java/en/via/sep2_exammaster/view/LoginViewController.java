@@ -13,7 +13,6 @@ import javafx.scene.layout.Region;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class LoginViewController implements PropertyChangeListener {
   @FXML public TextField usernameField;
@@ -60,31 +59,20 @@ public class LoginViewController implements PropertyChangeListener {
 
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
-      case "login success" -> {
-        Platform.runLater(() -> {
-          if(evt.getNewValue() instanceof Teacher) viewHandler.openView(ViewFactory.MY_COURSES);
-          else viewHandler.openView(ViewFactory.MY_EXAMS);
-          viewModel.removeListener(this);
-        });
-
-      }
-      case "login fail credentials" -> {
-        Platform.runLater(() -> {
-          showError("The username and/or password is incorrect.");
-          reset();
-        });
-      }
-      case "login fail online" -> {
-        Platform.runLater(() -> {
-          showError("This user is already logged in.");
-          reset();
-        });
-      }
-      default -> {
-        Platform.runLater(() -> {
-          showError("The username and/or password are empty.");
-        });
-      }
+      case "login success" -> Platform.runLater(() -> {
+        if(evt.getNewValue() instanceof Teacher) viewHandler.openView(ViewFactory.MY_COURSES);
+        else viewHandler.openView(ViewFactory.MY_EXAMS);
+        viewModel.removeListener(this);
+      });
+      case "login fail credentials" -> Platform.runLater(() -> {
+        showError("The username and/or password is incorrect.");
+        reset();
+      });
+      case "login fail online" -> Platform.runLater(() -> {
+        showError("This user is already logged in.");
+        reset();
+      });
+      default -> Platform.runLater(() -> showError("The username and/or password are empty."));
     }
   }
 }

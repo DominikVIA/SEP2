@@ -4,13 +4,40 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * The Announcement class represents an announcement with a unique identifier, title, content,
+ * date, and time.
+ * <p>
+ * Announcements are typically used to convey important information to users within an
+ * application.
+ */
 public class Announcement implements Serializable {
+
+  /** Unique identifier. */
   private int id;
-  private String title, content;
+
+  /** Announcement title. */
+  private String title;
+
+  /** Announcement content. */
+  private String content;
+
+  /** Announcement date. */
   private LocalDate date;
+
+  /** Announcement time. */
   private LocalTime time;
 
-  public Announcement(int id, String title, String content, LocalDate date, LocalTime time){
+  /**
+   * Constructs a new Announcement with the specified id, title, content, date, and time.
+   *
+   * @param id      the unique identifier of the announcement
+   * @param title   the title of the announcement
+   * @param content the content of the announcement
+   * @param date    the date of the announcement
+   * @param time    the time of the announcement
+   */
+  public Announcement(int id, String title, String content, LocalDate date, LocalTime time) {
     this.id = id;
     this.title = title;
     this.content = content;
@@ -18,23 +45,50 @@ public class Announcement implements Serializable {
     this.time = time;
   }
 
-  public String getTitle(){
+  /**
+   * Returns the title of the announcement.
+   *
+   * @return the title of the announcement
+   */
+  public String getTitle() {
     return title;
   }
 
-  public String getContent(){
+  /**
+   * Returns the content of the announcement.
+   *
+   * @return the content of the announcement
+   */
+  public String getContent() {
     return content;
   }
 
-  public LocalDate getDate(){
+  /**
+   * Returns the date of the announcement.
+   *
+   * @return the date of the announcement
+   */
+  public LocalDate getDate() {
     return date;
   }
 
-  public LocalTime getTime(){
+  /**
+   * Returns the time of the announcement.
+   *
+   * @return the time of the announcement
+   */
+  public LocalTime getTime() {
     return time;
   }
 
-  @Override public String toString() {
+  /**
+   * Returns a string representation of the Announcement object.
+   *
+   * @return a string representation of the Announcement object consisting of a date and title.
+   */
+  @Override
+  public String toString() {
     return date + " - " + title;
   }
 }
+

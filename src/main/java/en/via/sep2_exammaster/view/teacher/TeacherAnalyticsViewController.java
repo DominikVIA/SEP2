@@ -1,6 +1,5 @@
 package en.via.sep2_exammaster.view.teacher;
 
-import en.via.sep2_exammaster.shared.Grade;
 import en.via.sep2_exammaster.view.ViewFactory;
 import en.via.sep2_exammaster.view.ViewHandler;
 import en.via.sep2_exammaster.viewmodel.teacher.TeacherAnalyticsViewModel;

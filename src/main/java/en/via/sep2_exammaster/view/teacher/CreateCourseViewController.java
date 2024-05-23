@@ -110,37 +110,21 @@ public class CreateCourseViewController implements PropertyChangeListener {
           viewHandler.openView(ViewFactory.COURSE_INFO);
         });
       case "course create fail" ->
-          Platform.runLater(() -> {
-            showError("A course with this course code already exists. A different code must be used.");
-          });
+          Platform.runLater(() -> showError("A course with this course code already exists. A different code must be used."));
       case "semester error" ->
-          Platform.runLater(() -> {
-            showError("The \"Semester\" field only accepts numbers.");
-          });
+          Platform.runLater(() -> showError("The \"Semester\" field only accepts numbers."));
       case "semester number error" ->
-          Platform.runLater(() -> {
-            showError("The Semester can only be between 1 and 9 (inclusive).");
-          });
+          Platform.runLater(() -> showError("The Semester can only be between 1 and 9 (inclusive)."));
       case "student parsing error" ->
-          Platform.runLater(() -> {
-            showError("The \"Student\" field only accepts numbers.");
-          });
+          Platform.runLater(() -> showError("The \"Student\" field only accepts numbers."));
       case "student adding error" ->
-          Platform.runLater(() -> {
-            showError("The provided Student ID belongs to a student already enrolled in course.");
-          });
+          Platform.runLater(() -> showError("The provided Student ID belongs to a student already enrolled in course."));
       case "student not found" ->
-          Platform.runLater(() -> {
-            showError("Student ID is incorrect.");
-          });
+          Platform.runLater(() -> showError("Student ID is incorrect."));
       case "teacher not found" ->
-          Platform.runLater(() -> {
-            showError("Teacher initials are incorrect.");
-          });
+          Platform.runLater(() -> showError("Teacher initials are incorrect."));
       case "information blank" ->
-          Platform.runLater(() -> {
-            showError("Code, title and description cannot be left empty.");
-          });
+          Platform.runLater(() -> showError("Code, title and description cannot be left empty."));
     }
 
   }

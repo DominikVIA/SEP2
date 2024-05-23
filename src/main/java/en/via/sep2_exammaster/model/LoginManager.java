@@ -7,7 +7,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class LoginManager extends UnicastRemoteObject implements LoginManagerInterface, PropertyChangeListener {

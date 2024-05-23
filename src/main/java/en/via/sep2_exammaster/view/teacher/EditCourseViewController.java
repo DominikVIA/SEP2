@@ -19,7 +19,7 @@ public class EditCourseViewController implements PropertyChangeListener {
   @FXML public TextField semesterField;
   @FXML public TextField titleField;
   @FXML public TextArea descriptionArea;
-  @FXML public TextField additonalTeacherField;
+  @FXML public TextField additionalTeacherField;
   @FXML public TextField studentField;
   @FXML public ListView<Student> studentsList;
   @FXML public Button removeButton;
@@ -70,7 +70,7 @@ public class EditCourseViewController implements PropertyChangeListener {
     viewModel.bindSemester(semesterField.textProperty());
     viewModel.bindTitle(titleField.textProperty());
     viewModel.bindDescription(descriptionArea.textProperty());
-    viewModel.bindAdditionalTeacher(additonalTeacherField.textProperty());
+    viewModel.bindAdditionalTeacher(additionalTeacherField.textProperty());
     viewModel.bindStudent(studentField.textProperty());
     viewModel.bindStudents(studentsList.itemsProperty());
 
@@ -101,25 +101,15 @@ public class EditCourseViewController implements PropertyChangeListener {
             viewHandler.openView(ViewFactory.COURSE_INFO);
           });
       case "semester error" ->
-          Platform.runLater(() -> {
-            showError("The \"Semester\" field only accepts numbers.");
-          });
+          Platform.runLater(() -> showError("The \"Semester\" field only accepts numbers."));
       case "student parsing error" ->
-          Platform.runLater(() -> {
-            showError("The \"Student\" field only accepts numbers.");
-          });
+          Platform.runLater(() -> showError("The \"Student\" field only accepts numbers."));
       case "student adding error" ->
-          Platform.runLater(() -> {
-            showError("The provided Student ID belongs to a student already enrolled in semester.");
-          });
+          Platform.runLater(() -> showError("The provided Student ID belongs to a student already enrolled in semester."));
       case "student not found" ->
-          Platform.runLater(() -> {
-            showError("Student ID is incorrect.");
-          });
+          Platform.runLater(() -> showError("Student ID is incorrect."));
       case "teacher not found" ->
-          Platform.runLater(() -> {
-            showError("Teacher initials are incorrect.");
-          });
+          Platform.runLater(() -> showError("Teacher initials are incorrect."));
     }
 
   }
