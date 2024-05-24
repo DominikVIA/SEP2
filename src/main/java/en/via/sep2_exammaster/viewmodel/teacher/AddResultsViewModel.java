@@ -87,5 +87,9 @@ public class AddResultsViewModel implements PropertyChangeListener {
         throw new RuntimeException(e);
       }
     }
+    else if(evt.getPropertyName().equals("result edit success")){
+      grade.set(((Result) evt.getNewValue()).getGrade());
+      feedback.set(((Result) evt.getNewValue()).getFeedback());
+    }
   }
 }

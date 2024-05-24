@@ -15,6 +15,12 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
+/**
+ * The class that launches the GUI of the program.
+ *
+ * @author Group SiedemSyvSiete
+ * @version 1.0
+ */
 public class HelloApplication extends Application
 {
   static Model client;

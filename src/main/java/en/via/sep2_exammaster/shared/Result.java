@@ -3,10 +3,8 @@ package en.via.sep2_exammaster.shared;
 import java.io.Serializable;
 
 /**
- * The Result class represents a student's exam results. The object itself includes
- * the result of an exam, including the grade, feedback, and associated exam.
- * A Result object encapsulates information about the grade achieved by a student in an exam, along with any feedback
- * provided by the examiner and the details of the exam itself.
+ * The Result class represents a student's exam results.
+ * The object itself includes the grade, feedback, and the associated exam.
  */
 public class Result implements Serializable {
 
@@ -61,10 +59,9 @@ public class Result implements Serializable {
 
   /**
    * Returns a string representation of the Result object.
-   * <p>
-   * The string representation consists of the result of calling the toString method of the associated exam.
+   * The returned string is made up of a string representation of the associated exam.
    *
-   * @return a string representation of the Result object
+   * @return a string representation of the Result object (basically just a string representation of the associated Exam object)
    */
   @Override
   public String toString() {

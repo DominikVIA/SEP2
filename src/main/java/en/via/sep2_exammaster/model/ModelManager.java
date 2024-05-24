@@ -196,6 +196,7 @@ public class ModelManager implements Model, PropertyChangeListener  {
       courseManager.setLoggedIn((User) evt.getNewValue());
       examManager.setLoggedIn((User) evt.getNewValue());
       resultManager.setLoggedIn((User) evt.getNewValue());
+      userManager.setLoggedIn((User) evt.getNewValue());
     }
     support.firePropertyChange(evt);
   }

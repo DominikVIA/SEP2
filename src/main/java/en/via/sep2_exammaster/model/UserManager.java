@@ -56,6 +56,6 @@ public class UserManager extends UnicastRemoteObject implements
   @Override public void propertyChange(
       RemotePropertyChangeEvent<Serializable> evt)
       throws RemoteException {
-    if(evt.getOldValue().equals(loggedIn)) support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
+    if(evt.getOldValue().equals(loggedIn) && evt.getPropertyName().equals("student not found")) support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
   }
 }

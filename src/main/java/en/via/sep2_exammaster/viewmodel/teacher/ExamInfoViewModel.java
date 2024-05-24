@@ -57,7 +57,7 @@ public class ExamInfoViewModel implements PropertyChangeListener {
 
   public void markExamCompleted() throws IOException {
     model.markExamCompleted(exam);
-    exam.complete();
+    exam.setCompleted(true);
     reset();
   }
 

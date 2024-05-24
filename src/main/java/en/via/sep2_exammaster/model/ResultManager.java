@@ -68,6 +68,7 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
   @Override public void propertyChange(
       RemotePropertyChangeEvent<Serializable> evt)
       throws RemoteException {
-    if(evt.getOldValue().equals(loggedIn)) support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
+    if(evt.getOldValue().equals(loggedIn) && evt.getPropertyName().equals("result edit success"))
+      support.firePropertyChange(evt.getPropertyName(), null, evt.getNewValue());
   }
 }

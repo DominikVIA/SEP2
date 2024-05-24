@@ -8,18 +8,49 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The ExamDAOImpl class implements the ExamDAO interface giving functionalities
+ * to all the interface's methods for accessing and managing exams and announcements.
+ * It also follows the Singleton creational design pattern.
+ * <p>
+ * This class contains methods for marking an exam as completed, creating a new exam, editing an existing exam,
+ * creating a new announcement regarding an exam, getting all exams belonging to a given course,
+ * getting all exams in which a given student is participating in, deleting a given exam,
+ * getting a specific announcements by using its ID, getting all announcements related to a given exam,
+ * and getting a specific exam by using its ID.
+ */
 public class ExamDAOImpl implements ExamDAO {
+  /**
+   * Singleton instance of the ExamDAOImpl class.
+   */
   private static ExamDAOImpl instance;
 
+  /**
+   * Private constructor to prevent instantiation from outside the class.
+   *
+   * @throws SQLException if a database access error occurs
+   */
   private ExamDAOImpl() throws SQLException {
     DriverManager.registerDriver(new org.postgresql.Driver());
   }
 
+  /**
+   * Retrieves the instance of the ExamDAOImpl class.
+   *
+   * @return the singleton instance of the ExamDAOImpl class
+   * @throws SQLException if a database access error occurs
+   */
   public static synchronized ExamDAOImpl getInstance() throws SQLException {
     if(instance == null) instance = new ExamDAOImpl();
     return instance;
   }
 
+  /**
+   * Establishes a connection to the database.
+   *
+   * @return a connection to the database
+   * @throws SQLException if a database access error occurs
+   */
   private Connection getConnection() throws SQLException {
     return DriverManager.getConnection(
         "jdbc:postgresql://localhost:5432/postgres?currentSchema=exam_master",
@@ -28,6 +59,11 @@ public class ExamDAOImpl implements ExamDAO {
     );
   }
 
+  /**
+   * Marks the specified exam as completed.
+   *
+   * @param exam the exam to mark as completed
+   */
   @Override
   public void markExamCompleted(Exam exam){
     try(Connection connection = getConnection()){
@@ -40,6 +76,21 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Creates a new exam with the specified details.
+   *
+   * @param title     the title of the exam
+   * @param content   the content of the exam
+   * @param room      the room of the exam
+   * @param course    the course associated with the exam
+   * @param date      the date of the exam
+   * @param time      the time of the exam
+   * @param written   specifies if the exam is written
+   * @param examiners the type of examiners grading the exam
+   * @param students  the students enrolled in the exam
+   * @return the created exam
+   * @throws SQLException if an SQL exception occurs
+   */
   @Override
   public Exam createExam(String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students) throws SQLException {
     Connection connection = getConnection();
@@ -84,6 +135,14 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Creates an announcement for the specified exam.
+   *
+   * @param title   the title of the announcement
+   * @param content the content of the announcement
+   * @param exam    the exam for which the announcement is created
+   * @return the created announcement
+   */
   @Override
   public Announcement createAnnouncement(String title, String content, Exam exam){
     try(Connection connection = getConnection()){
@@ -106,6 +165,13 @@ public class ExamDAOImpl implements ExamDAO {
     return null;
   }
 
+  /**
+   * Retrieves a list of exams associated with the specified course.
+   *
+   * @param course the course associated with the exams
+   * @return a list of exams associated with the specified course
+   * @throws SQLException if an SQL exception occurs
+   */
   @Override
   public List<Exam> getExamsByCourse(Course course) throws SQLException {
     try(Connection connection = getConnection()){
@@ -140,6 +206,12 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Retrieves an exam with a given ID.
+   *
+   * @param id the ID of the exam to retrieve
+   * @return exam with the given ID
+   */
   public Announcement getAnnouncementById(int id){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM announcements WHERE id = ?;");
@@ -163,6 +235,12 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Retrieves a list of announcements associated with the given Exam object.
+   *
+   * @param exam the exam that the returned announcements should be associated with
+   * @return a list of announcements associated with the given Exam object
+   */
   public List<Announcement> getExamAnnouncements(Exam exam){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM announcements WHERE exam_id = ?;");
@@ -187,6 +265,12 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Retrieves a list of exams that a given student (who is specified using a numerical ID) is enrolled in.
+   *
+   * @param studentId the ID of the student
+   * @return a list of exams associated with the given student ID
+   */
   @Override
   public List<Exam> getExamsByStudentID(int studentId){
     try(Connection connection = getConnection()){
@@ -219,6 +303,12 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Retrieves an exam with a given ID.
+   *
+   * @param id the ID of the exam to retrieve
+   * @return exam with the given ID
+   */
   public Exam getExamByID(int id){
     try(Connection connection = getConnection()){
       PreparedStatement statement = connection.prepareStatement("SELECT * FROM exams WHERE id = ?;");
@@ -247,6 +337,22 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Edits the specified exam with the new details.
+   *
+   * @param id        the ID of the exam to edit
+   * @param title     the new title of the exam
+   * @param content   the new content of the exam
+   * @param room      the new room of the exam
+   * @param course    the new course associated with the exam
+   * @param date      the new date of the exam
+   * @param time      the new time of the exam
+   * @param written   specifies if the exam is written
+   * @param examiners the new type of examiners grading the exam
+   * @param students  the new students enrolled in the exam
+   * @return          the edited exam
+   * @throws SQLException if an SQL exception occurs
+   */
   @Override
   public Exam editExam(
       int id, String title, String content,
@@ -299,6 +405,11 @@ public class ExamDAOImpl implements ExamDAO {
     }
   }
 
+  /**
+   * Deletes the exam with the specified ID.
+   *
+   * @param id the ID of the exam to delete
+   */
   @Override
   public void deleteExam(int id){
     try(Connection connection = getConnection()){
