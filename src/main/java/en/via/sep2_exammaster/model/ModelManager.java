@@ -420,8 +420,8 @@ public class ModelManager implements Model, PropertyChangeListener  {
   }
 
   /**
-   * Method necessary due to the implementation of PropertyChangeListener. It is called whenever
-   * one of the objects this class is a listener of fires an event.
+   * Method necessary due to the implementation of PropertyChangeListener.
+   * It is called whenever one of the subjects fires an event.
    * <p>
    * If the received event is called "login success", it ensures that the logged-in user of all sub-models
    * is set to the newly logged-in user.

@@ -29,8 +29,8 @@ public class CreateAnnouncementViewController implements PropertyChangeListener 
     viewHandler.openView(ViewFactory.EXAM_INFO);
   }
 
-  @FXML void onSave() throws IOException {
-    viewModel.onSave();
+  @FXML void onCreate() throws IOException {
+    viewModel.onCreate();
   }
 
   public void init(ViewHandler viewHandler, CreateAnnouncementViewModel createAnnouncementViewModel, Region root) {

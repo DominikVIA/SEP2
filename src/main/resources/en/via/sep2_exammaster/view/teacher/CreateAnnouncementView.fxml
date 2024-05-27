@@ -26,7 +26,7 @@
                   <Font name="Avenir Roman" size="16.0" />
                </font>
             </Label>
-            <Button layoutX="390.0" layoutY="361.0" mnemonicParsing="false" onAction="#onSave" prefHeight="28.0" prefWidth="150.0" styleClass="normalButton" text="Save Announcement">
+            <Button layoutX="390.0" layoutY="361.0" mnemonicParsing="false" onAction="#onCreate" prefHeight="28.0" prefWidth="150.0" styleClass="normalButton" text="Create Announcement">
                <font>
                   <Font name="Avenir Roman" size="13.0" />
                </font></Button>

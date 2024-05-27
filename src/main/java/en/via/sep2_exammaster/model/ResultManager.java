@@ -25,6 +25,8 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
   /** The server connector to communicate with the server. */
   private final ServerConnector server;
 
+  // constructor, unrelated instances, unrelated methods
+
   /**
    * The PropertyChangeSupport instance for managing property change listeners
    * and sending events to the other layers of the application.

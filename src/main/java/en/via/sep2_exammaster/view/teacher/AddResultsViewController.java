@@ -28,25 +28,21 @@ public class AddResultsViewController {
   }
 
   @FXML void onSave() throws IOException {
-    if(studentsList.getSelectionModel().getSelectedItem() != null)
-    {
-      if (gradeBox.getSelectionModel().getSelectedItem().getGrade() == -2)
-      {
+    if(studentsList.getSelectionModel().getSelectedItem() != null) {
+      if (gradeBox.getSelectionModel().getSelectedItem().getGrade() == -2) {
         Alert alert = new Alert(Alert.AlertType.WARNING,
             "You need to select a grade first.");
         alert.setHeaderText(null);
         alert.showAndWait();
         return;
       }
-      if (!gradeBox.isDisabled())
-      {
+      if (!gradeBox.isDisabled()) {
         Alert alert = new Alert(Alert.AlertType.WARNING,
             "Saving a grade is irreversible. Are you sure you want to continue?",
             ButtonType.OK, ButtonType.CANCEL);
         alert.setHeaderText(null);
         Optional<ButtonType> result = alert.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.CANCEL)
-        {
+        if (result.isPresent() && result.get() == ButtonType.CANCEL) {
           gradeBox.getSelectionModel().select(Grade.Null);
           saveButton.setDisable(true);
           return;

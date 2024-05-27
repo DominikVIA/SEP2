@@ -2,7 +2,6 @@ package en.via.sep2_exammaster.viewmodel.teacher;
 
 import en.via.sep2_exammaster.model.Model;
 import en.via.sep2_exammaster.model.ModelManager;
-import en.via.sep2_exammaster.shared.Course;
 import en.via.sep2_exammaster.shared.Exam;
 import en.via.sep2_exammaster.shared.Examiners;
 import en.via.sep2_exammaster.shared.Student;
@@ -22,6 +21,12 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
+/**
+ * The EditExamViewModel class represents the view model for displaying and editing information about a given exam.
+ * It interacts with the Model in order to save the edited information
+ * and provides properties for an exam's each accessible value (such as title, room, content, etc.).
+ * This class also implements PropertyChangeListener, making it a listener in the Observer pattern.
+ */
 public class EditExamViewModel implements PropertyChangeListener {
   private Exam exam;
   private ArrayList<Student> studentArrayList;
@@ -32,6 +37,11 @@ public class EditExamViewModel implements PropertyChangeListener {
   private final ObjectProperty<String> examiner, type;
   private final PropertyChangeSupport support;
 
+  /**
+   * Constructs a EditExamViewModel with the given model.
+   * 
+   * @param model the model for communication with the server
+   */
   public EditExamViewModel(Model model){
     this.model = model;
     this.model.addListener(this);
@@ -51,6 +61,9 @@ public class EditExamViewModel implements PropertyChangeListener {
     this.studentArrayList = new ArrayList<>();
   }
 
+  /**
+   * Resets the ViewModel and the ViewController by setting each property to the information of the editable exam.
+   */
   public void reset(){
     if(exam != null){
       title.set(exam.getTitle());
@@ -66,6 +79,11 @@ public class EditExamViewModel implements PropertyChangeListener {
     }
   }
 
+  /**
+   * Saves the newly input information about an exam and displays appropriate errors if necessary.
+   * 
+   * @throws IOException if an I/O exception occurs while saving the information
+   */
   public void onSave() throws IOException {
     try
     {
@@ -94,6 +112,9 @@ public class EditExamViewModel implements PropertyChangeListener {
     }
   }
 
+  /**
+   * Adds a student to an exam's participation list.
+   */
   public void addStudent(){
     try {
       Student temp = model.getStudent(Integer.parseInt(student.getValue()));
@@ -119,11 +140,19 @@ public class EditExamViewModel implements PropertyChangeListener {
     }
   }
 
+  /**
+   * Removes a student from an exam's participation list.
+   * 
+   * @param student student to be removed from exam
+   */
   public void remove(Student student){
     studentArrayList.remove(student);
     studentsList.getValue().remove(student);
   }
 
+  /**
+   * Views information about the Exam instance of this object.
+   */
   public void viewExamInfo(){
     try
     {
@@ -135,50 +164,110 @@ public class EditExamViewModel implements PropertyChangeListener {
     }
   }
 
+  /**
+   * Bidirectionally binds a property to the title StringProperty for two-way accessing and managing of the title field.
+   * 
+   * @param property the StringProperty value to which title will be bound to
+   */
   public void bindTitle(StringProperty property){
     property.bindBidirectional(title);
   }
 
+  /**
+   * Bidirectionally binds a property to the room StringProperty for two-way accessing and managing of the room field.
+   *
+   * @param property the StringProperty value to which room will be bound to
+   */
   public void bindRoom(StringProperty property){
     property.bindBidirectional(room);
   }
 
+  /**
+   * Bidirectionally binds a property to the content StringProperty for two-way accessing and managing of the content TextArea.
+   *
+   * @param property the StringProperty value to which content will be bound to
+   */
   public void bindContent(StringProperty property){
     property.bindBidirectional(content);
   }
 
+  /**
+   * Bidirectionally binds a property to the time StringProperty for two-way accessing and managing of the time field.
+   *
+   * @param property the StringProperty value to which time will be bound to
+   */
   public void bindTime(StringProperty property){
     property.bindBidirectional(time);
   }
 
+  /**
+   * Bidirectionally binds a property to the student StringProperty for two-way accessing and managing of the student field.
+   *
+   * @param property the StringProperty value to which student will be bound to
+   */
   public void bindStudent(StringProperty property){
     property.bindBidirectional(student);
   }
 
+  /**
+   * Bidirectionally binds a property to the studentsList ObjectProperty for two-way accessing and managing of the ListView of students.
+   *
+   * @param property the ObjectProperty value to which studentsList will be bound to
+   */
   public void bindStudents(ObjectProperty<ObservableList<Student>> property){
     property.bindBidirectional(studentsList);
   }
 
+  /**
+   * Bidirectionally binds a property to the examiners ObjectProperty for two-way accessing and managing of the examiner ChoiceBox.
+   *
+   * @param property the ObjectProperty value to which examiner will be bound to
+   */
   public void bindExaminer(ObjectProperty<String> property){
     property.bindBidirectional(examiner);
   }
 
+  /**
+   * Bidirectionally binds a property to the type ObjectProperty for two-way accessing and managing of the type ChoiceBox.
+   *
+   * @param property the ObjectProperty value to which type will be bound to
+   */
   public void bindType(ObjectProperty<String> property){
     property.bindBidirectional(type);
   }
 
+  /**
+   * Bidirectionally binds a property to the date ObjectProperty for two-way accessing and managing of the date DatePicker.
+   *
+   * @param property the ObjectProperty value to which date will be bound to
+   */
   public void bindDate(ObjectProperty<LocalDate> property){
     property.bindBidirectional(date);
   }
 
+  /**
+   * Adds a PropertyChangeListener to listen for property change events.
+   *
+   * @param listener the PropertyChangeListener to add
+   */
   public void addListener(PropertyChangeListener listener){
     support.addPropertyChangeListener(listener);
   }
-
+  
+  /**
+   * Removes a PropertyChangeListener from listening for property change events.
+   *
+   * @param listener the PropertyChangeListener to remove
+   */
   public void removeListener(PropertyChangeListener listener){
     support.removePropertyChangeListener(listener);
   }
 
+  /**
+   * Handles property change events fired by its subjects (ModelManager).
+   *
+   * @param evt the PropertyChangeEvent representing the event
+   */
   @Override public void propertyChange(PropertyChangeEvent evt) {
     if(evt.getPropertyName().equals("edit exam") || evt.getPropertyName().equals("exam edit success") ) {
         this.exam = (Exam) evt.getNewValue();
