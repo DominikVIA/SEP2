@@ -12,6 +12,11 @@ import javafx.scene.layout.Region;
 
 import java.io.IOException;
 
+/**
+ * This ViewController class gives functionalities to the "my exams" view by providing code to its methods,
+ * making it responsible for handling user interactions when viewing the logged-in user's list of exams
+ * (acts as a main menu after logging in as a student).
+ */
 public class MyExamsViewController {
 
   @FXML public Button viewExamButton;
@@ -23,6 +28,10 @@ public class MyExamsViewController {
   private MyExamsViewModel viewModel;
   private Region root;
 
+  /**
+   * This method is called whenever the upcoming ListView or completed ListView is clicked,
+   * making sure the user can only view an exam when one is already selected.
+   */
   @FXML void onClick() {
     viewExamButton.setDisable(true);
     if(upcomingList.getSelectionModel().getSelectedItem() != null
@@ -30,6 +39,9 @@ public class MyExamsViewController {
       viewExamButton.setDisable(false);
   }
 
+  /**
+   * Loads the MyExamsView into the application window, replacing this one.
+   */
   @FXML void onViewExam() {
     if(completedList.getSelectionModel().getSelectedItem() != null) {
       viewModel.viewResult(completedList.getSelectionModel().getSelectedItem());
@@ -41,10 +53,22 @@ public class MyExamsViewController {
     }
   }
 
+  /**
+   * Opens a view for viewing exam analytics.
+   */
   @FXML void onViewAnalytics(){
     viewHandler.openView(ViewFactory.STUDENT_ANALYTICS);
   }
 
+  /**
+   * Initializes this ViewController with the specified ViewHandler, MyExamsViewModel and Region objects.
+   * While initializing, it also binds all the properties of the editable/interactive FXML objects of the view to
+   * their respective properties in the viewModel.
+   *
+   * @param viewHandler     ViewHandler used for opening other views
+   * @param myExamsViewModel  ViewModel for getting functionalities and connecting to the server
+   * @param root            the Region of this ViewController
+   */
   public void init(ViewHandler viewHandler, MyExamsViewModel myExamsViewModel, Region root) {
     this.viewHandler = viewHandler;
     this.viewModel = myExamsViewModel;
@@ -62,10 +86,18 @@ public class MyExamsViewController {
     viewExamButton.setDisable(true);
   }
 
+  /**
+   * Returns the Region of this ViewController.
+   *
+   * @return the Region saved in the root variable
+   */
   public Region getRoot() {
     return root;
   }
 
+  /**
+   * Resets this ViewController and its ViewModel.
+   */
   public void reset() {
     try{
       viewExamButton.setDisable(true);

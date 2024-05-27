@@ -100,7 +100,7 @@ public class ExamInfoViewModel implements PropertyChangeListener {
   }
 
   /**
-   * Deleted the given exam.
+   * Deletes the given exam.
    *
    * @throws IOException if an I/O exception occurs while deleting the exam
    */

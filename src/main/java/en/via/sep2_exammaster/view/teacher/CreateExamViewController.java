@@ -15,6 +15,11 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.time.LocalDate;
 
+/**
+ * This ViewController class gives functionalities to the "create exam" view by providing code to its methods,
+ * making it responsible for handling user interactions when creating a new exam.
+ * This class also implements PropertyChangeListener, making it a listener in the Observer pattern.
+ */
 public class CreateExamViewController implements PropertyChangeListener {
 
   @FXML public TextField titleField;
@@ -34,29 +39,44 @@ public class CreateExamViewController implements PropertyChangeListener {
   private CreateExamViewModel viewModel;
   private Region root;
 
+  /**
+   * Adds a student to an exam's participation list.
+   */
   @FXML void onAdd() {
     viewModel.addStudent();
     if(!addAllButton.isDisabled()) addAllButton.setDisable(true);
   }
 
+  /**
+   * Adds all students enrolled in a course to the participation list of the newly created exam.
+   */
   @FXML void onAddAll() {
     viewModel.addAllStudents();
     addButton.setDisable(true);
     addAllButton.setDisable(true);
   }
 
+  /**
+   * Cancels the creation process and loads the InfoCourseView into the application window, replacing this one.
+   */
   @FXML
   void onCancel() {
     viewModel.removeListener(this);
     viewHandler.openView(ViewFactory.COURSE_INFO);
   }
 
+  /**
+   * This method is called whenever the students ListView is clicked, making sure the user can only remove a student when one is already selected.
+   */
   @FXML void onClick() {
     removeButton.setDisable(true);
     if(studentsList.getSelectionModel().getSelectedItem() != null)
       removeButton.setDisable(false);
   }
 
+  /**
+   * Removes the selected student from a course's enrolled list.
+   */
   @FXML
   void onRemove() {
     viewModel.remove(studentsList.getSelectionModel().getSelectedItem());
@@ -65,11 +85,25 @@ public class CreateExamViewController implements PropertyChangeListener {
     if(studentsList.getItems().isEmpty()) addAllButton.setDisable(false);
   }
 
+  /**
+   * Creates a new exam using the information provided by the user in the view. Displays appropriate errors if necessary.
+   *
+   * @throws IOException if an I/O error occurs while creating a new exam
+   */
   @FXML
   void onCreate() throws IOException {
     viewModel.onCreate();
   }
 
+  /**
+   * Initializes this ViewController with the specified ViewHandler, CreateExamViewModel and Region objects.
+   * While initializing, it also binds all the properties of the editable/interactive FXML objects of the view to
+   * their respective properties in the viewModel.
+   *
+   * @param viewHandler     ViewHandler used for opening other views
+   * @param createExamViewModel  ViewModel for getting functionalities and connecting to the server
+   * @param root            the Region of this ViewController
+   */
   public void init(ViewHandler viewHandler, CreateExamViewModel createExamViewModel, Region root){
     this.viewHandler = viewHandler;
     this.viewModel = createExamViewModel;
@@ -129,10 +163,18 @@ public class CreateExamViewController implements PropertyChangeListener {
     removeButton.setDisable(true);
   }
 
+  /**
+   * Returns the Region of this ViewController.
+   *
+   * @return the Region saved in the root variable
+   */
   public Region getRoot() {
     return root;
   }
 
+  /**
+   * Resets this ViewController and its ViewModel.
+   */
   public void reset() {
     typeBox.getSelectionModel().selectFirst();
     examinerBox.getSelectionModel().selectFirst();
@@ -142,12 +184,22 @@ public class CreateExamViewController implements PropertyChangeListener {
     viewModel.reset();
   }
 
+  /**
+   * Shows an error with the specified message.
+   *
+   * @param message the error message to be displayed
+   */
   public void showError(String message){
     Alert alert = new Alert(Alert.AlertType.WARNING, message);
     alert.setHeaderText(null);
     alert.showAndWait();
   }
 
+  /**
+   * Handles property change events fired by its subject (ViewModel).
+   *
+   * @param evt the PropertyChangeEvent representing the event
+   */
   @Override public void propertyChange(PropertyChangeEvent evt) {
     switch (evt.getPropertyName()){
       case "exam create success" ->

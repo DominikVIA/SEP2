@@ -12,6 +12,10 @@ import javafx.scene.layout.Region;
 import java.io.IOError;
 import java.io.IOException;
 
+/**
+ * The ViewFactory class is responsible for initializing every ViewController
+ * when it's being loaded to be shown by the ViewHandler.
+ */
 public class ViewFactory {
   public static final String LOGIN = "login";
   public static final String MY_COURSES = "my courses";
@@ -49,6 +53,13 @@ public class ViewFactory {
   private StudentAnalyticsViewController studentAnalyticsViewController;
   private TeacherAnalyticsViewController teacherAnalyticsViewController;
 
+  /**
+   * Constructs a ViewFactory object with a ViewHandler and ViewModelFactory
+   * as parameters in order to use them in the construction of each ViewController.
+   *
+   * @param viewHandler       ViewHandler object to be used in the initialization of ViewControllers
+   * @param viewModelFactory  ViewModelFactory to be used as a source of ViewModels for the initialization of ViewControllers
+   */
   public ViewFactory(ViewHandler viewHandler, ViewModelFactory viewModelFactory) {
     this.viewHandler = viewHandler;
     this.viewModelFactory = viewModelFactory;
@@ -68,6 +79,11 @@ public class ViewFactory {
     this.teacherAnalyticsViewController = null;
   }
 
+  /**
+   * Returns the Region of the "login view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "login view" FXML file
+   */
   public Region loadLoginView() {
     if (loginViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -85,6 +101,11 @@ public class ViewFactory {
     return loginViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "my courses view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "my courses view" FXML file
+   */
   public Region loadMyCoursesView() {
     if (myCoursesViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -101,6 +122,11 @@ public class ViewFactory {
     return myCoursesViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "course info view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "course info view" FXML file
+   */
   public Region loadCourseInfoView() {
     if (courseInfoViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -118,6 +144,11 @@ public class ViewFactory {
     return courseInfoViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "create course view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "create course view" FXML file
+   */
   public Region loadCreateCourseView() {
     if (createCourseViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -135,6 +166,11 @@ public class ViewFactory {
     return createCourseViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "create exam view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "create exam view" FXML file
+   */
   public Region loadCreateExamView() {
     if (createExamViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -152,6 +188,11 @@ public class ViewFactory {
     return createExamViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "edit course view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "edit course view" FXML file
+   */
   public Region loadEditCourseView() {
     if (editCourseViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -169,6 +210,11 @@ public class ViewFactory {
     return editCourseViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "exam info view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "exam info view" FXML file
+   */
   public Region loadExamInfoView() {
     if (examInfoViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -186,6 +232,11 @@ public class ViewFactory {
     return examInfoViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "edit exam view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "edit exam view" FXML file
+   */
   public Region loadEditExamView() {
     if (editExamViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -203,6 +254,11 @@ public class ViewFactory {
     return editExamViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "add results view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "add results view" FXML file
+   */
   public Region loadAddResultsView() {
     if (addResultsViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -215,11 +271,15 @@ public class ViewFactory {
         throw new IOError(e);
       }
     }
-//    viewModelFactory.getAddResultsViewModel().addListener(addResultsViewController);
     addResultsViewController.reset();
     return addResultsViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "create announcement view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "create announcement view" FXML file
+   */
   public Region loadCreateAnnouncementView() {
     if (createAnnouncementViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -237,6 +297,11 @@ public class ViewFactory {
     return createAnnouncementViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "info announcement view" FXML file to be displayed by the ViewHandler for the teacher.
+   *
+   * @return Region of the "info announcement view" FXML file
+   */
   public Region loadAnnouncementInfoViewTeacher() {
     if (announcementInfoViewControllerTeacher == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -253,6 +318,11 @@ public class ViewFactory {
     return announcementInfoViewControllerTeacher.getRoot();
   }
 
+  /**
+   * Returns the Region of the "info announcement view" FXML file to be displayed by the ViewHandler for the student.
+   *
+   * @return Region of the "info announcement view" FXML file
+   */
   public Region loadAnnouncementInfoViewStudent() {
     if (announcementInfoViewControllerStudent == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -269,6 +339,11 @@ public class ViewFactory {
     return announcementInfoViewControllerStudent.getRoot();
   }
 
+  /**
+   * Returns the Region of the "my exams view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "my exams view" FXML file
+   */
   public Region loadMyExamsView() {
     if (myExamsViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -285,6 +360,11 @@ public class ViewFactory {
     return myExamsViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "info exam view" FXML file to be displayed by the ViewHandler for the student.
+   *
+   * @return Region of the "info exam view" FXML file
+   */
   public Region loadResultInfoView() {
     if (infoExamViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -301,6 +381,11 @@ public class ViewFactory {
     return infoExamViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "student analytics view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "student analytics view" FXML file
+   */
   public Region loadStudentAnalyticsView() {
     if (studentAnalyticsViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -317,6 +402,11 @@ public class ViewFactory {
     return studentAnalyticsViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the "teacher analytics view" FXML file to be displayed by the ViewHandler.
+   *
+   * @return Region of the "teacher analytics view" FXML file
+   */
   public Region loadTeacherAnalyticsView() {
     if (teacherAnalyticsViewController == null) {
       FXMLLoader loader = new FXMLLoader();
@@ -333,6 +423,12 @@ public class ViewFactory {
     return teacherAnalyticsViewController.getRoot();
   }
 
+  /**
+   * Returns the Region of the loaded in FXML file to be used by the ViewHandler
+   *
+   * @param id String id of the view to be loaded in
+   * @return the Region of the chosen view
+   */
   public Region load(String id) {
     return switch(id) {
       case LOGIN -> loadLoginView();
