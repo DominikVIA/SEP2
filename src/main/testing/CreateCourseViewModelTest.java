@@ -25,6 +25,7 @@ public class CreateCourseViewModelTest {
 
 
   @BeforeEach
+
   void setUp() {
     model = Mockito.mock(Model.class);
     viewModel = new CreateCourseViewModel(model);
@@ -62,12 +63,16 @@ public class CreateCourseViewModelTest {
     Student student = new Student(1, "Dominik", "kiel");
     Mockito.when(model.getStudent(1)).thenReturn(student);
 
+    this.student.set("1");
     viewModel.addStudent();
-    viewModel.addStudent(); // Trying to add the same student again
 
-    assertEquals(1, studentsList.get().size()); // Student should not be added again
+    this.student.set("1");
+    viewModel.addStudent();
+
+    assertEquals(1, studentsList.get().size());
     Mockito.verify(model, Mockito.times(2)).getStudent(1);
   }
+
 
   @Test
   void createCourse_withEmptyCode_doesNotCreateCourse() throws IOException {
