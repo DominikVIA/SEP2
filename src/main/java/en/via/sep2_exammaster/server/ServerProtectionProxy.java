@@ -1,19 +1,44 @@
-package en.via.sep2_exammaster.shared;
+package en.via.sep2_exammaster.server;
 
+import dk.via.remote.observer.RemotePropertyChangeEvent;
 import dk.via.remote.observer.RemotePropertyChangeListener;
+import dk.via.remote.observer.RemotePropertyChangeSupport;
+import en.via.sep2_exammaster.shared.*;
 
 import java.io.Serializable;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 /**
- * The ServerConnector interface defines methods for communication with the server.
- * This interface specifies the methods that can be performed remotely by clients on the server.
+ * This class extends UnicastRemoteObject and implements the ServerConnector and RemotePropertyChangeListener interfaces.
+ * Extending the UnicastRemoteObject is necessary for RMI communication with the client.
+ * It implements the ServerConnector as this class follows the Protection Proxy pattern (duh).
+ * This also means that each of the methods of this class are essentially checking if the
+ * logged-in user is a student or a teacher and then simply calls the actual server's methods for functionality.
+ * Lastly, it implements the listener as it also follows the Observer pattern, and it is both a listener and a subject.
  */
-public interface ServerConnector extends Remote {
+public class ServerProtectionProxy extends UnicastRemoteObject implements ServerConnector,
+    RemotePropertyChangeListener<Serializable>
+{
+  private final ServerConnectorImplementation protecting;
+  private final RemotePropertyChangeSupport<Serializable> support;
+
+  /**
+   * Constructs a new ServerProtectionProxy object.
+   * <p>
+   * Initializes the ServerConnectorImplementation object and a RemotePropertyChangeSupport object.
+   *
+   * @throws Exception if any exception occurs
+   */
+  public ServerProtectionProxy() throws Exception
+  {
+    this.protecting = new ServerConnectorImplementation();
+    this.protecting.addListener(this);
+    this.support = new RemotePropertyChangeSupport<>();
+  }
 
   /**
    * Logs in a user with the provided username and password.
@@ -23,7 +48,11 @@ public interface ServerConnector extends Remote {
    * @return the logged-in user
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  User login(String username, String password) throws RemoteException;
+  @Override public User login(String username, String password)
+      throws RemoteException
+  {
+    return protecting.login(username, password);
+  }
 
   /**
    * Logs out the specified user.
@@ -31,7 +60,10 @@ public interface ServerConnector extends Remote {
    * @param user the user to logout
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  void logout(User user) throws RemoteException;
+  @Override public void logout(User user) throws RemoteException
+  {
+    protecting.logout(user);
+  }
 
   /**
    * Creates a new course with the specified details.
@@ -45,9 +77,12 @@ public interface ServerConnector extends Remote {
    * @param students         the list of students enrolled in the course
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  void createCourse(User loggedIn, String code, int semester, String title,
+  @Override public void createCourse(User loggedIn, String code, int semester, String title,
       String description, String additionalTeacher,
-      List<Student> students) throws RemoteException;
+      List<Student> students) throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) protecting.createCourse(loggedIn, code, semester, title, description, additionalTeacher, students);
+  }
 
   /**
    * Edits an existing course with the specified details.
@@ -61,9 +96,12 @@ public interface ServerConnector extends Remote {
    * @param students         the new list of students enrolled in the course
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  void editCourse(User loggedIn, String code, int semester, String title,
+  @Override public void editCourse(User loggedIn, String code, int semester, String title,
       String description, String additionalTeacher,
-      List<Student> students) throws RemoteException;
+      List<Student> students) throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) protecting.editCourse(loggedIn, code, semester, title, description, additionalTeacher, students);
+  }
 
   /**
    * Deletes the specified course from the system and database.
@@ -72,7 +110,10 @@ public interface ServerConnector extends Remote {
    * @param code code of the course to be deleted
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  void deleteCourse(User loggedIn, String code) throws RemoteException;
+  @Override public void deleteCourse(User loggedIn, String code) throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) protecting.deleteCourse(loggedIn, code);
+  }
 
   /**
    * Gets a list of courses with a given Teacher object as the primary or additional teacher of the course.
@@ -81,7 +122,13 @@ public interface ServerConnector extends Remote {
    * @return list of courses with the provided teacher as the primary or additional teacher
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  List<Course> getCourses(User teacher) throws RemoteException;
+  @Override public List<Course> getCourses(User teacher)
+      throws RemoteException
+  {
+    if(teacher instanceof Teacher) return protecting.getCourses(teacher);
+    else return null;
+  }
+
   /**
    * Marks a given exam as completed.
    *
@@ -89,7 +136,9 @@ public interface ServerConnector extends Remote {
    * @param exam Exam object to be marked as completed
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  void markExamCompleted(User loggedIn, Exam exam) throws RemoteException;
+  @Override public void markExamCompleted(User loggedIn, Exam exam) throws RemoteException {
+    if(loggedIn instanceof Teacher) protecting.markExamCompleted(loggedIn, exam);
+  }
 
   /**
    * Gets a list of results belonging to a student with a given student ID.
@@ -99,7 +148,13 @@ public interface ServerConnector extends Remote {
    * @return list of results belonging to the given student
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  List<Result> getResultsByStudentId(User loggedIn, int studentId) throws RemoteException;
+  @Override public List<Result> getResultsByStudentId(User loggedIn, int studentId)
+      throws RemoteException
+  {
+    if(loggedIn instanceof Student) return protecting.getResultsByStudentId(loggedIn, studentId);
+    return null;
+  }
+
   /**
    * Creates a new exam with the specified details.
    *
@@ -115,8 +170,13 @@ public interface ServerConnector extends Remote {
    * @param students  the list of students participating in the exam
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  void createExam(User loggedIn, String title, String content, String room, Course course, LocalDate date, LocalTime time, boolean written, Examiners examiners, List<Student> students)
-      throws RemoteException;
+  @Override public void createExam(User loggedIn, String title, String content,
+      String room, Course course, LocalDate date, LocalTime time,
+      boolean written, Examiners examiners, List<Student> students)
+      throws RemoteException {
+    if(loggedIn instanceof Teacher) protecting.createExam(loggedIn, title, content, room, course, date, time, written, examiners, students);
+  }
+
   /**
    * Edits an existing exam with the specified details.
    *
@@ -133,12 +193,15 @@ public interface ServerConnector extends Remote {
    * @param students  the new list of students participating in the exam
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  void editExam(
-      User loggedIn, int id, String title,
+  @Override public void editExam(User loggedIn, int id, String title,
       String content, String room, Course course, LocalDate date,
-      LocalTime time, boolean written,
-      Examiners examiners, List<Student> students
-  ) throws RemoteException;
+      LocalTime time, boolean written, Examiners examiners,
+      List<Student> students) throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) protecting.editExam(loggedIn, id, title, content, room, course, date, time, written, examiners, students);
+
+  }
+
   /**
    * Deletes the specified exam from the system and database.
    *
@@ -146,7 +209,11 @@ public interface ServerConnector extends Remote {
    * @param id                  ID of the exam to be deleted
    * @throws RemoteException    if a remote communication-related exception occurs
    */
-  void deleteExam(User loggedIn, int id) throws RemoteException;
+  @Override public void deleteExam(User loggedIn, int id) throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) protecting.deleteExam(loggedIn, id);
+  }
+
   /**
    * Creates a new announcement with the specified details.
    *
@@ -156,7 +223,12 @@ public interface ServerConnector extends Remote {
    * @param exam              the exam associated with the announcement
    * @throws RemoteException  if a remote communication-related exception occurs
    */
-  void createAnnouncement(User loggedIn, String title, String content, Exam exam) throws RemoteException;
+  @Override public void createAnnouncement(User loggedIn, String title,
+      String content, Exam exam) throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) protecting.createAnnouncement(loggedIn, title, content, exam);
+  }
+
   /**
    * Gets the results of a given student for a given exam.
    *
@@ -166,8 +238,13 @@ public interface ServerConnector extends Remote {
    * @return                  result read form the database
    * @throws RemoteException  if a remote communication-related exception occurs
    */
-  Result getStudentExamResult(User loggedIn, Exam exam, Student student) throws
-      RemoteException;
+  @Override public Result getStudentExamResult(User loggedIn, Exam exam, Student student)
+      throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) return protecting.getStudentExamResult(loggedIn, exam, student);
+    return null;
+  }
+
   /**
    * Gets a list of results for a given exam
    *
@@ -176,7 +253,13 @@ public interface ServerConnector extends Remote {
    * @return                    list o
    * @throws RemoteException    if a remote communication-related exception occurs
    */
-  List<Result> getResultsByExam(User loggedIn, Exam exam) throws RemoteException;
+  @Override public List<Result> getResultsByExam(User loggedIn, Exam exam)
+      throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) return protecting.getResultsByExam(loggedIn, exam);
+    return null;
+  }
+
   /**
    * Edits an existing result in order to change existing information or add new information (initially
    * results are created with no grade and no feedback).
@@ -188,7 +271,12 @@ public interface ServerConnector extends Remote {
    * @param feedback            the new feedback of the result
    * @throws RemoteException    if a remote communication-related exception occurs
    */
-  void editResult(User loggedIn, Student student, Exam exam, Grade grade, String feedback) throws RemoteException;
+  @Override public void editResult(User loggedIn, Student student, Exam exam,
+      Grade grade, String feedback) throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) protecting.editResult(loggedIn, student, exam, grade, feedback);
+  }
+
   /**
    * Retrieves a Student object from the database with a given unique ID number.
    *
@@ -197,14 +285,25 @@ public interface ServerConnector extends Remote {
    * @return                    Student object with the given ID
    * @throws RemoteException    if a remote communication-related exception occurs
    */
-  Student getStudent(User loggedIn, int studentID) throws RemoteException;
+  @Override public Student getStudent(User loggedIn, int studentID)
+      throws RemoteException
+  {
+    if(loggedIn instanceof Teacher) return protecting.getStudent(loggedIn, studentID);
+    return null;
+  }
+
   /**
    * Adds a listener for remote property change events.
    *
    * @param listener          the listener to be added
    * @throws RemoteException  if a remote communication-related exception occurs
    */
-  void addListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException;
+  @Override public void addListener(
+      RemotePropertyChangeListener<Serializable> listener)
+      throws RemoteException
+  {
+    support.addPropertyChangeListener(listener);
+  }
 
   /**
    * Removes a listener for remote property change events.
@@ -212,7 +311,23 @@ public interface ServerConnector extends Remote {
    * @param listener          the listener to be removed
    * @throws RemoteException  if a remote communication-related exception occurs
    */
-  void removeListener(RemotePropertyChangeListener<Serializable> listener) throws RemoteException;
+  @Override public void removeListener(
+      RemotePropertyChangeListener<Serializable> listener)
+      throws RemoteException
+  {
+    support.removePropertyChangeListener(listener);
+  }
 
-
+  /**
+   * For handling events fired by this class's subjects.
+   *
+   * @param remotePropertyChangeEvent event fired by a subject
+   * @throws RemoteException          if a communication-related exception occurs while handling events
+   */
+  @Override public void propertyChange(
+      RemotePropertyChangeEvent<Serializable> remotePropertyChangeEvent)
+      throws RemoteException
+  {
+    support.firePropertyChange(remotePropertyChangeEvent);
+  }
 }

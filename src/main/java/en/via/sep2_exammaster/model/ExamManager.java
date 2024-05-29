@@ -107,7 +107,7 @@ public class ExamManager extends UnicastRemoteObject implements ExamManagerInter
    */
   @Override
   public void deleteExam(int id) throws IOException{
-    server.deleteExam(id);
+    server.deleteExam(loggedIn, id);
   }
 
   /**
@@ -118,7 +118,7 @@ public class ExamManager extends UnicastRemoteObject implements ExamManagerInter
    */
   @Override
   public void markExamCompleted(Exam exam) throws IOException {
-    server.markExamCompleted(exam);
+    server.markExamCompleted(loggedIn, exam);
   }
 
   /**

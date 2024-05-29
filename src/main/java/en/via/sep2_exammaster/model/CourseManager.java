@@ -68,7 +68,7 @@ public class CourseManager extends UnicastRemoteObject implements CourseManagerI
       String title, String description, String additionalTeacherInitials,
       List<Student> students) throws IOException
   {
-    server.createCourse(code, semester, title, description, (Teacher) loggedIn, additionalTeacherInitials, students);
+    server.createCourse(loggedIn, code, semester, title, description, additionalTeacherInitials, students);
   }
 
   /**
@@ -86,7 +86,7 @@ public class CourseManager extends UnicastRemoteObject implements CourseManagerI
   public void editCourse(String code, int semester,
       String title, String description, String additionalTeacherInitials,
       List<Student> students) throws IOException{
-    server.editCourse(code, semester, title, description, (Teacher) loggedIn, additionalTeacherInitials, students);
+    server.editCourse(loggedIn, code, semester, title, description, additionalTeacherInitials, students);
   }
 
   /**
@@ -97,7 +97,7 @@ public class CourseManager extends UnicastRemoteObject implements CourseManagerI
    */
   @Override
   public List<Course> getCourses() throws IOException {
-    return server.getCourses((Teacher)loggedIn);
+    return server.getCourses(loggedIn);
   }
 
   /**
@@ -130,7 +130,7 @@ public class CourseManager extends UnicastRemoteObject implements CourseManagerI
    */
   @Override
   public void deleteCourse(String code) throws IOException{
-    server.deleteCourse(code);
+    server.deleteCourse(loggedIn, code);
   }
 
   /**

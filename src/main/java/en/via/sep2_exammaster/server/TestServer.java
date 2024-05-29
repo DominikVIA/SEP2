@@ -19,7 +19,7 @@ public class TestServer {
    */
   public static void main(String[] args) throws Exception {
     Registry registry = LocateRegistry.createRegistry(1099);
-    ServerConnectorImplementation server = new ServerConnectorImplementation();
+    ServerProtectionProxy server = new ServerProtectionProxy();
     registry.bind("server", server);
     System.out.println("Server ready");
   }

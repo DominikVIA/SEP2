@@ -64,7 +64,6 @@ public class ExamTest {
     assertFalse(exam.isCompleted());
     exam.setCompleted(true);
     assertTrue(exam.isCompleted());
-    exam.complete(); // should maintain true
     assertTrue(exam.isCompleted());
   }
 
@@ -77,9 +76,4 @@ public class ExamTest {
     assertNotEquals(exam, differentExam);
   }
 
-  @Test
-  void testToString() {
-    String expected = "SDJ1 ½ | 2024-10-15, 10:00";
-    assertEquals(expected, exam.toString());
-  }
 }

@@ -6,14 +6,10 @@ import en.via.sep2_exammaster.shared.ServerConnector;
 import en.via.sep2_exammaster.view.ViewHandler;
 import en.via.sep2_exammaster.viewmodel.ViewModelFactory;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 
 /**
  * The class that launches the GUI of the program.
@@ -54,7 +50,7 @@ public class HelloApplication extends Application
 
   /**
    * main class duh
-   * @param args we dont really know
+   * @param args we don't really know
    */
   public static void main(String[] args) {
     launch();

@@ -97,7 +97,7 @@ public class CourseDAOImpl implements CourseDAO {
     Connection connection = getConnection();
     try{
       connection.setAutoCommit(false);
-      if (checkCodeAvailability(code)) {
+      if (!checkCodeAvailability(code)) {
         throw new IllegalArgumentException("code exists");
       }
       PreparedStatement statement = connection.prepareStatement("INSERT INTO courses VALUES (?, ?, ?, ?);");

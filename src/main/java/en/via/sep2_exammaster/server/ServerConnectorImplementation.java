@@ -9,7 +9,6 @@ import en.via.sep2_exammaster.shared.*;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,10 +24,10 @@ import java.util.regex.Pattern;
  * It also contains a reference to the database, a RemotePropertyChangeSupport,
  * and an ArrayList of User objects in order to keep track of currently online users.
  */
-public class ServerConnectorImplementation extends UnicastRemoteObject implements ServerConnector {
-  private Database database;
-  private RemotePropertyChangeSupport<Serializable> support;
-  private ArrayList<User> onlineUsers;
+public class ServerConnectorImplementation implements ServerConnector {
+  private final Database database;
+  private final RemotePropertyChangeSupport<Serializable> support;
+  private final ArrayList<User> onlineUsers;
 
   /**
    * Constructs a new ServerConnectorImplementation object.
@@ -40,7 +39,6 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
    * @throws SQLException    if a database access error occurs
    */
   public ServerConnectorImplementation() throws RemoteException, SQLException {
-    super(0);
     database = DatabaseManager.getInstance();
     support = new RemotePropertyChangeSupport<>();
     onlineUsers = new ArrayList<>();
@@ -90,26 +88,26 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   /**
    * Creates a new course with the specified details.
    *
+   * @param loggedIn         the loggedIn teacher creating the course
    * @param code             the code of the course
    * @param semester         the semester of the course
    * @param title            the title of the course
    * @param description      the description of the course
-   * @param primaryTeacher   the primary teacher of the course
    * @param additionalTeacher the additional teacher of the course
    * @param students         the list of students enrolled in the course
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  @Override public void createCourse(String code, int semester, String title,
-      String description, Teacher primaryTeacher, String additionalTeacher,
+  @Override public void createCourse(User loggedIn, String code, int semester, String title,
+      String description, String additionalTeacher,
       List<Student> students) throws RemoteException {
     try {
-      Course temp = database.createCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
-      support.firePropertyChange("course create success", primaryTeacher, temp);
+      Course temp = database.createCourse(code, semester, title, description, (Teacher) loggedIn, additionalTeacher, students);
+      support.firePropertyChange("course create success", loggedIn, temp);
     }
     catch (IllegalArgumentException e){
       switch (e.getMessage()){
-        case "code exists" -> support.firePropertyChange("course create fail", primaryTeacher, null);
-        case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", primaryTeacher, null);
+        case "code exists" -> support.firePropertyChange("course create fail", loggedIn, null);
+        case "teacher initials incorrect" -> support.firePropertyChange("teacher not found", loggedIn, null);
       }
     }
     catch (SQLException e) {
@@ -120,25 +118,25 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   /**
    * Edits an existing course with the specified details.
    *
+   * @param loggedIn          the loggedIn teacher editing the course
    * @param code             the code with which to find the course to edit
    * @param semester         the new semester of the course
    * @param title            the new title of the course
    * @param description      the new description of the course
-   * @param primaryTeacher   the new primary teacher of the course
    * @param additionalTeacher the new additional teacher of the course
    * @param students         the new list of students enrolled in the course
    * @throws RemoteException if a remote communication-related exception occurs
    */
   @Override
-  public void editCourse(String code, int semester, String title,
-      String description, Teacher primaryTeacher, String additionalTeacher,
+  public void editCourse(User loggedIn, String code, int semester, String title,
+      String description, String additionalTeacher,
       List<Student> students) throws RemoteException {
     try {
-      Course temp = database.editCourse(code, semester, title, description, primaryTeacher, additionalTeacher, students);
-      support.firePropertyChange("course edit success", primaryTeacher, temp);
+      Course temp = database.editCourse(code, semester, title, description, (Teacher) loggedIn, additionalTeacher, students);
+      support.firePropertyChange("course edit success", loggedIn, temp);
     }
     catch (IllegalArgumentException e){
-      support.firePropertyChange("teacher not found", primaryTeacher, null);
+      support.firePropertyChange("teacher not found", loggedIn, null);
     }
     catch (SQLException e) {
       throw new RuntimeException(e);
@@ -148,11 +146,11 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   /**
    * Gets a list of courses with a given Teacher object as the primary or additional teacher of the course.
    *
-   * @param teacher Teacher object by which to find a list of courses
+   * @param teacher teacher whose initials will be used to find a list of courses
    * @return list of courses with the provided teacher as the primary or additional teacher
    * @throws RemoteException if a remote communication-related exception occurs
    */
-  @Override public List<Course> getCourses(Teacher teacher) throws RemoteException {
+  @Override public List<Course> getCourses(User teacher) throws RemoteException {
     try {
       List<Course> courses = CourseDAOImpl.getInstance().getCourses();
       List<Course> answer = new ArrayList<>();
@@ -172,33 +170,37 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   /**
    * Deletes the specified course from the system and database.
    *
+   * @param user making sure only a teacher can delete a course
    * @param code code of the course to be deleted
    * @throws RemoteException if a remote communication-related exception occurs
    */
   @Override
-  public void deleteCourse(String code) throws RemoteException{
+  public void deleteCourse(User user, String code) throws RemoteException{
     database.deleteCourse(code);
   }
 
   /**
    * Marks a given exam as completed.
    *
+   * @param loggedIn making sure only a teacher can mark an exam as completed
    * @param exam Exam object to be marked as completed
    * @throws RemoteException if a remote communication-related exception occurs
    */
   @Override
-  public void markExamCompleted(Exam exam) throws RemoteException{
+  public void markExamCompleted(User loggedIn, Exam exam) throws RemoteException{
     database.markExamCompleted(exam);
   }
 
   /**
    * Gets a list of results belonging to a student with a given student ID.
+   *
+   * @param loggedIn for making sure only a student can get results using their id
    * @param studentId ID of the student, whose results are to be returned
    * @return list of results belonging to the given student
    * @throws RemoteException if a remote communication-related exception occurs
    */
   @Override
-  public List<Result> getResultsByStudentId(int studentId) throws RemoteException {
+  public List<Result> getResultsByStudentId(User loggedIn, int studentId) throws RemoteException {
     return database.getResultsByStudentId(studentId);
   }
 
@@ -266,11 +268,12 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   /**
    * Deletes the specified exam from the system and database.
    *
+   * @param loggedIn            for making sure only a teacher can delete an exam
    * @param id                  ID of the exam to be deleted
    * @throws RemoteException    if a remote communication-related exception occurs
    */
   @Override
-  public void deleteExam(int id) throws RemoteException{
+  public void deleteExam(User loggedIn, int id) throws RemoteException{
     database.deleteExam(id);
   }
 
@@ -292,13 +295,14 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   /**
    * Gets the results of a given student for a given exam.
    *
+   * @param loggedIn          for making sure only a teacher can get a given student's exam's result
    * @param exam              exam for which the result is to be read
    * @param student           student whose exam result is to be read
    * @return                  result read form the database
    * @throws RemoteException  if a remote communication-related exception occurs
    */
   @Override
-  public Result getStudentExamResult(Exam exam, Student student) throws
+  public Result getStudentExamResult(User loggedIn, Exam exam, Student student) throws
       RemoteException
   {
     return database.getStudentResultByExam(exam, student);
@@ -307,11 +311,12 @@ public class ServerConnectorImplementation extends UnicastRemoteObject implement
   /**
    * Gets a list of results for a given exam
    *
+   * @param loggedIn            for making sure only a teacher can get all results of an exam
    * @param exam                exam for which to find all the results
    * @return                    list o
    * @throws RemoteException    if a remote communication-related exception occurs
    */
-  @Override public List<Result> getResultsByExam(Exam exam)
+  @Override public List<Result> getResultsByExam(User loggedIn, Exam exam)
       throws RemoteException
   {
     return database.getResultsByExam(exam);

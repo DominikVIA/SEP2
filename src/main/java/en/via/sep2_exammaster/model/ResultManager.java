@@ -63,7 +63,7 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
   @Override
   public List<Result> getResults() throws IOException
   {
-    return server.getResultsByStudentId(((Student)loggedIn).getStudentNo());
+    return server.getResultsByStudentId(loggedIn, ((Student)loggedIn).getStudentNo());
   }
 
   /**
@@ -78,7 +78,7 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
   public Result getStudentExamResult(Exam exam, Student student)
       throws IOException
   {
-    return server.getStudentExamResult(exam, student);
+    return server.getStudentExamResult(loggedIn, exam, student);
   }
 
   /**
@@ -92,7 +92,7 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
   public List<Result> getResultsByExam(Exam exam)
       throws IOException
   {
-    return server.getResultsByExam(exam);
+    return server.getResultsByExam(loggedIn, exam);
   }
 
   /**
