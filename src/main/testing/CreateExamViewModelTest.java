@@ -25,8 +25,6 @@ import static org.mockito.Mockito.*;
 
 public class CreateExamViewModelTest {
   private Model model;
-  private Course course;
-  private Teacher teacher;
   private CreateExamViewModel viewModel;
   private StringProperty room, title, content, time, student;
   private ObjectProperty<String> type, examiner;
@@ -39,8 +37,8 @@ public class CreateExamViewModelTest {
     model = Mockito.mock(Model.class);
     viewModel = new CreateExamViewModel(model);
 
-    teacher = new Teacher("AA", "AA", "AA");
-    course = new Course("AA", 2, "SS", "ABC", teacher);
+    Teacher teacher = new Teacher("AA", "AA", "AA");
+    Course course = new Course("AA", 2, "SS", "ABC", teacher);
     model.viewCourseRelated(course, "create exam");
     room = new SimpleStringProperty("");
     title = new SimpleStringProperty("");

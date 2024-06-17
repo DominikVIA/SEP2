@@ -333,8 +333,8 @@ public class ServerConnectorImplementation implements ServerConnector {
    * @param feedback            the new feedback of the result
    * @throws RemoteException    if a remote communication-related exception occurs
    */
-  @Override
-  public void editResult(User loggedIn, Student student, Exam exam, Grade grade, String feedback) throws RemoteException{
+  @Override public void editResult(User loggedIn, Student student,
+      Exam exam, Grade grade, String feedback) throws RemoteException{
     Result temp = database.editResult(student, exam, grade, feedback);
     support.firePropertyChange("result edit success", loggedIn, temp);
   }

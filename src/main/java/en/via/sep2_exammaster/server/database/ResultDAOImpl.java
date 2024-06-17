@@ -113,10 +113,10 @@ public class ResultDAOImpl implements ResultDAO {
    * @param student the student
    * @return the result of the specified student for the specified exam
    */
-  @Override
-  public Result getStudentResultByExamId(Exam exam, Student student){
+  @Override public Result getStudentResultByExamId(Exam exam, Student student){
     try(Connection connection = getConnection()){
-      PreparedStatement statement = connection.prepareStatement("SELECT * FROM results WHERE student_id = ? AND exam_id = ?;");
+      PreparedStatement statement = connection.prepareStatement("SELECT * FROM results "
+          + "WHERE student_id = ? AND exam_id = ?;");
       statement.setInt(1, student.getStudentNo());
       statement.setInt(2, exam.getId());
       ResultSet result = statement.executeQuery();

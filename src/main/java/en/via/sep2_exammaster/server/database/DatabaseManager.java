@@ -259,8 +259,8 @@ public class DatabaseManager implements Database {
    * @param feedback the feedback to be updated
    * @return         the edited result
    */
-  @Override
-  public Result editResult(Student student, Exam exam, Grade grade, String feedback){
+  @Override public Result editResult(Student student,
+      Exam exam, Grade grade, String feedback) {
     return results.editResult(student, exam, grade, feedback);
   }
 

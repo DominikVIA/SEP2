@@ -17,15 +17,14 @@ import java.util.List;
  * to manage exam results and listen for remote property changes sent by the server. It also extends the UnicastRemoteObject class
  * in order to facilitate RMI communication with the server.
  */
-public class ResultManager extends UnicastRemoteObject implements ResultManagerInterface, RemotePropertyChangeListener<Serializable> {
+public class ResultManager extends UnicastRemoteObject
+    implements ResultManagerInterface, RemotePropertyChangeListener<Serializable> {
 
   /** The currently logged-in user. */
   private User loggedIn;
 
   /** The server connector to communicate with the server. */
   private final ServerConnector server;
-
-  // constructor, unrelated instances, unrelated methods
 
   /**
    * The PropertyChangeSupport instance for managing property change listeners
@@ -41,6 +40,7 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
    */
   public ResultManager(ServerConnector server) throws IOException {
     this.server = server;
+    this.server.addListener(this);
     this.support = new PropertyChangeSupport(this);
   }
 
@@ -114,8 +114,9 @@ public class ResultManager extends UnicastRemoteObject implements ResultManagerI
    * @param feedback the new feedback
    * @throws IOException if an I/O error occurs
    */
-  @Override
-  public void editResult(Student student, Exam exam, Grade grade, String feedback) throws IOException{
+  @Override public void editResult(Student student, Exam exam,
+      Grade grade, String feedback) throws IOException
+  {
     server.editResult(loggedIn, student, exam, grade, feedback);
   }
 

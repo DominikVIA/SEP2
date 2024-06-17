@@ -43,7 +43,6 @@ public class AddResultsViewModel implements PropertyChangeListener {
     feedback = new SimpleStringProperty("");
     studentsList = new SimpleObjectProperty<>(FXCollections.observableArrayList());
     support = new PropertyChangeSupport(this);
-
   }
 
   /**
